@@ -65,4 +65,22 @@ public class UsuarioDaoImp implements UsuarioDao {
         }
         em.getTransaction().commit();
     }
+    
+    @Override
+    public Usuario buscarPorIdentificadorYPassword(String identificador, String password) {
+    	
+        TypedQuery<Usuario> query = em.createQuery(
+        		
+            "SELECT u FROM Usuario u " +
+            "WHERE (u.email = :identificador OR u.nombreUsuario = :identificador) " +			
+            "AND u.password = :password",
+            Usuario.class
+        );
+        
+        query.setParameter("identificador", identificador);
+        query.setParameter("password", password);
+
+        return query.getSingleResult();
+    }
+    
 }

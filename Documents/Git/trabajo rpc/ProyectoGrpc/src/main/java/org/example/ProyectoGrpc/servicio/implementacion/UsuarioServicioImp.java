@@ -5,6 +5,8 @@ import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 public class UsuarioServicioImp implements UsuarioServicio {
@@ -79,28 +81,18 @@ public class UsuarioServicioImp implements UsuarioServicio {
     public List<Usuario> listarTodos() {
         return usuarioDao.listarTodos();
     }
-
-    @Override
+ 
     public Usuario login(String identificador, String password) {
-        Usuario usuario = usuarioDao.buscarPorEmail(identificador);
+        Usuario usuario = usuarioDao.buscarPorIdentificadorYPassword(identificador, password);
 
         if (usuario == null) {
-            usuario = usuarioDao.buscarPorNombreUsuario(identificador);
+            throw new RuntimeException("Usuario o contraseña incorrectos");
         }
-
-        if (usuario == null) {
-            throw new RuntimeException("Usuario o email inexistente");
-        }
-
-        if (!usuario.getPassword().equals(password)) { // más adelante podemos encriptar
-            throw new RuntimeException("Credenciales incorrectas");
-        }
-
         if (!usuario.isActivo()) {
             throw new RuntimeException("Usuario inactivo");
         }
 
         return usuario;
     }
+    
 }
-

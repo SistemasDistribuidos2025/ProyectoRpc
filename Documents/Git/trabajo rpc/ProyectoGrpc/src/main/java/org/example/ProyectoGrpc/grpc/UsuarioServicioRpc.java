@@ -2,6 +2,8 @@ package org.example.ProyectoGrpc.grpc;
 
 import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
+import jakarta.transaction.Transactional;
+
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.enums.RolUsuario;
 import org.example.ProyectoGrpc.grpc.UsuarioOuterClass;
@@ -199,9 +201,11 @@ public class UsuarioServicioRpc extends UsuarioServiceGrpc.UsuarioServiceImplBas
     }
 
     @Override
-    public void login(UsuarioOuterClass.LoginRequest request,
-                      StreamObserver<UsuarioOuterClass.LoginResponse> responseObserver) {
+    public void login(UsuarioOuterClass.LoginRequest request, StreamObserver<UsuarioOuterClass.LoginResponse> responseObserver) {
+    	
+    	
         try {
+        	
             Usuario usuario = usuarioServicio.login(request.getIdentificador(), request.getPassword());
 
             UsuarioOuterClass.Usuario grpcUsuario = UsuarioOuterClass.Usuario.newBuilder()
@@ -228,11 +232,9 @@ public class UsuarioServicioRpc extends UsuarioServiceGrpc.UsuarioServiceImplBas
                     .setSuccess(false)
                     .setMessage(e.getMessage())
                     .build();
-
             responseObserver.onNext(response);
         } finally {
             responseObserver.onCompleted();
         }
     }
-
-}
+    }

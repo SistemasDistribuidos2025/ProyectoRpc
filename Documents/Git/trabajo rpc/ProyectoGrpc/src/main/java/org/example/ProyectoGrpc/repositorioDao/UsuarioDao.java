@@ -19,4 +19,7 @@ public interface UsuarioDao {
     void actualizar(Usuario usuario);
 
     void darDeBaja(Long id);
+    
+    Usuario buscarPorIdentificadorYPassword(String identificador, String password);
+   
 }

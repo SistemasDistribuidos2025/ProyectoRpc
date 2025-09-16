@@ -1,5 +1,4 @@
 package org.example.ProyectoGrpc;
-
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import jakarta.persistence.EntityManager;
