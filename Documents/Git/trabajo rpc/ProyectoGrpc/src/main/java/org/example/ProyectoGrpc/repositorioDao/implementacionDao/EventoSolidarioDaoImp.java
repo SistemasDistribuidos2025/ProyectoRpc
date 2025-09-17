@@ -26,9 +26,10 @@ public class EventoSolidarioDaoImp implements EventoSolidarioDao {
         return em.find(EventoSolidario.class, id);
     }
 
+    //Query que trae los datos del evento junto con los de la tabla intermedia de participantes
     @Override
     public List<EventoSolidario> listarTodos() {
-        return em.createQuery("SELECT e FROM EventoSolidario e", EventoSolidario.class)
+        return em.createQuery("SELECT DISTINCT e FROM EventoSolidario e LEFT JOIN FETCH e.participantesEvento", EventoSolidario.class)
                 .getResultList();
     }
 

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.EventoSolidarioServiceImplBase {
 
@@ -41,6 +42,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
                 .setNombreEvento(creado.getNombreEvento())
                 .setDescripcion(creado.getDescripcion())
                 .setFechaHoraEvento(creado.getFechaHoraEvento().format(formatter))
+                
                 .build();
 
         responseObserver.onNext(grpcEvento);
@@ -110,6 +112,22 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         responseObserver.onCompleted();
     }
 
+    //mapeo los datos del usuario para poder agregar la lista de participantes a cada evento
+    private UsuarioOuterClass.Usuario mapUsuarioAGrpc (Usuario u) {
+        return UsuarioOuterClass.Usuario.newBuilder()
+                .setId(u.getId())
+                .setNombreUsuario(u.getNombreUsuario())
+                .setNombre(u.getNombre())
+                .setApellido(u.getApellido())
+                .setTelefono(u.getTelefono() != null ? u.getTelefono() : "")
+                .setClave(u.getPassword())
+                .setEmail(u.getEmail())
+                .setRol(u.getRol().name())
+                .setActivo(u.isActivo())
+                .build();
+    }
+
+    
     @Override
     public void listarEventos(com.google.protobuf.Empty request,
                               StreamObserver<UsuarioOuterClass.EventoListResponse> responseObserver) {
@@ -123,6 +141,11 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
                     .setNombreEvento(evento.getNombreEvento())
                     .setDescripcion(evento.getDescripcion())
                     .setFechaHoraEvento(evento.getFechaHoraEvento().format(formatter))
+                    .addAllParticipantesEvento(
+                            evento.getParticipantesEvento().stream()
+                                  .map(this::mapUsuarioAGrpc)
+                                  .collect(Collectors.toList())
+                                  )
                     .build();
             responseBuilder.addEventos(grpcEvento);
         }
