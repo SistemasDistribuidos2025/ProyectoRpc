@@ -1,27 +1,26 @@
 package org.example.ProyectoGrpc.repositorioDao.implementacionDao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
-    private final EntityManager em;
 
-    public InventarioDonacionesDaoImp(EntityManager em) {
-        this.em = em;
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public void guardar(InventarioDonaciones inventario) {
-        em.getTransaction().begin();
         inventario.setFechaHoraAlta(LocalDateTime.now());
         em.persist(inventario);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -38,15 +37,12 @@ public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
 
     @Override
     public void actualizar(InventarioDonaciones inventario) {
-        em.getTransaction().begin();
         inventario.setFechaHoraModificacion(LocalDateTime.now());
         em.merge(inventario);
-        em.getTransaction().commit();
     }
 
     @Override
     public void eliminarLogico(Long id, Long usuarioModificacionId) {
-        em.getTransaction().begin();
         InventarioDonaciones inventario = em.find(InventarioDonaciones.class, id);
         if (inventario != null) {
             inventario.setEliminado(true);
@@ -55,7 +51,6 @@ public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
             inventario.setUsuarioModificado(usuario);
             em.merge(inventario);
         }
-        em.getTransaction().commit();
     }
 }
 

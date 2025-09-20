@@ -4,9 +4,12 @@ import org.example.ProyectoGrpc.config.PasswordUtils;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class UsuarioServicioImp implements UsuarioServicio {
     private final UsuarioDao usuarioDao;
 
@@ -31,9 +34,11 @@ public class UsuarioServicioImp implements UsuarioServicio {
         usuario.setActivo(true);
 
         // TODO: enviar el password por email al usuario
-        // EmailService.enviarPassword(usuario.getEmail(), randomPassword);
+
 
         usuarioDao.guardar(usuario);
+
+        EmailService.enviarPassword(usuario.getEmail(), randomPassword);
         return usuario;
     }
 
@@ -80,6 +85,7 @@ public class UsuarioServicioImp implements UsuarioServicio {
         return usuarioDao.listarTodos();
     }
 
+    @Transactional
     @Override
     public Usuario login(String identificador, String password) {
         Usuario usuario = usuarioDao.buscarPorEmail(identificador);
@@ -102,5 +108,23 @@ public class UsuarioServicioImp implements UsuarioServicio {
 
         return usuario;
     }
+
+    @Override
+    @Transactional
+    public Usuario guardarPrimerUsuario(Usuario usuario, String passwordPlano) {
+        // Guardamos el password tal cual
+        usuario.setPassword(passwordPlano);
+        usuario.setActivo(true);
+
+        // Guardamos el usuario en la base
+        usuarioDao.guardar(usuario);
+
+        System.out.println("Primer usuario creado: " + usuario.getNombreUsuario() + " / Password: " + passwordPlano);
+
+        return usuario;
+    }
+
+
+
 }
 

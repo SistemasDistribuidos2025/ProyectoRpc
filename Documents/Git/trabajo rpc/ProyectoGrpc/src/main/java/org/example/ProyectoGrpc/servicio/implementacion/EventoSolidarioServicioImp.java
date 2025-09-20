@@ -4,10 +4,12 @@ import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.repositorioDao.EventoSolidarioDao;
 import org.example.ProyectoGrpc.servicio.EventoSolidarioServicio;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
 
     private final EventoSolidarioDao eventoDao;

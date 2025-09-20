@@ -20,4 +20,6 @@ public interface UsuarioServicio {
     List<Usuario> listarTodos();
 
     Usuario login(String identificador, String password);
+
+    Usuario guardarPrimerUsuario(Usuario usuario, String passwordPlano);
 }
