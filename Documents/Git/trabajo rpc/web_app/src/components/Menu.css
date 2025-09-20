@@ -1,0 +1,60 @@
+.menu-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.menu-card {
+  background-color: white;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  min-width: 350px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.menu-title {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.menu-role {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #61dafb;
+}
+
+.logout-button {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #21a1f1;
+}
+
+.menu-divider {
+  margin: 1.5rem 0;
+  border: 0;
+  height: 1px;
+  background: #ddd;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; 
+  text-align: left;
+}

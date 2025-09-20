@@ -1,0 +1,77 @@
+/* Card general */
+.evento-card, .usuario-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 1rem auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 700px;
+}
+
+/* Títulos */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Listas */
+.evento-list, .usuario-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Items */
+.evento-item, .usuario-item {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+}
+
+.evento-item:last-child, .usuario-item:last-child {
+  border-bottom: none;
+}
+
+/* Evento específico */
+.evento-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.evento-date {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.evento-desc {
+  margin: 0.3rem 0 0.8rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.participantes-list {
+  margin-top: 0.5rem;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Usuario específico */
+.usuario-nombre {
+  font-weight: 600;
+  color: #333;
+}
+
+.usuario-rol {
+  margin-left: 0.5rem;
+  color: #61dafb;
+  font-weight: 500;
+}
+
+.usuario-email {
+  font-size: 0.9rem;
+  color: #555;
+}

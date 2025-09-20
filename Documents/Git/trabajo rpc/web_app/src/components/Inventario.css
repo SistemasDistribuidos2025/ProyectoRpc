@@ -1,0 +1,48 @@
+.inventario-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 1rem auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 700px;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.inventario-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inventario-item {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+}
+
+.inventario-item:last-child {
+  border-bottom: none;
+}
+
+.inventario-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.inventario-cantidad {
+  color: #61dafb;
+  font-size: 0.9rem;
+}
+
+.inventario-desc {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  color: #555;
+}
