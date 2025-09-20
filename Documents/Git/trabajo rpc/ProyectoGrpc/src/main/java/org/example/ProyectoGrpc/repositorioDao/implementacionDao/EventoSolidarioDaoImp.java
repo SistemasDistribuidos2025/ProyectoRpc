@@ -1,24 +1,22 @@
 package org.example.ProyectoGrpc.repositorioDao.implementacionDao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.repositorioDao.EventoSolidarioDao;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class EventoSolidarioDaoImp implements EventoSolidarioDao {
 
+    @PersistenceContext
     private EntityManager em;
-
-    public EventoSolidarioDaoImp(EntityManager em) {
-        this.em = em;
-    }
 
     @Override
     public void guardar(EventoSolidario evento) {
-        em.getTransaction().begin();
         em.persist(evento);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -35,19 +33,14 @@ public class EventoSolidarioDaoImp implements EventoSolidarioDao {
 
     @Override
     public void actualizar(EventoSolidario evento) {
-        em.getTransaction().begin();
         em.merge(evento);
-        em.getTransaction().commit();
     }
 
     @Override
     public void eliminar(Long id) {
-        em.getTransaction().begin();
         EventoSolidario evento = em.find(EventoSolidario.class, id);
         if (evento != null) {
             em.remove(evento);
         }
-        em.getTransaction().commit();
     }
 }
-

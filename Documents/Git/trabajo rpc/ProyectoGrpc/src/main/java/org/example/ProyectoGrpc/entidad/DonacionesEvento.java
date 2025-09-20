@@ -71,4 +71,6 @@ public class DonacionesEvento {
         this.item = item;
         this.evento = evento;
     }
+
+    public DonacionesEvento(){}
 }

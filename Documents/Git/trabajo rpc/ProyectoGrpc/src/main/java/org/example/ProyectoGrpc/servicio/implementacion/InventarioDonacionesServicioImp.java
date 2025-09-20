@@ -6,11 +6,13 @@ import org.example.ProyectoGrpc.enums.CategoriaDonacion;
 import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
 import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.example.ProyectoGrpc.servicio.InventarioDonacionesServicio;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 
+@Service
 public class InventarioDonacionesServicioImp implements InventarioDonacionesServicio {
 
     private final InventarioDonacionesDao inventarioDao;

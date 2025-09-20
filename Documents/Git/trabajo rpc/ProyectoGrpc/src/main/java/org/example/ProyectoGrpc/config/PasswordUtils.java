@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+
 public class PasswordUtils {
 
     public static String generarPasswordAleatoria(int length) {
