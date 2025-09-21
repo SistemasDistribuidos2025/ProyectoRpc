@@ -13,6 +13,28 @@ const client = new UsuarioServiceClient('http://localhost:8081', null, null);
 const eventoClient = new EventoSolidarioServiceClient('http://localhost:8081', null, null);
 const inventarioClient = new  InventarioDonacionesServiceClient('http://localhost:8081', null, null);
 
+// --- Helpers ---
+const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+const safeSet = (msgInstance, key, value) => {
+  const candidates = [
+    `set${capitalize(key)}`,
+    `set${key}`,
+    `set${capitalize(key.replace(/_([a-z])/g, (_, c) => c.toUpperCase()))}`,
+    `set${key.replace(/_([a-z])/g, (_, c) => c.toUpperCase())}`
+  ];
+  for (const name of candidates) {
+    if (typeof msgInstance[name] === "function") {
+      msgInstance[name](value);
+      return true;
+    }
+  }
+  console.warn(`Setter no encontrado para campo '${key}'. Intentados: ${candidates.join(", ")}`);
+  return false;
+};
+
+// --- Métodos ---
+
 export const loginGrpcWeb = (identificador, password) => {
 
   return new Promise((resolve, reject) => {
@@ -73,7 +95,7 @@ export const buscarUsuarioPorEmail = (email) => {
 export const buscarUsuarioPorNombreUsuario = (nombreUsuario) => {
   return new Promise((resolve, reject) => {
     const request = new UsuarioNombreRequest();
-    request.setNombreUsuario(nombreUsuario);
+    request.setNombreusuario(nombreUsuario);
 
     client.buscarPorNombreUsuario(request, {}, (err, response) => {
       if (err) return reject(err);
@@ -82,48 +104,59 @@ export const buscarUsuarioPorNombreUsuario = (nombreUsuario) => {
   });
 };
 
-//altaUsuario: crea un usuario
+// --- Alta Usuario (sin clave, se genera en servidor) ---
 export const altaUsuario = (usuarioData) => {
   return new Promise((resolve, reject) => {
     const usuario = new Usuario();
-    Object.entries(usuarioData).forEach(([key, value]) => {
-      usuario[`set${capitalize(key)}`](value);
-    });
+    //if (usuarioData.id !== undefined) safeSet(usuario, "id", usuarioData.id);
+    if (usuarioData.nombre !== undefined) safeSet(usuario, "nombre", usuarioData.nombre);
+    if (usuarioData.apellido !== undefined) safeSet(usuario, "apellido", usuarioData.apellido);
+    if (usuarioData.nombreusuario !== undefined) safeSet(usuario, "nombreusuario", usuarioData.nombreusuario); //nombreusuario, en minuscula, no nombreUsuario
+    if (usuarioData.email !== undefined) safeSet(usuario, "email", usuarioData.email);
+    if (usuarioData.rol !== undefined) safeSet(usuario, "rol", usuarioData.rol);
+    if (usuarioData.activo !== undefined) safeSet(usuario, "activo", usuarioData.activo);
+    if (usuarioData.telefono !== undefined) safeSet(usuario, "telefono", usuarioData.telefono);
 
     client.altaUsuario(usuario, {}, (err, response) => {
       if (err) return reject(err);
-      resolve(response.getUsuario().toObject());
+      resolve(response.getUsuario ? response.getUsuario().toObject() : response.toObject());
     });
   });
 };
 
+// --- Modificar Usuario (sin modificar clave) ---
 export const modificarUsuario = (usuarioData) => {
   return new Promise((resolve, reject) => {
     const usuario = new Usuario();
-    Object.entries(usuarioData).forEach(([key, value]) => {
-      usuario[`set${capitalize(key)}`](value);
-    });
+    if (usuarioData.id !== undefined) safeSet(usuario, "id", usuarioData.id);
+    if (usuarioData.nombre !== undefined) safeSet(usuario, "nombre", usuarioData.nombre);
+    if (usuarioData.apellido !== undefined) safeSet(usuario, "apellido", usuarioData.apellido);
+    if (usuarioData.nombreUsuario !== undefined) safeSet(usuario, "nombreusuario", usuarioData.nombreUsuario); //nombreusuario, en minuscula, no nombreUsuario
+    if (usuarioData.email !== undefined) safeSet(usuario, "email", usuarioData.email);
+    if (usuarioData.rol !== undefined) safeSet(usuario, "rol", usuarioData.rol);
+    if (usuarioData.activo !== undefined) safeSet(usuario, "activo", usuarioData.activo);
+    if (usuarioData.telefono !== undefined) safeSet(usuario, "telefono", usuarioData.telefono);
 
     client.modificarUsuario(usuario, {}, (err, response) => {
       if (err) return reject(err);
-      resolve(response.getUsuario().toObject());
+      resolve(response.getUsuario ? response.getUsuario().toObject() : response.toObject());
     });
   });
 };
 
+// --- Baja Usuario ---
 export const bajaUsuario = (id) => {
   return new Promise((resolve, reject) => {
     const request = new UsuarioIdRequest();
     request.setId(id);
-
     client.bajaUsuario(request, {}, (err, response) => {
       if (err) return reject(err);
-      resolve(response.getUsuario().toObject());
+      resolve(response.getUsuario ? response.getUsuario().toObject() : response.toObject());
     });
   });
 };
 
-const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
 
 //listarEventos: obtiene todos los eventos
 
