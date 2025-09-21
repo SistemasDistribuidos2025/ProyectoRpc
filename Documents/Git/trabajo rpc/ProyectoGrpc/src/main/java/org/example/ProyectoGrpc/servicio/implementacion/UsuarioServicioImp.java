@@ -7,40 +7,48 @@ import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-//import jakarta.transaction.Transactional;
-
 import java.util.List;
 
 @Service
 public class UsuarioServicioImp implements UsuarioServicio {
     private final UsuarioDao usuarioDao;
 
+    
     public UsuarioServicioImp(UsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
     }
-
+    
     @Override
+    @Transactional
     public Usuario altaUsuario(Usuario usuario) {
+        if (usuario == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo");
+        }
 
+      
         if (usuarioDao.buscarPorEmail(usuario.getEmail()) != null) {
             throw new IllegalArgumentException("El email ya está en uso");
         }
+
+     
         if (usuarioDao.buscarPorNombreUsuario(usuario.getNombreUsuario()) != null) {
             throw new IllegalArgumentException("El nombre de usuario ya está en uso");
         }
 
-        // Generar clave random y encriptar
+        // Generar contraseña aleatoria y encriptarla
         String randomPassword = PasswordUtils.generarPasswordAleatoria(8);
         String encryptedPassword = PasswordUtils.encriptarPassword(randomPassword);
         usuario.setPassword(encryptedPassword);
+
+    
         usuario.setActivo(true);
 
-        // TODO: enviar el password por email al usuario
-
-
+  
         usuarioDao.guardar(usuario);
 
-        EmailService.enviarPassword(usuario.getEmail(), randomPassword);
+        // Enviar contraseña por email
+        // EmailService.enviarPassword(usuario.getEmail(), randomPassword);
+
         return usuario;
     }
 

@@ -6,6 +6,7 @@ import jakarta.persistence.TypedQuery;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class UsuarioDaoImp implements UsuarioDao {
     private EntityManager em;
 
     @Override
+    @Transactional
     public void guardar(Usuario usuario) {
         em.persist(usuario);
     }
@@ -24,23 +26,29 @@ public class UsuarioDaoImp implements UsuarioDao {
     public Usuario buscarPorId(Long id) {
         return em.find(Usuario.class, id);
     }
-
-    @Override
-    public Usuario buscarPorEmail(String email) {
-        TypedQuery<Usuario> query = em.createQuery(
-                "SELECT u FROM Usuario u WHERE u.email = :email", Usuario.class);
-        query.setParameter("email", email);
-        return query.getResultStream().findFirst().orElse(null);
-    }
-
+    
+	
     @Override
     public Usuario buscarPorNombreUsuario(String nombreUsuario) {
         TypedQuery<Usuario> query = em.createQuery(
-                "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario", Usuario.class);
+            "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario",
+            Usuario.class
+        );
         query.setParameter("nombreUsuario", nombreUsuario);
         return query.getResultStream().findFirst().orElse(null);
     }
 
+    @Override
+    public Usuario buscarPorEmail(String email) {
+        TypedQuery<Usuario> query = em.createQuery(
+            "SELECT u FROM Usuario u WHERE u.email = :email",
+            Usuario.class
+        );
+        query.setParameter("email", email);
+        return query.getResultStream().findFirst().orElse(null);
+    }
+
+		 
     @Override
     public List<Usuario> listarTodos() {
         return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
