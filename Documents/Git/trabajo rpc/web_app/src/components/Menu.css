@@ -11,10 +11,9 @@
   padding: 2rem 3rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  min-width: 350px;
-  max-width: 600px;
-  width: 100%;
   text-align: center;
+  width: 1330px;
+  min-height: 500px
 }
 
 .menu-title {
@@ -26,13 +25,13 @@
 .menu-role {
   font-size: 1rem;
   font-weight: 500;
-  color: #61dafb;
+  color: #0b3d91;
 }
 
 .logout-button {
   margin-top: 0.5rem;
   padding: 0.6rem 1.2rem;
-  background-color: #61dafb;
+  background-color: #0b3d91;
   border: none;
   border-radius: 6px;
   color: white;
@@ -42,7 +41,7 @@
 }
 
 .logout-button:hover {
-  background-color: #21a1f1;
+  background-color: #092b6b;
 }
 
 .menu-divider {
@@ -56,5 +55,27 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem; 
-  text-align: left;
-}
+  padding: 16px 0 0;
+  }
+
+  .menu-options {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 0 24px;
+      button{
+        background: aliceblue;
+        border: none;
+        font-size: 16px;
+		cursor: pointer;
+		width: 200px;
+		padding: 8px 0;
+		border-left: 1px solid grey;
+        border-right: 1px solid grey;
+		&:hover{
+			background: #0b3d91;
+			color: white
+		}
+      }
+  }

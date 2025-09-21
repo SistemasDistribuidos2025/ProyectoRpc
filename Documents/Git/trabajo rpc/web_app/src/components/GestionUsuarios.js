@@ -124,7 +124,7 @@ const GestionUsuarios = () => {
   return (
     <div className="gestion-container">
       <h2>👥 Gestión de Usuarios</h2>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error-message">{error}</p>}
 
       {/* Formulario Alta/Modificar */}
       <form className="gestion-form" onSubmit={handleSubmit}>
@@ -147,8 +147,6 @@ const GestionUsuarios = () => {
         {form.id && <button type="button" onClick={resetForm}>Cancelar</button>}
       </form>
 
-      <hr />
-
       {/* Sección Búsquedas */}
       <div className="busquedas">
         <h3>🔍 Buscar Usuario</h3>
@@ -162,8 +160,6 @@ const GestionUsuarios = () => {
           </div>
         )}
       </div>
-
-      <hr />
 
       {/* Tabla Usuarios */}
       <table className="usuarios-table">
