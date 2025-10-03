@@ -21,5 +21,7 @@ public interface UsuarioDao {
     void darDeBaja(Long id);
     
     Usuario buscarPorIdentificadorYPassword(String identificador, String password);
+    
+    Usuario buscarPorIdentificador(String identificador);
    
 }

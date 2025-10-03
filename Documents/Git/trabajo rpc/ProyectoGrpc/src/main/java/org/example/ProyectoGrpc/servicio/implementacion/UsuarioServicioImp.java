@@ -6,12 +6,16 @@ import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.List;
 
 @Service
 public class UsuarioServicioImp implements UsuarioServicio {
     private final UsuarioDao usuarioDao;
+    @Autowired
+    private EmailService emailService;
 
     
     public UsuarioServicioImp(UsuarioDao usuarioDao) {
@@ -45,9 +49,10 @@ public class UsuarioServicioImp implements UsuarioServicio {
 
   
         usuarioDao.guardar(usuario);
-
-        // Enviar contraseña por email
-        // EmailService.enviarPassword(usuario.getEmail(), randomPassword);
+      
+        emailService.enviarPassword(usuario.getEmail(), randomPassword);
+        //EmailService.enviarPassword(usuario.getEmail(), randomPassword);
+    
 
         return usuario;
     }
@@ -98,13 +103,19 @@ public class UsuarioServicioImp implements UsuarioServicio {
 
     @Transactional
     @Override
-
-    public Usuario login(String identificador, String password) {
-        Usuario usuario = usuarioDao.buscarPorIdentificadorYPassword(identificador, password);
+    public Usuario login(String identificador, String passwordPlano) {
+    	
+        Usuario usuario = usuarioDao.buscarPorIdentificador(identificador);
 
         if (usuario == null) {
             throw new RuntimeException("Usuario o contraseña incorrectos");
         }
+
+        String passwordHasheada = PasswordUtils.encriptarPassword(passwordPlano);
+        if (!usuario.getPassword().equals(passwordHasheada)) {
+            throw new RuntimeException("Usuario o contraseña incorrectos");
+        }
+
         if (!usuario.isActivo()) {
             throw new RuntimeException("Usuario inactivo");
         }
@@ -115,11 +126,11 @@ public class UsuarioServicioImp implements UsuarioServicio {
     @Override
     @Transactional
     public Usuario guardarPrimerUsuario(Usuario usuario, String passwordPlano) {
-        // Guardamos el password tal cual
+
         usuario.setPassword(passwordPlano);
         usuario.setActivo(true);
 
-        // Guardamos el usuario en la base
+
         usuarioDao.guardar(usuario);
 
         System.out.println("Primer usuario creado: " + usuario.getNombreUsuario() + " / Password: " + passwordPlano);
