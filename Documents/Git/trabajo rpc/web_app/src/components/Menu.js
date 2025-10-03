@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Usuarios from "./Usuarios";
 import Inventario from "./Inventario";
 import Evento from "./Evento";
 import GestionUsuarios from "./GestionUsuarios";
@@ -12,7 +11,8 @@ function Menu({ usuarios, onLogout }) {
     <div className="menu-container">
       <div className="menu-card">
         <h2 className="menu-title">
-          Bienvenido, {usuarios.nombre} <span className="menu-role">({usuarios.rol})</span>
+          Bienvenido, {usuarios.nombre}{" "}
+          <span className="menu-role">({usuarios.rol})</span>
         </h2>
 
         <button className="logout-button" onClick={onLogout}>
@@ -27,16 +27,18 @@ function Menu({ usuarios, onLogout }) {
               Gestión de Usuarios
             </button>
           )}
+
           {usuarios.rol === "PRESIDENTE" && (
             <button onClick={() => setVista("inventario")}>
               Inventario
             </button>
           )}
-          { (usuarios.rol === "PRESIDENTE" || usuarios.rol === "VOCAL") && (
+
+          {(usuarios.rol === "PRESIDENTE" || usuarios.rol === "VOCAL") && (
             <button onClick={() => setVista("evento")}>
               Eventos
             </button>
-          )
+          )}
         </div>
 
         <div className="menu-content">
