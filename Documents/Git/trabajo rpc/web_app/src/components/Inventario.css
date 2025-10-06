@@ -1,0 +1,120 @@
+/* Contenedor principal ya lo tenías */
+.inventario-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin: 1rem auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 700px;
+}
+
+/* Título */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Lista de elementos */
+.inventario-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.inventario-item {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.inventario-item:hover {
+  background-color: #f5f7fa;
+}
+
+.inventario-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.inventario-cantidad {
+  color: #61dafb;
+  font-size: 0.9rem;
+}
+
+.inventario-desc {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Botones de acción: editar / eliminar */
+.inventario-item button {
+  background-color: #0b3d91;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s;
+}
+
+.inventario-item button:hover {
+  background-color: #092b6b;
+}
+
+/* Formulario de alta / edición */
+.inventario-card form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.inventario-card form input,
+.inventario-card form select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.inventario-card form input:focus,
+.inventario-card form select:focus {
+  border-color: #0b3d91;
+}
+
+.inventario-card form button {
+  background-color: #0b3d91;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.inventario-card form button:hover {
+  background-color: #092b6b;
+}
+
+/* Mensajes */
+.mensaje-exito { color: green; text-align: center; margin-bottom: 0.5rem; }
+.mensaje-error { color: red; text-align: center; margin-bottom: 0.5rem; }
+
+/* Botones en cada ítem */
+.botones-item { margin-top: 0.5rem; display: flex; gap: 0.5rem; justify-content: flex-end; }
+
+/* Inputs y select de formulario con ancho fijo */
+.inventario-card form input,
+.inventario-card form select { width: 180px; }

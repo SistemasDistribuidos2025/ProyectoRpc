@@ -1,0 +1,136 @@
+syntax = "proto3";
+
+package org.example.ProyectoGrpc.grpc;
+
+import "google/protobuf/empty.proto";
+
+
+
+message Usuario {
+  int64 id = 1;
+  string nombreUsuario = 2;
+  string nombre = 3;
+  string apellido = 4;
+  string telefono = 5;
+  string clave = 6;
+  string email = 7;
+  string rol = 8;
+  bool activo = 9;
+}
+
+enum CategoriaDonacion {
+  ROPA = 0;
+  ALIMENTOS = 1;
+  JUGUETES = 2;
+  UTILES_ESCOLARES = 3;
+}
+
+
+message InventarioDonaciones {
+  int64 id = 1;
+  CategoriaDonacion categoria = 2;
+  string descripcion = 3;
+  int32 cantidad = 4;
+  bool eliminado = 5;
+  int64 usuarioAltaId = 6;
+  int64 usuarioModificadoId = 7;
+  string fechaHoraAlta = 8;
+  string fechaHoraModificacion = 9;
+}
+
+message EventoSolidario {
+  int64 id = 1;
+  string nombreEvento = 2;
+  string descripcion = 3;
+  string fechaHoraEvento = 4;
+  repeated Usuario participantesEvento = 5;
+}
+
+
+message UsuarioIdRequest {
+  int64 id = 1;
+}
+
+message UsuarioResponse {
+  Usuario usuario = 1;
+}
+
+message UsuarioListResponse {
+  repeated Usuario usuarios = 1;
+}
+
+message UsuarioEmailRequest {
+  string email = 1;
+}
+
+message UsuarioNombreRequest {
+  string nombreUsuario = 1;
+}
+
+message LoginRequest {
+  string identificador = 1; // Puede ser email o nombreUsuario
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string message = 2;
+  Usuario usuario = 3; // opcional, solo si login es correcto
+}
+
+
+message InventarioIdRequest {
+  int64 id = 1;
+}
+
+message InventarioListResponse {
+  repeated InventarioDonaciones inventarios = 1;
+}
+
+
+
+message EventoIdRequest {
+  int64 id = 1;
+}
+
+message EventoListResponse {
+  repeated EventoSolidario eventos = 1;
+}
+
+message EventoParticipantesRequest {
+  int64 eventoId = 1;
+  repeated int64 usuarioIds = 2; // Para asignar/quitar miembros
+  string rolSolicitante = 3;     // PRESIDENTE, COORDINADOR o VOLUNTARIO
+}
+
+
+
+// Servicio RPC (como tu UsuarioServicio en Java)
+service UsuarioService {
+  rpc AltaUsuario (Usuario) returns (UsuarioResponse);
+  rpc ModificarUsuario (Usuario) returns (UsuarioResponse);
+  rpc BajaUsuario (UsuarioIdRequest) returns (UsuarioResponse);
+  rpc BuscarPorId (UsuarioIdRequest) returns (UsuarioResponse);
+  rpc ListarTodos (google.protobuf.Empty) returns (UsuarioListResponse);
+  rpc BuscarPorEmail (UsuarioEmailRequest) returns (UsuarioResponse);
+  rpc BuscarPorNombreUsuario (UsuarioNombreRequest) returns (UsuarioResponse);
+  rpc login(LoginRequest) returns (LoginResponse);
+}
+
+service InventarioDonacionesService {
+  rpc AltaInventario (InventarioDonaciones) returns (InventarioDonaciones);
+  rpc ModificarInventario (InventarioDonaciones) returns (InventarioDonaciones);
+  rpc BajaInventario (InventarioIdRequest) returns (google.protobuf.Empty);
+  rpc BuscarPorId (InventarioIdRequest) returns (InventarioDonaciones);
+  rpc ListarTodos (google.protobuf.Empty) returns (InventarioListResponse);
+}
+
+service EventoSolidarioService {
+  rpc AltaEvento (EventoSolidario) returns (EventoSolidario);
+  rpc ModificarEvento (EventoSolidario) returns (EventoSolidario);
+  rpc BajaEvento (EventoIdRequest) returns (google.protobuf.Empty);
+  rpc BuscarEventoPorId (EventoIdRequest) returns (EventoSolidario);
+  rpc ListarEventos (google.protobuf.Empty) returns (EventoListResponse);
+  rpc AsignarParticipantes (EventoParticipantesRequest) returns (EventoSolidario);
+  rpc QuitarParticipantes (EventoParticipantesRequest) returns (EventoSolidario);
+}
