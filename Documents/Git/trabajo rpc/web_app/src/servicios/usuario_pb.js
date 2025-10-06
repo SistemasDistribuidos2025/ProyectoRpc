@@ -2478,7 +2478,8 @@ proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.prototype.toObject = fun
  */
 proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, 0)
+id: jspb.Message.getFieldWithDefault(msg, 1, 0),
+usuariomodificadoid: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -2519,6 +2520,10 @@ proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.deserializeBinaryFromRea
       var value = /** @type {number} */ (reader.readInt64());
       msg.setId(value);
       break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setUsuariomodificadoid(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2555,6 +2560,13 @@ proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.serializeBinaryToWriter 
       f
     );
   }
+  f = message.getUsuariomodificadoid();
+  if (f !== 0) {
+    writer.writeInt64(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -2573,6 +2585,24 @@ proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.prototype.getId = functi
  */
 proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.prototype.setId = function(value) {
   return jspb.Message.setProto3IntField(this, 1, value);
+};
+
+
+/**
+ * optional int64 usuarioModificadoId = 2;
+ * @return {number}
+ */
+proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.prototype.getUsuariomodificadoid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest} returns this
+ */
+proto.org.example.ProyectoGrpc.grpc.InventarioIdRequest.prototype.setUsuariomodificadoid = function(value) {
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 

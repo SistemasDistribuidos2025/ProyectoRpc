@@ -11,8 +11,10 @@ import {
   UsuarioNombreRequest,
   LoginRequest,
   InventarioDonaciones,
-  InventarioIdRequest
+  InventarioIdRequest,
+  CategoriaDonacion
 } from "./usuario_pb";
+
 
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
 
@@ -172,17 +174,45 @@ export const listarInventario = () => {
   });
 };
 
+
 export const altaInventario = (inventarioData) => {
   return new Promise((resolve, reject) => {
     const inventario = new InventarioDonaciones();
-    if (inventarioData.categoria !== undefined) inventario.setCategoria(inventarioData.categoria);
-    if (inventarioData.descripcion !== undefined) inventario.setDescripcion(inventarioData.descripcion);
+
+    const categoriaEnumMap = {
+      0: CategoriaDonacion.ROPA,
+      1: CategoriaDonacion.ALIMENTOS,
+      2: CategoriaDonacion.JUGUETES,
+      3: CategoriaDonacion.UTILES_ESCOLARES,
+    };
+
+    if (inventarioData.categoria !== undefined) {
+      inventario.setCategoria(categoriaEnumMap[inventarioData.categoria]);
+    }
+
+    // Setear campos opcionales
+    if (inventarioData.descripcion) inventario.setDescripcion(inventarioData.descripcion);
     if (inventarioData.cantidad !== undefined) inventario.setCantidad(inventarioData.cantidad);
     inventario.setEliminado(false);
-    if (inventarioData.usuarioAltaId !== undefined) inventario.setUsuarioAltaId(inventarioData.usuarioAltaId);
+
+    // **IDs de usuario**: asegurar que sean números válidos
+    if (inventarioData.usuarioAltaId && inventarioData.usuarioAltaId > 0) {
+      inventario.setUsuarioaltaid(inventarioData.usuarioAltaId);
+    } else {
+      return reject(new Error("UsuarioAltaId inválido"));
+    }
+
+    if (inventarioData.usuarioModificadoId && inventarioData.usuarioModificadoId > 0) {
+      inventario.setUsuariomodificadoid(inventarioData.usuarioModificadoId);
+    }
+
+    console.log("Objeto Inventario a enviar a gRPC:", inventario.toObject());
 
     inventarioClient.altaInventario(inventario, {}, (err, response) => {
-      if (err) return reject(err);
+      if (err) {
+        console.error("Error gRPC:", err);
+        return reject(err);
+      }
       resolve(response.toObject());
     });
   });
@@ -191,10 +221,18 @@ export const altaInventario = (inventarioData) => {
 export const modificarInventario = (inventarioData) => {
   return new Promise((resolve, reject) => {
     const inventario = new InventarioDonaciones();
-    if (inventarioData.id !== undefined) inventario.setId(inventarioData.id);
-    if (inventarioData.descripcion !== undefined) inventario.setDescripcion(inventarioData.descripcion);
+
+    if (!inventarioData.id) return reject(new Error("ID de inventario obligatorio"));
+
+    inventario.setId(inventarioData.id);
+    if (inventarioData.descripcion) inventario.setDescripcion(inventarioData.descripcion);
     if (inventarioData.cantidad !== undefined) inventario.setCantidad(inventarioData.cantidad);
-    if (inventarioData.usuarioModificadoId !== undefined) inventario.setUsuarioModificadoId(inventarioData.usuarioModificadoId);
+
+    if (inventarioData.usuarioModificadoId && inventarioData.usuarioModificadoId > 0) {
+      inventario.setUsuariomodificadoid(inventarioData.usuarioModificadoId);
+    } else {
+      return reject(new Error("UsuarioModificadoId inválido"));
+    }
 
     inventarioClient.modificarInventario(inventario, {}, (err, response) => {
       if (err) return reject(err);
@@ -203,12 +241,13 @@ export const modificarInventario = (inventarioData) => {
   });
 };
 
+
 export const bajaInventario = (id, usuarioModificadoId) => {
   return new Promise((resolve, reject) => {
     const inventario = new InventarioDonaciones();
     inventario.setId(id);
     inventario.setEliminado(true);
-    if (usuarioModificadoId !== undefined) inventario.setUsuarioModificadoId(usuarioModificadoId);
+    if (usuarioModificadoId !== undefined) inventario.setUsuariomodificadoid(usuarioModificadoId);
 
     inventarioClient.modificarInventario(inventario, {}, (err, response) => {
       if (err) return reject(err);

@@ -7,6 +7,7 @@ import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
 import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.example.ProyectoGrpc.servicio.InventarioDonacionesServicio;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +24,7 @@ public class InventarioDonacionesServicioImp implements InventarioDonacionesServ
         this.usuarioDao = usuarioDao;
     }
 
+    @Transactional
     @Override
     public InventarioDonaciones altaInventario(InventarioDonaciones inventario, Long usuarioAltaId) {
         Usuario usuarioAlta = usuarioDao.buscarPorId(usuarioAltaId);
@@ -38,6 +40,7 @@ public class InventarioDonacionesServicioImp implements InventarioDonacionesServ
         return inventario;
     }
 
+    @Transactional
     @Override
     public InventarioDonaciones modificarInventario(Long id, String nuevaDescripcion, int nuevaCantidad, Long usuarioModificacionId) {
         InventarioDonaciones inventario = inventarioDao.buscarPorId(id);
@@ -63,8 +66,27 @@ public class InventarioDonacionesServicioImp implements InventarioDonacionesServ
         return inventario;
     }
 
+    @Transactional
     @Override
     public void bajaInventario(Long id, Long usuarioModificacionId) {
+        InventarioDonaciones inventario = inventarioDao.buscarPorId(id);
+        if (inventario == null) {
+            throw new IllegalArgumentException("Inventario no encontrado");
+        }
+
+        // Solo asignamos usuarioModificado si viene válido
+        if (usuarioModificacionId != null && usuarioModificacionId != 0) {
+            Usuario usuarioModificacion = usuarioDao.buscarPorId(usuarioModificacionId);
+            if (usuarioModificacion == null) {
+                throw new IllegalArgumentException("Usuario de modificación no encontrado");
+            }
+            inventario.setUsuarioModificado(usuarioModificacion);
+        }
+
+        inventario.setEliminado(true);
+        inventario.setFechaHoraModificacion(LocalDateTime.now());
+
+        // Llamamos al DAO que ahora hace persist + flush
         inventarioDao.eliminarLogico(id, usuarioModificacionId);
     }
 

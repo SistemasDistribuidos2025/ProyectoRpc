@@ -19,7 +19,7 @@ public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
 
     @Override
     public void guardar(InventarioDonaciones inventario) {
-        inventario.setFechaHoraAlta(LocalDateTime.now());
+      //  inventario.setFechaHoraAlta(LocalDateTime.now());
         em.persist(inventario);
     }
 
@@ -45,11 +45,17 @@ public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
     public void eliminarLogico(Long id, Long usuarioModificacionId) {
         InventarioDonaciones inventario = em.find(InventarioDonaciones.class, id);
         if (inventario != null) {
+            // Solo cambiamos lo que necesitamos
             inventario.setEliminado(true);
             inventario.setFechaHoraModificacion(LocalDateTime.now());
-            Usuario usuario = em.find(Usuario.class, usuarioModificacionId);
-            inventario.setUsuarioModificado(usuario);
-            em.merge(inventario);
+
+            if (usuarioModificacionId != null && usuarioModificacionId != 0) {
+                Usuario usuario = em.find(Usuario.class, usuarioModificacionId);
+                inventario.setUsuarioModificado(usuario);
+            }
+
+            em.persist(inventario); // persist en vez de merge evita sobreescribir campos nulos
+            em.flush(); // fuerza escritura inmediata en la DB
         }
     }
 }

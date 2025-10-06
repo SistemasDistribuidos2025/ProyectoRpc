@@ -7,6 +7,8 @@ import {
 } from "../servicios/grpcCliente";
 import "./Inventario.css";
 
+import { InventarioDonaciones, CategoriaDonacion } from "../servicios/usuario_grpc_web_pb";
+
 // Mapeo de categorías
 const categoriaMap = {
   0: "Ropa",
@@ -48,26 +50,36 @@ const Inventario = ({ usuarioLogueado }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!usuarioLogueado) return mostrarMensaje("error", "Debe iniciar sesión");
-    if (formData.cantidad < 0) return mostrarMensaje("error", "Cantidad no puede ser negativa");
+  e.preventDefault();
+  if (!usuarioLogueado) return mostrarMensaje("error", "Debe iniciar sesión");
+  if (formData.cantidad < 0) return mostrarMensaje("error", "Cantidad no puede ser negativa");
 
-    try {
-      if (modoEdicion) {
-        await modificarInventario({ ...formData, usuarioModificadoId: usuarioLogueado.id });
-        mostrarMensaje("exito", "Elemento modificado correctamente");
-      } else {
-        await altaInventario({ ...formData, usuarioAltaId: usuarioLogueado.id });
-        mostrarMensaje("exito", "Elemento agregado correctamente");
-      }
-      setFormData({ id: null, categoria: 0, descripcion: "", cantidad: 0 });
-      setModoEdicion(false);
-      cargarInventario();
-    } catch (err) {
-      console.error(err);
-      mostrarMensaje("error", "Error al guardar inventario");
+  try {
+    const payload = {
+      categoria: formData.categoria,
+      descripcion: formData.descripcion,
+      cantidad: formData.cantidad
+    };
+
+    if (modoEdicion) {
+      payload.id = formData.id;
+      payload.usuarioModificadoId = usuarioLogueado.id;
+      await modificarInventario(payload);
+      mostrarMensaje("exito", "Elemento modificado correctamente");
+    } else {
+      payload.usuarioAltaId = usuarioLogueado.id;
+      await altaInventario(payload);
+      mostrarMensaje("exito", "Elemento agregado correctamente");
     }
-  };
+
+    setFormData({ id: null, categoria: 0, descripcion: "", cantidad: 0 });
+    setModoEdicion(false);
+    cargarInventario();
+  } catch (err) {
+    console.error(err);
+    mostrarMensaje("error", "Error al guardar inventario");
+  }
+};
 
   const handleEditar = (item) => {
     setFormData({ id: item.id, categoria: item.categoria ?? 0, descripcion: item.descripcion ?? "", cantidad: item.cantidad ?? 0 });
