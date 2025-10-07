@@ -69,25 +69,22 @@ public class InventarioDonacionesServicioImp implements InventarioDonacionesServ
     @Transactional
     @Override
     public void bajaInventario(Long id, Long usuarioModificacionId) {
+        // Cargar entidad completa desde la DB
         InventarioDonaciones inventario = inventarioDao.buscarPorId(id);
         if (inventario == null) {
             throw new IllegalArgumentException("Inventario no encontrado");
         }
 
-        // Solo asignamos usuarioModificado si viene válido
-        if (usuarioModificacionId != null && usuarioModificacionId != 0) {
-            Usuario usuarioModificacion = usuarioDao.buscarPorId(usuarioModificacionId);
-            if (usuarioModificacion == null) {
-                throw new IllegalArgumentException("Usuario de modificación no encontrado");
-            }
-            inventario.setUsuarioModificado(usuarioModificacion);
-        }
-
+        // Solo modificar los campos de la baja
         inventario.setEliminado(true);
         inventario.setFechaHoraModificacion(LocalDateTime.now());
 
-        // Llamamos al DAO que ahora hace persist + flush
-        inventarioDao.eliminarLogico(id, usuarioModificacionId);
+        if (usuarioModificacionId != null && usuarioModificacionId != 0) {
+            Usuario usuarioModificacion = usuarioDao.buscarPorId(usuarioModificacionId);
+            inventario.setUsuarioModificado(usuarioModificacion);
+        }
+
+        // No llamar a merge manualmente, Hibernate detecta el cambio porque la entidad está gestionada
     }
 
     @Override

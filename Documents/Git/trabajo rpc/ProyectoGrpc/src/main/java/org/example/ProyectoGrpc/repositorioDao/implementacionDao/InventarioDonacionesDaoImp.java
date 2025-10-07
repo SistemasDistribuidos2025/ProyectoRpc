@@ -44,19 +44,22 @@ public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
     @Override
     public void eliminarLogico(Long id, Long usuarioModificacionId) {
         InventarioDonaciones inventario = em.find(InventarioDonaciones.class, id);
-        if (inventario != null) {
-            // Solo cambiamos lo que necesitamos
-            inventario.setEliminado(true);
-            inventario.setFechaHoraModificacion(LocalDateTime.now());
-
-            if (usuarioModificacionId != null && usuarioModificacionId != 0) {
-                Usuario usuario = em.find(Usuario.class, usuarioModificacionId);
-                inventario.setUsuarioModificado(usuario);
-            }
-
-            em.persist(inventario); // persist en vez de merge evita sobreescribir campos nulos
-            em.flush(); // fuerza escritura inmediata en la DB
+        if (inventario == null) {
+            throw new IllegalArgumentException("Inventario no encontrado con ID: " + id);
         }
+
+        inventario.setEliminado(true);
+        inventario.setFechaHoraModificacion(LocalDateTime.now());
+
+        if (usuarioModificacionId != null && usuarioModificacionId != 0) {
+            Usuario usuario = em.find(Usuario.class, usuarioModificacionId);
+            inventario.setUsuarioModificado(usuario);
+        }
+
+        em.merge(inventario);
+        em.flush(); // 👈 fuerza que se ejecute el UPDATE en la BD
     }
+
+
 }
 

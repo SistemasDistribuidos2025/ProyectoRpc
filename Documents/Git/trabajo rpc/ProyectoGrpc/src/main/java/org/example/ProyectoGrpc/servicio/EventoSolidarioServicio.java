@@ -22,4 +22,7 @@ public interface EventoSolidarioServicio {
     void agregarMiembro(Long eventoId, Usuario usuario, String rolSolicitante);
 
     void quitarMiembro(Long eventoId, Usuario usuario, String rolSolicitante);
+
+    public void registrarDonacionEvento(Long eventoId, Long inventarioId, int cantidad, Long usuarioId);
+
 }

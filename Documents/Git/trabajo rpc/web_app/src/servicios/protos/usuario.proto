@@ -3,7 +3,7 @@ syntax = "proto3";
 package org.example.ProyectoGrpc.grpc;
 
 import "google/protobuf/empty.proto";
-
+import "google/protobuf/timestamp.proto"; // Import necesario
 
 
 message Usuario {
@@ -42,8 +42,15 @@ message EventoSolidario {
   int64 id = 1;
   string nombreEvento = 2;
   string descripcion = 3;
-  string fechaHoraEvento = 4;
+  google.protobuf.Timestamp fechaHoraEvento = 4; // Cambiado de string a Timestamp
   repeated Usuario participantesEvento = 5;
+}
+
+message DonacionEventoRequest {
+  int64 eventoId = 1;
+  int64 inventarioId = 2;
+  int32 cantidad = 3;
+  int64 usuarioId = 4;
 }
 
 
@@ -134,4 +141,6 @@ service EventoSolidarioService {
   rpc ListarEventos (google.protobuf.Empty) returns (EventoListResponse);
   rpc AsignarParticipantes (EventoParticipantesRequest) returns (EventoSolidario);
   rpc QuitarParticipantes (EventoParticipantesRequest) returns (EventoSolidario);
+
+  rpc RegistrarDonacionEvento(DonacionEventoRequest) returns (google.protobuf.Empty);
 }

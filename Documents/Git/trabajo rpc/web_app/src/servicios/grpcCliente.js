@@ -12,11 +12,18 @@ import {
   LoginRequest,
   InventarioDonaciones,
   InventarioIdRequest,
-  CategoriaDonacion
+  CategoriaDonacion,
+  EventoSolidario,
+  EventoIdRequest,
+  EventoListResponse,
+  EventoParticipantesRequest,
+  DonacionEventoRequest
 } from "./usuario_pb";
 
 
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
+
+import { Timestamp } from 'google-protobuf/google/protobuf/timestamp_pb';
 
 // --- Clients ---
 const client = new UsuarioServiceClient('http://localhost:8081', null, null);
@@ -41,6 +48,14 @@ const safeSet = (msgInstance, key, value) => {
   }
   console.warn(`Setter no encontrado para campo '${key}'. Intentados: ${candidates.join(", ")}`);
   return false;
+};
+
+const stringToTimestamp = (dateString) => {
+  const date = new Date(dateString);
+  const timestamp = new Timestamp();
+  timestamp.setSeconds(Math.floor(date.getTime() / 1000));
+  timestamp.setNanos((date.getTime() % 1000) * 1e6);
+  return timestamp;
 };
 
 // --- Métodos Usuario ---
@@ -152,17 +167,6 @@ export const bajaUsuario = (id) => {
   });
 };
 
-// --- Métodos Evento ---
-export const listarEventos = () => {
-  return new Promise((resolve, reject) => {
-    const request = new Empty();
-    eventoClient.listarEventos(request, {}, (err, response) => {
-      if (err) return reject(err);
-      resolve(response.getEventosList().map(e => e.toObject()));
-    });
-  });
-};
-
 // --- Métodos Inventario ---
 export const listarInventario = () => {
   return new Promise((resolve, reject) => {
@@ -244,14 +248,135 @@ export const modificarInventario = (inventarioData) => {
 
 export const bajaInventario = (id, usuarioModificadoId) => {
   return new Promise((resolve, reject) => {
-    const inventario = new InventarioDonaciones();
-    inventario.setId(id);
-    inventario.setEliminado(true);
-    if (usuarioModificadoId !== undefined) inventario.setUsuariomodificadoid(usuarioModificadoId);
+    const request = new InventarioIdRequest();
+    request.setId(id);
+    if (usuarioModificadoId !== undefined) request.setUsuariomodificadoid(usuarioModificadoId);
 
-    inventarioClient.modificarInventario(inventario, {}, (err, response) => {
+    inventarioClient.bajaInventario(request, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response); // Empty
+    });
+  });
+};
+
+
+// --- Métodos Evento ---
+export const listarEventos = () => {
+  return new Promise((resolve, reject) => {
+    const request = new Empty();
+    eventoClient.listarEventos(request, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response.getEventosList().map(e => e.toObject()));
+    });
+  });
+};
+
+// Buscar evento por ID
+export const buscarEventoPorId = (eventoId) => {
+  return new Promise((resolve, reject) => {
+    const request = new EventoIdRequest();
+    request.setId(eventoId);
+
+    eventoClient.buscarEventoPorId(request, {}, (err, response) => {
       if (err) return reject(err);
       resolve(response.toObject());
     });
   });
 };
+
+// Crear un nuevo evento
+export const altaEvento = (eventoData) => {
+  return new Promise((resolve, reject) => {
+    const evento = new EventoSolidario();
+    if (eventoData.nombreEvento) evento.setNombreevento(eventoData.nombreEvento);
+    if (eventoData.descripcion) evento.setDescripcion(eventoData.descripcion);
+    if (eventoData.fechaHoraEvento) {
+      evento.setFechahoraevento(stringToTimestamp(eventoData.fechaHoraEvento));
+    }
+
+    eventoClient.altaEvento(evento, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response.toObject());
+    });
+  });
+};
+
+// Modificar un evento existente
+export const modificarEvento = (eventoData) => {
+  return new Promise((resolve, reject) => {
+    if (!eventoData.id) return reject(new Error("ID de evento obligatorio"));
+    const evento = new EventoSolidario();
+    evento.setId(eventoData.id);
+    if (eventoData.nombreEvento) evento.setNombreevento(eventoData.nombreEvento);
+    if (eventoData.descripcion) evento.setDescripcion(eventoData.descripcion);
+    if (eventoData.fechaHoraEvento) {
+      evento.setFechahoraevento(stringToTimestamp(eventoData.fechaHoraEvento));
+    }
+
+    eventoClient.modificarEvento(evento, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response.toObject());
+    });
+  });
+};
+
+// Eliminar un evento
+export const bajaEvento = (eventoId) => {
+  return new Promise((resolve, reject) => {
+    const request = new EventoIdRequest();
+    request.setId(eventoId);
+
+    eventoClient.bajaEvento(request, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response); // Empty
+    });
+  });
+};
+
+// Asignar participantes a un evento
+export const asignarParticipantesEvento = (eventoId, usuarioIds, rolSolicitante = "PRESIDENTE") => {
+  return new Promise((resolve, reject) => {
+    const request = new (require("./usuario_pb").EventoParticipantesRequest)();
+    request.setEventoid(eventoId);
+    request.setUsuarioidsList(usuarioIds);
+    request.setRolsolicitante(rolSolicitante);
+
+    eventoClient.asignarParticipantes(request, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response.toObject());
+    });
+  });
+};
+
+// Quitar participantes de un evento
+export const quitarParticipantesEvento = (eventoId, usuarioIds, rolSolicitante = "PRESIDENTE") => {
+  return new Promise((resolve, reject) => {
+    const request = new (require("./usuario_pb").EventoParticipantesRequest)();
+    request.setEventoid(eventoId);
+    request.setUsuarioidsList(usuarioIds);
+    request.setRolsolicitante(rolSolicitante);
+
+    eventoClient.quitarParticipantes(request, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response.toObject());
+    });
+  });
+};
+
+// Registrar donación en un evento
+export const registrarDonacionEvento = (eventoId, inventarioId, cantidad, usuarioId) => {
+  return new Promise((resolve, reject) => {
+    const request = new (require("./usuario_pb").DonacionEventoRequest)();
+    request.setEventoid(eventoId);
+    request.setInventarioid(inventarioId);
+    request.setCantidad(cantidad);
+    request.setUsuarioid(usuarioId);
+
+    eventoClient.registrarDonacionEvento(request, {}, (err, response) => {
+      if (err) return reject(err);
+      resolve(response.toObject ? response.toObject() : response);
+    });
+  });
+};
+
+

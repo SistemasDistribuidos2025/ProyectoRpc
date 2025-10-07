@@ -21,6 +21,8 @@ grpc.web = require('grpc-web');
 
 
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
+
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js')
 const proto = {};
 proto.org = {};
 proto.org.example = {};
@@ -1400,6 +1402,67 @@ proto.org.example.ProyectoGrpc.grpc.EventoSolidarioServicePromiseClient.prototyp
       request,
       metadata || {},
       methodDescriptor_EventoSolidarioService_QuitarParticipantes);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.org.example.ProyectoGrpc.grpc.DonacionEventoRequest,
+ *   !proto.google.protobuf.Empty>}
+ */
+const methodDescriptor_EventoSolidarioService_RegistrarDonacionEvento = new grpc.web.MethodDescriptor(
+  '/org.example.ProyectoGrpc.grpc.EventoSolidarioService/RegistrarDonacionEvento',
+  grpc.web.MethodType.UNARY,
+  proto.org.example.ProyectoGrpc.grpc.DonacionEventoRequest,
+  google_protobuf_empty_pb.Empty,
+  /**
+   * @param {!proto.org.example.ProyectoGrpc.grpc.DonacionEventoRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  google_protobuf_empty_pb.Empty.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.org.example.ProyectoGrpc.grpc.DonacionEventoRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.google.protobuf.Empty)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.Empty>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.org.example.ProyectoGrpc.grpc.EventoSolidarioServiceClient.prototype.registrarDonacionEvento =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/org.example.ProyectoGrpc.grpc.EventoSolidarioService/RegistrarDonacionEvento',
+      request,
+      metadata || {},
+      methodDescriptor_EventoSolidarioService_RegistrarDonacionEvento,
+      callback);
+};
+
+
+/**
+ * @param {!proto.org.example.ProyectoGrpc.grpc.DonacionEventoRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.google.protobuf.Empty>}
+ *     Promise that resolves to the response
+ */
+proto.org.example.ProyectoGrpc.grpc.EventoSolidarioServicePromiseClient.prototype.registrarDonacionEvento =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/org.example.ProyectoGrpc.grpc.EventoSolidarioService/RegistrarDonacionEvento',
+      request,
+      metadata || {},
+      methodDescriptor_EventoSolidarioService_RegistrarDonacionEvento);
 };
 
 

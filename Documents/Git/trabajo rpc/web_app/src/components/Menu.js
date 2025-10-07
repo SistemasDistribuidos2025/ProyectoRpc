@@ -7,6 +7,11 @@ import "./Menu.css";
 function Menu({ usuarioLogueado, onLogout }) {
   const [vista, setVista] = useState("menu");
 
+  // Funciones de permiso
+  const puedeGestionUsuarios = usuarioLogueado.rol === "PRESIDENTE";
+  const puedeInventario = usuarioLogueado.rol === "PRESIDENTE" || usuarioLogueado.rol === "VOCAL";
+  const puedeEventos = ["PRESIDENTE", "COORDINADOR", "VOLUNTARIO"].includes(usuarioLogueado.rol);
+
   return (
     <div className="menu-container">
       <div className="menu-card">
@@ -22,19 +27,19 @@ function Menu({ usuarioLogueado, onLogout }) {
         <hr className="menu-divider" />
 
         <div className="menu-options">
-          {usuarioLogueado.rol === "PRESIDENTE" && (
+          {puedeGestionUsuarios && (
             <button onClick={() => setVista("gestionUsuarios")}>
               Gestión de Usuarios
             </button>
           )}
 
-          {usuarioLogueado.rol === "PRESIDENTE" && (
+          {puedeInventario && (
             <button onClick={() => setVista("inventario")}>
               Inventario
             </button>
           )}
 
-          {(usuarioLogueado.rol === "PRESIDENTE" || usuarioLogueado.rol === "VOCAL") && (
+          {puedeEventos && (
             <button onClick={() => setVista("evento")}>
               Eventos
             </button>
@@ -42,11 +47,9 @@ function Menu({ usuarioLogueado, onLogout }) {
         </div>
 
         <div className="menu-content">
-          {vista === "gestionUsuarios" && usuarioLogueado.rol === "PRESIDENTE" && (
-            <GestionUsuarios />
-          )}
-          {vista === "inventario" && <Inventario usuarioLogueado={usuarioLogueado} />}
-          {vista === "evento" && <Evento />}
+          {vista === "gestionUsuarios" && puedeGestionUsuarios && <GestionUsuarios />}
+          {vista === "inventario" && puedeInventario && <Inventario usuarioLogueado={usuarioLogueado} />}
+          {vista === "evento" && puedeEventos && <Evento usuarioLogueado={usuarioLogueado} />}
           {vista === "menu" && <div>Seleccione una opción</div>}
         </div>
       </div>
