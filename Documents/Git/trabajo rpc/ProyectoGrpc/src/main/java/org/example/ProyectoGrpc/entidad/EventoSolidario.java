@@ -3,7 +3,9 @@ package org.example.ProyectoGrpc.entidad;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "eventos_solidarios")
@@ -28,7 +30,7 @@ public class EventoSolidario {
             joinColumns = @JoinColumn(name = "evento_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-    private List<Usuario> participantesEvento;
+    private Set<Usuario> participantesEvento = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -62,15 +64,15 @@ public class EventoSolidario {
         this.fechaHoraEvento = fechaHoraEvento;
     }
 
-    public List<Usuario> getParticipantesEvento() {
+    public Set<Usuario> getParticipantesEvento() {
         return participantesEvento;
     }
 
-    public void setParticipantesEvento(List<Usuario> participantesEvento) {
+    public void setParticipantesEvento(Set<Usuario> participantesEvento) {
         this.participantesEvento = participantesEvento;
     }
 
-    public EventoSolidario(Long id, String nombreEvento, String descripcion, LocalDateTime fechaHoraEvento, List<Usuario> participantesEvento) {
+    public EventoSolidario(Long id, String nombreEvento, String descripcion, LocalDateTime fechaHoraEvento, Set<Usuario> participantesEvento) {
         this.id = id;
         this.nombreEvento = nombreEvento;
         this.descripcion = descripcion;

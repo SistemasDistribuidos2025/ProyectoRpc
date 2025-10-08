@@ -333,13 +333,22 @@ export const bajaEvento = (eventoId) => {
   });
 };
 
-// Asignar participantes a un evento
-export const asignarParticipantesEvento = (eventoId, usuarioIds, rolSolicitante = "PRESIDENTE") => {
+export const asignarParticipantesEvento = (eventoId, usuarioIds, usuarioLogueado) => {
   return new Promise((resolve, reject) => {
+    if (!eventoId || !usuarioIds?.length || !usuarioLogueado) 
+      return reject(new Error("Datos incompletos para asignar participantes"));
+
+    // Filtrado opcional: si es VOLUNTARIO, solo puede agregarse a sí mismo
+    const idsFiltrados = usuarioLogueado.rol === "VOLUNTARIO"
+      ? usuarioIds.filter(id => id === usuarioLogueado.id)
+      : usuarioIds;
+
+    if (!idsFiltrados.length) return reject(new Error("VOLUNTARIO solo puede agregarse a sí mismo"));
+
     const request = new (require("./usuario_pb").EventoParticipantesRequest)();
     request.setEventoid(eventoId);
-    request.setUsuarioidsList(usuarioIds);
-    request.setRolsolicitante(rolSolicitante);
+    request.setUsuarioidsList(idsFiltrados);
+    request.setRolsolicitante(usuarioLogueado.rol);
 
     eventoClient.asignarParticipantes(request, {}, (err, response) => {
       if (err) return reject(err);
@@ -348,13 +357,21 @@ export const asignarParticipantesEvento = (eventoId, usuarioIds, rolSolicitante 
   });
 };
 
-// Quitar participantes de un evento
-export const quitarParticipantesEvento = (eventoId, usuarioIds, rolSolicitante = "PRESIDENTE") => {
+export const quitarParticipantesEvento = (eventoId, usuarioIds, usuarioLogueado) => {
   return new Promise((resolve, reject) => {
+    if (!eventoId || !usuarioIds?.length || !usuarioLogueado) 
+      return reject(new Error("Datos incompletos para quitar participantes"));
+
+    const idsFiltrados = usuarioLogueado.rol === "VOLUNTARIO"
+      ? usuarioIds.filter(id => id === usuarioLogueado.id)
+      : usuarioIds;
+
+    if (!idsFiltrados.length) return reject(new Error("VOLUNTARIO solo puede quitarse a sí mismo"));
+
     const request = new (require("./usuario_pb").EventoParticipantesRequest)();
     request.setEventoid(eventoId);
-    request.setUsuarioidsList(usuarioIds);
-    request.setRolsolicitante(rolSolicitante);
+    request.setUsuarioidsList(idsFiltrados);
+    request.setRolsolicitante(usuarioLogueado.rol);
 
     eventoClient.quitarParticipantes(request, {}, (err, response) => {
       if (err) return reject(err);
@@ -363,14 +380,20 @@ export const quitarParticipantesEvento = (eventoId, usuarioIds, rolSolicitante =
   });
 };
 
-// Registrar donación en un evento
-export const registrarDonacionEvento = (eventoId, inventarioId, cantidad, usuarioId) => {
+export const registrarDonacionEvento = (eventoId, inventarioId, cantidad, usuarioLogueado) => {
   return new Promise((resolve, reject) => {
+    if (!eventoId || !inventarioId || !usuarioLogueado || cantidad <= 0)
+      return reject(new Error("Datos incompletos o cantidad inválida"));
+
+    if (!(usuarioLogueado.rol === "PRESIDENTE" || usuarioLogueado.rol === "COORDINADOR")) {
+      return reject(new Error("Solo PRESIDENTE o COORDINADOR pueden registrar donaciones"));
+    }
+
     const request = new (require("./usuario_pb").DonacionEventoRequest)();
     request.setEventoid(eventoId);
     request.setInventarioid(inventarioId);
     request.setCantidad(cantidad);
-    request.setUsuarioid(usuarioId);
+    request.setUsuarioid(usuarioLogueado.id);
 
     eventoClient.registrarDonacionEvento(request, {}, (err, response) => {
       if (err) return reject(err);

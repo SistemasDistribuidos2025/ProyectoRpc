@@ -3,6 +3,10 @@ package org.example.ProyectoGrpc.entidad;
 import jakarta.persistence.*;
 import org.example.ProyectoGrpc.enums.RolUsuario;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -33,6 +37,7 @@ public class Usuario {
 
     @Column(nullable = false)
     private boolean activo = true;
+
 
     public Long getId() {
         return id;
@@ -126,7 +131,18 @@ public class Usuario {
 				+ apellido + ", telefono=" + telefono + ", password=" + password + ", email=" + email + ", rol=" + rol
 				+ ", activo=" + activo + "]";
 	}
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id != null && id.equals(usuario.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
 }

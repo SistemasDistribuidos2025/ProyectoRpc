@@ -1,6 +1,7 @@
 package org.example.ProyectoGrpc.repositorioDao.implementacionDao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.repositorioDao.EventoSolidarioDao;
@@ -21,7 +22,16 @@ public class EventoSolidarioDaoImp implements EventoSolidarioDao {
 
     @Override
     public EventoSolidario buscarPorId(Long id) {
-        return em.find(EventoSolidario.class, id);
+        try {
+            return em.createQuery(
+                            "SELECT e FROM EventoSolidario e LEFT JOIN FETCH e.participantesEvento WHERE e.id = :id",
+                            EventoSolidario.class
+                    )
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // si no encuentra el evento
+        }
     }
 
     //Query que trae los datos del evento junto con los de la tabla intermedia de participantes
@@ -33,13 +43,22 @@ public class EventoSolidarioDaoImp implements EventoSolidarioDao {
 
     @Override
     public void actualizar(EventoSolidario evento) {
-        em.merge(evento);
+        EventoSolidario managed = em.find(EventoSolidario.class, evento.getId());
+        if (managed != null) {
+            managed.setNombreEvento(evento.getNombreEvento());
+            managed.setDescripcion(evento.getDescripcion());
+            managed.setFechaHoraEvento(evento.getFechaHoraEvento());
+            managed.setParticipantesEvento(evento.getParticipantesEvento());
+            em.flush();
+        }
     }
 
     @Override
     public void eliminar(Long id) {
         EventoSolidario evento = em.find(EventoSolidario.class, id);
         if (evento != null) {
+            // Limpia la relación ManyToMany
+            evento.getParticipantesEvento().clear();
             em.remove(evento);
         }
     }

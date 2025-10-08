@@ -4,12 +4,13 @@ import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface EventoSolidarioServicio {
     EventoSolidario altaEvento(EventoSolidario evento);
 
     EventoSolidario modificarEvento(Long id, String nombre, String descripcion,
-                                    LocalDateTime fechaHora, List<Usuario> participantes);
+                                    LocalDateTime fechaHora, Set<Usuario> participantes);
 
     EventoSolidario modificarEvento(Long id, EventoSolidario evento);
 

@@ -4,6 +4,7 @@ import org.example.ProyectoGrpc.entidad.DonacionesEvento;
 import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
 import org.example.ProyectoGrpc.entidad.Usuario;
+import org.example.ProyectoGrpc.enums.RolUsuario;
 import org.example.ProyectoGrpc.repositorioDao.DonacionesEventoDao;
 import org.example.ProyectoGrpc.repositorioDao.EventoSolidarioDao;
 import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
@@ -53,7 +55,7 @@ public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
     @Override
     @Transactional
     public EventoSolidario modificarEvento(Long id, String nombre, String descripcion,
-                                           LocalDateTime fechaHora, List<Usuario> participantes) {
+                                           LocalDateTime fechaHora, Set<Usuario> participantes) {
         EventoSolidario evento = eventoDao.buscarPorId(id);
         if (evento == null) return null;
 
@@ -101,11 +103,11 @@ public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
     @Transactional
     public void agregarMiembro(Long eventoId, Usuario usuario, String rolSolicitante) {
         EventoSolidario evento = eventoDao.buscarPorId(eventoId);
-        if (evento == null) return;
+        if (evento == null || usuario == null) return;
 
         boolean puedeAgregar = rolSolicitante.equals("PRESIDENTE") ||
                 rolSolicitante.equals("COORDINADOR") ||
-                (rolSolicitante.equals("VOLUNTARIO") && evento.getParticipantesEvento().contains(usuario) == false);
+                (rolSolicitante.equals("VOLUNTARIO") && !evento.getParticipantesEvento().contains(usuario));
 
         if (puedeAgregar && usuario.isActivo()) {
             evento.getParticipantesEvento().add(usuario);
@@ -117,15 +119,17 @@ public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
     @Transactional
     public void quitarMiembro(Long eventoId, Usuario usuario, String rolSolicitante) {
         EventoSolidario evento = eventoDao.buscarPorId(eventoId);
-        if (evento == null) return;
+        if (evento == null || usuario == null) return;
 
         boolean puedeQuitar = rolSolicitante.equals("PRESIDENTE") ||
                 rolSolicitante.equals("COORDINADOR") ||
                 (rolSolicitante.equals("VOLUNTARIO") && evento.getParticipantesEvento().contains(usuario));
 
         if (puedeQuitar) {
-            evento.getParticipantesEvento().remove(usuario);
-            eventoDao.actualizar(evento);
+            boolean removed = evento.getParticipantesEvento().removeIf(u -> u.getId().equals(usuario.getId()));
+            if (removed) {
+                eventoDao.actualizar(evento);
+            }
         }
     }
 
@@ -157,7 +161,7 @@ public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
         if (usuario == null || !usuario.isActivo()) {
             throw new IllegalArgumentException("Usuario no válido");
         }
-        if (!(usuario.getRol().equals("PRESIDENTE") || usuario.getRol().equals("COORDINADOR"))) {
+        if (!(usuario.getRol() == RolUsuario.PRESIDENTE || usuario.getRol() == RolUsuario.COORDINADOR)) {
             throw new IllegalArgumentException("Solo PRESIDENTE o COORDINADOR pueden registrar donaciones");
         }
 

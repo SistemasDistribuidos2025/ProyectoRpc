@@ -9,15 +9,13 @@ import org.example.ProyectoGrpc.grpc.UsuarioOuterClass;
 import org.example.ProyectoGrpc.servicio.EventoSolidarioServicio;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import com.google.protobuf.Timestamp;
-import java.time.Instant;
+
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.EventoSolidarioServiceImplBase {
 
@@ -59,7 +57,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
         LocalDateTime fecha = timestampToLocalDateTime(request.getFechaHoraEvento());
 
-        List<Usuario> participantes = new ArrayList<>();
+        Set<Usuario> participantes = new HashSet<>();
         for (UsuarioOuterClass.Usuario u : request.getParticipantesEventoList()) {
             Usuario usuario = usuarioServicio.buscarPorId(u.getId());
             if (usuario != null) participantes.add(usuario);
@@ -110,20 +108,6 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         responseObserver.onCompleted();
     }
 
-    private UsuarioOuterClass.Usuario mapUsuarioAGrpc(Usuario u) {
-        return UsuarioOuterClass.Usuario.newBuilder()
-                .setId(u.getId())
-                .setNombreUsuario(u.getNombreUsuario())
-                .setNombre(u.getNombre())
-                .setApellido(u.getApellido())
-                .setTelefono(u.getTelefono() != null ? u.getTelefono() : "")
-                .setClave(u.getPassword())
-                .setEmail(u.getEmail())
-                .setRol(u.getRol().name())
-                .setActivo(u.isActivo())
-                .build();
-    }
-
 
     @Override
     public void listarEventos(Empty request,
@@ -151,11 +135,26 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         responseObserver.onCompleted();
     }
 
+    private UsuarioOuterClass.Usuario mapUsuarioAGrpc(Usuario u) {
+        return UsuarioOuterClass.Usuario.newBuilder()
+                .setId(u.getId())
+                .setNombreUsuario(u.getNombreUsuario())
+                .setNombre(u.getNombre())
+                .setApellido(u.getApellido())
+                .setTelefono(u.getTelefono() != null ? u.getTelefono() : "")
+                .setClave(u.getPassword())
+                .setEmail(u.getEmail())
+                .setRol(u.getRol().name())
+                .setActivo(u.isActivo())
+                .build();
+    }
+
     @Override
     public void asignarParticipantes(UsuarioOuterClass.EventoParticipantesRequest request,
                                      StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         String rolSolicitante = request.getRolSolicitante();
+
         for (long usuarioId : request.getUsuarioIdsList()) {
             Usuario usuario = usuarioServicio.buscarPorId(usuarioId);
             if (usuario != null) {
@@ -164,14 +163,26 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         }
 
         EventoSolidario actualizado = eventoServicio.buscarPorId(request.getEventoId());
-        UsuarioOuterClass.EventoSolidario grpcEvento = UsuarioOuterClass.EventoSolidario.newBuilder()
+        if (actualizado == null) {
+            responseObserver.onError(io.grpc.Status.NOT_FOUND
+                    .withDescription("Evento no encontrado")
+                    .asRuntimeException());
+            return;
+        }
+
+        UsuarioOuterClass.EventoSolidario.Builder grpcEventoBuilder = UsuarioOuterClass.EventoSolidario.newBuilder()
                 .setId(actualizado.getId())
                 .setNombreEvento(actualizado.getNombreEvento())
                 .setDescripcion(actualizado.getDescripcion())
-                .setFechaHoraEvento(localDateTimeToTimestamp(actualizado.getFechaHoraEvento()))
-                .build();
+                .setFechaHoraEvento(localDateTimeToTimestamp(actualizado.getFechaHoraEvento()));
 
-        responseObserver.onNext(grpcEvento);
+        grpcEventoBuilder.addAllParticipantesEvento(
+                actualizado.getParticipantesEvento().stream()
+                        .map(this::mapUsuarioAGrpc)
+                        .collect(Collectors.toList())
+        );
+
+        responseObserver.onNext(grpcEventoBuilder.build());
         responseObserver.onCompleted();
     }
 
@@ -180,6 +191,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
                                     StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         String rolSolicitante = request.getRolSolicitante();
+
         for (long usuarioId : request.getUsuarioIdsList()) {
             Usuario usuario = usuarioServicio.buscarPorId(usuarioId);
             if (usuario != null) {
@@ -188,16 +200,52 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         }
 
         EventoSolidario actualizado = eventoServicio.buscarPorId(request.getEventoId());
-        UsuarioOuterClass.EventoSolidario grpcEvento = UsuarioOuterClass.EventoSolidario.newBuilder()
+        if (actualizado == null) {
+            responseObserver.onError(io.grpc.Status.NOT_FOUND
+                    .withDescription("Evento no encontrado")
+                    .asRuntimeException());
+            return;
+        }
+
+        UsuarioOuterClass.EventoSolidario.Builder grpcEventoBuilder = UsuarioOuterClass.EventoSolidario.newBuilder()
                 .setId(actualizado.getId())
                 .setNombreEvento(actualizado.getNombreEvento())
                 .setDescripcion(actualizado.getDescripcion())
-                .setFechaHoraEvento(localDateTimeToTimestamp(actualizado.getFechaHoraEvento()))
-                .build();
+                .setFechaHoraEvento(localDateTimeToTimestamp(actualizado.getFechaHoraEvento()));
 
-        responseObserver.onNext(grpcEvento);
+        grpcEventoBuilder.addAllParticipantesEvento(
+                actualizado.getParticipantesEvento().stream()
+                        .map(this::mapUsuarioAGrpc)
+                        .collect(Collectors.toList())
+        );
+
+        responseObserver.onNext(grpcEventoBuilder.build());
         responseObserver.onCompleted();
     }
+
+
+
+    @Override
+    public void registrarDonacionEvento(UsuarioOuterClass.DonacionEventoRequest request,
+                                        StreamObserver<com.google.protobuf.Empty> responseObserver) {
+        try {
+            eventoServicio.registrarDonacionEvento(
+                    request.getEventoId(),
+                    request.getInventarioId(),
+                    request.getCantidad(),
+                    request.getUsuarioId()
+            );
+            responseObserver.onNext(com.google.protobuf.Empty.newBuilder().build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(io.grpc.Status.INTERNAL
+                    .withDescription("Error registrando donación: " + e.getMessage())
+                    .withCause(e)
+                    .asRuntimeException());
+        }
+    }
+
+
 
     // --- Helpers para convertir Timestamp <-> LocalDateTime ---
     private LocalDateTime timestampToLocalDateTime(Timestamp ts) {
@@ -205,15 +253,13 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    private Timestamp localDateTimeToTimestamp(LocalDateTime ldt) {
-        Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
+    private Timestamp localDateTimeToTimestamp(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return Timestamp.newBuilder().setSeconds(0).build(); // evita nulos
+        }
         return Timestamp.newBuilder()
-                .setSeconds(instant.getEpochSecond())
-                .setNanos(instant.getNano())
+                .setSeconds(dateTime.toEpochSecond(ZoneOffset.UTC))
+                .setNanos(dateTime.getNano())
                 .build();
     }
-
-
 }
-
-
