@@ -158,6 +158,7 @@ public class UsuarioServicioRpc extends UsuarioServiceGrpc.UsuarioServiceImplBas
     }
 
     @Override
+    @Transactional
     public void buscarPorEmail(UsuarioOuterClass.UsuarioEmailRequest request,
                                StreamObserver<UsuarioOuterClass.UsuarioResponse> responseObserver) {
         Usuario usuario = usuarioServicio.buscarPorEmail(request.getEmail());
@@ -185,6 +186,7 @@ public class UsuarioServicioRpc extends UsuarioServiceGrpc.UsuarioServiceImplBas
     }
 
     @Override
+    @Transactional
     public void buscarPorNombreUsuario(UsuarioOuterClass.UsuarioNombreRequest request,
                                        StreamObserver<UsuarioOuterClass.UsuarioResponse> responseObserver) {
         Usuario usuario = usuarioServicio.buscarPorNombreUsuario(request.getNombreUsuario());

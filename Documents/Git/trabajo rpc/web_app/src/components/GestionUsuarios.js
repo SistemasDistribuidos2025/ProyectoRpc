@@ -95,15 +95,18 @@ const GestionUsuarios = () => {
   // =============================
   // MÉTODOS DE BÚSQUEDA
   // =============================
+  const [busquedaId, setBusquedaId] = useState("");  
   const buscarPorId = async (id) => {
-    try {
+  try {
       const u = await buscarUsuarioPorId(id);
       setResultadoBusqueda(u);
     } catch (err) {
+      console.error("Error:", err);
       setError(err.message || "Error buscando por ID");
     }
   };
 
+  const [busquedaEmail, setBusquedaEmail] = useState("");  
   const buscarPorEmail = async (email) => {
     try {
       const u = await buscarUsuarioPorEmail(email);
@@ -113,6 +116,7 @@ const GestionUsuarios = () => {
     }
   };
 
+  const [busquedaUsuario, setBusquedaUsuario] = useState(""); 
   const buscarPorNombreUsuario = async (nombreUsuario) => {
     try {
       const u = await buscarUsuarioPorNombreUsuario(nombreUsuario);
@@ -151,16 +155,58 @@ const GestionUsuarios = () => {
       {/* Sección Búsquedas */}
       <div className="busquedas">
         <h3>🔍 Buscar Usuario</h3>
-        <button onClick={() => buscarPorId(1)}>Por ID (ej: 1)</button>
-        <button onClick={() => buscarPorEmail("test@mail.com")}>Por Email</button>
-        <button onClick={() => buscarPorNombreUsuario("admin")}>Por nombre de usuario</button>
 
+     
+        <div className="input-busquedas">
+          <input
+            type="text"
+            placeholder="ID del usuario"
+            value={busquedaId}
+            onChange={(e) => setBusquedaId(e.target.value)}
+          />
+          <button onClick={() => buscarPorId(busquedaId)}>Buscar por ID</button>
+        </div>
+
+       
+        <div className="input-busquedas">
+          <input
+            type="email"
+            placeholder="Email del usuario"
+            value={busquedaEmail}
+            onChange={(e) => setBusquedaEmail(e.target.value)}
+          />
+          <button onClick={() => buscarPorEmail(busquedaEmail)}>Buscar por Email</button>
+        </div>
+
+        
+        <div className="input-busquedas">
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            value={busquedaUsuario}
+            onChange={(e) => setBusquedaUsuario(e.target.value)}
+          />
+          <button onClick={() => buscarPorNombreUsuario(busquedaUsuario)}>Buscar por Nombre de Usuario</button>
+        </div>
+
+        
         {resultadoBusqueda && (
           <div className="resultado">
-            <p><b>Resultado:</b> {resultadoBusqueda.nombre} {resultadoBusqueda.apellido} ({resultadoBusqueda.email})</p>
+            <h4>Resultado:</h4>
+            <p>
+              <b>Nombre:</b>{resultadoBusqueda.nombre} {resultadoBusqueda.apellido}  
+              <br />
+              <b>Email:</b> {resultadoBusqueda.email}
+              <br />
+              <b>Usuario:</b> {resultadoBusqueda.nombreusuario}
+            </p>
           </div>
         )}
+
+        {/* Error */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
+
 
       {/* Tabla Usuarios */}
       <table className="usuarios-table">

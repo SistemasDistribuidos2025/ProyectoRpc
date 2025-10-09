@@ -47,6 +47,7 @@ public class UsuarioDaoImp implements UsuarioDao {
     
 	
     @Override
+    @Transactional
     public Usuario buscarPorNombreUsuario(String nombreUsuario) {
         TypedQuery<Usuario> query = em.createQuery(
             "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario",
@@ -57,6 +58,7 @@ public class UsuarioDaoImp implements UsuarioDao {
     }
 
     @Override
+    @Transactional
     public Usuario buscarPorEmail(String email) {
         TypedQuery<Usuario> query = em.createQuery(
             "SELECT u FROM Usuario u WHERE u.email = :email",
