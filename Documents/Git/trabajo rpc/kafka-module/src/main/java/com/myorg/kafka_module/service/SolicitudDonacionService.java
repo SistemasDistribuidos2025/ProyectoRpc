@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class SolicitudDonacionService {
 
-    private final KafkaTemplate<String, SolicitudDonacionDTO> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     private static final String TOPIC = "solicitud-donaciones";
 
-    public SolicitudDonacionService(KafkaTemplate<String, SolicitudDonacionDTO> kafkaTemplate) {
+    public SolicitudDonacionService(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     public void enviarSolicitud(SolicitudDonacionDTO solicitud) {
         kafkaTemplate.send(TOPIC, solicitud);
-        System.out.println("Solicitud enviada: " + solicitud);
+        System.out.println("📤 Solicitud enviada: " + solicitud);
     }
 }
