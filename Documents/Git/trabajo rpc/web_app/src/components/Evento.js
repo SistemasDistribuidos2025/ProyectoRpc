@@ -26,6 +26,12 @@ const Evento = ({ usuarioLogueado }) => {
   const [nuevaDescripcion, setNuevaDescripcion] = useState("");
   const [nuevaFechaHora, setNuevaFechaHora] = useState("");
 
+  const [editandoEvento, setEditandoEvento] = useState(null);
+  const [editNombre, setEditNombre] = useState("");
+  const [editDescripcion, setEditDescripcion] = useState("");
+  const [editFecha, setEditFecha] = useState("");
+
+
   useEffect(() => {
     cargarDatos();
   }, []);
@@ -67,22 +73,23 @@ const Evento = ({ usuarioLogueado }) => {
     }
   };
 
-  const handleModificarEvento = async (evento) => {
-    if (!evento.id) return;
-    try {
-      await modificarEvento({
-        id: evento.id,
-        nombreEvento: nuevoNombre || evento.nombreEvento,
-        descripcion: nuevaDescripcion || evento.descripcion,
-        fechaHoraEvento: nuevaFechaHora || evento.fechaHoraEvento
-      });
-      await cargarDatos();
-      alert("✏️ Evento modificado!");
-    } catch (err) {
-      console.error(err);
-      alert("❌ Error modificando evento");
-    }
-  };
+  const handleGuardarCambios = async (evento) => {
+  try {
+    await modificarEvento({
+      id: evento.id,
+      nombreEvento: editNombre,
+      descripcion: editDescripcion,
+      fechaHoraEvento: `${editFecha}:00`,
+    });
+    await cargarDatos();
+    alert("✅ Evento actualizado");
+    setEditandoEvento(null);
+  } catch (err) {
+    console.error(err);
+    alert("❌ Error actualizando evento");
+  }
+};
+
 
   const handleEliminarEvento = async (eventoId) => {
     try {
@@ -200,6 +207,12 @@ const handleRegistrarDonacion = async (evento, item, cantidad) => {
   return new Date(ts);
 };
 
+  const esEventoPasado = (evento) => {
+    const fechaEvento = timestampGrpcToDate(evento.fechahoraevento);
+    return fechaEvento < new Date();
+  };
+
+
   return (
     <div className="evento-card">
       <h2 className="section-title">📅 Gestión de Eventos</h2>
@@ -232,25 +245,66 @@ const handleRegistrarDonacion = async (evento, item, cantidad) => {
             <div className="evento-header">
               <div className="evento-info">
                 <h3 className="evento-nombre">🎉 {e.nombreevento}</h3>
-                  <p className="evento-fecha">🕒 {formatearFecha(e.fechahoraevento)}</p>
+                <p className="evento-fecha">🕒 {formatearFecha(e.fechahoraevento)}</p>
               </div>
-              <div className="evento-buttons">
-                <button onClick={() => handleModificarEvento(e)}>✏️ Modificar</button>
-                <button onClick={() => handleEliminarEvento(e.id)}>🗑️ Eliminar</button>
+              <div className="evento-btn">
+                {editandoEvento === e.id ? (
+                  <>
+                    <button onClick={() => handleGuardarCambios(e)}>💾 Guardar</button>
+                    <button onClick={() => setEditandoEvento(null)}>❌ Cancelar</button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => {
+                      setEditandoEvento(e.id);
+                      setEditNombre(e.nombreevento);
+                      setEditDescripcion(e.descripcion);
+                      setEditFecha(e.fechahoraevento?.seconds
+                        ? new Date(e.fechahoraevento.seconds * 1000).toISOString().slice(0,16)
+                        : e.fechahoraevento);
+                    }}>
+                      ✏️ Modificar
+                    </button>
+                    <button onClick={() => handleEliminarEvento(e.id)}>🗑️ Eliminar</button>
+                  </>
+                )}
               </div>
             </div>
 
-            <p className="evento-desc">{e.descripcion}</p>
+            {editandoEvento === e.id ? (
+              <div className="editar-evento-form">
+                <input
+                  value={editNombre}
+                  onChange={(ev) => setEditNombre(ev.target.value)}
+                  placeholder="Nuevo nombre"
+                />
+                <input
+                  value={editDescripcion}
+                  onChange={(ev) => setEditDescripcion(ev.target.value)}
+                  placeholder="Nueva descripción"
+                />
+                <input
+                  type="datetime-local"
+                  value={editFecha}
+                  onChange={(ev) => setEditFecha(ev.target.value)}
+                />
+              </div>
+            ) : (
+              <p className="evento-desc">{e.descripcion}</p>
+            )}
 
             {e.participanteseventoList?.length > 0 && (
               <ul className="participantes-list">
-                 {e.participanteseventoList.map((p) => (
-                   <li key={p.id}>👤 {p.nombre} {p.apellido}</li>
+                <h4>Participantes</h4>
+                {e.participanteseventoList.map((p) => (
+                  <li key={p.id}>👤 {p.nombre} {p.apellido}, {p.rol}</li>
                 ))}
               </ul>
             )}
+            
 
             {/* Asignar/Quitar Participantes */}
+            {!esEventoPasado(e) && (
             <div className="evento-actions">
               <select
                 onChange={(ev) =>
@@ -268,31 +322,34 @@ const handleRegistrarDonacion = async (evento, item, cantidad) => {
               <button onClick={() => handleAsignarParticipante(e, selectedUsuario)}>➕ Asignar</button>
               <button onClick={() => handleQuitarParticipante(e, selectedUsuario)}>➖ Quitar</button>
             </div>
+)}
 
             {/* Registrar donación */}
-            <div className="donacion-form">
-              <select
-                onChange={(ev) =>
-                  setSelectedItem(inventario.find(i => i.id === parseInt(ev.target.value)))
-                }
-                defaultValue=""
-              >
-                <option value="" disabled>Seleccionar item</option>
-                {inventario.map((i) => (
-                  <option key={i.id} value={i.id}>
-                    {i.descripcion} ({i.cantidad} disponibles)
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                min="1"
-                value={cantidadDonacion}
-                onChange={(e) => setCantidadDonacion(parseInt(e.target.value))}
-                placeholder="Cantidad"
-              />
-              <button onClick={() => handleRegistrarDonacion(e, selectedItem, cantidadDonacion)}>💝 Donar</button>
-            </div>
+            {esEventoPasado(e) && (
+              <div className="donacion-form">
+                <select
+                  onChange={(ev) =>
+                    setSelectedItem(inventario.find(i => i.id === parseInt(ev.target.value)))
+                  }
+                  defaultValue=""
+                >
+                  <option value="" disabled>Seleccionar item</option>
+                  {inventario.map((i) => (
+                    <option key={i.id} value={i.id}>
+                      {i.descripcion} ({i.cantidad} disponibles)
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="number"
+                  min="1"
+                  value={cantidadDonacion}
+                  onChange={(e) => setCantidadDonacion(parseInt(e.target.value))}
+                  placeholder="Cantidad"
+                />
+                <button onClick={() => handleRegistrarDonacion(e, selectedItem, cantidadDonacion)}>💝 Registrar Donación</button>
+              </div>
+            )}
           </li>
         ))}
       </ul>

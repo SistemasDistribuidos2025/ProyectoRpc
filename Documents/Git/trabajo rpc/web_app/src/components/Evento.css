@@ -8,6 +8,46 @@
   max-width: 700px;
 }
 
+.crear-evento,.donacion-form, .evento-actions, .editar-evento-form{
+    input, select{
+		  padding: 0.6rem;
+      margin: 0.5rem;
+	    border: 1px solid #ccc;
+	    border-radius: 6px;
+	    outline: none;
+	    transition: 0.2s;
+    }
+    button{
+      margin: 0.5rem;
+	    padding: 0.6rem 1.2rem;
+      background-color: #0b3d91;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+    background-color: #092b6b;
+}
+}
+
+.evento-btn button {
+    margin: 0.5rem;
+	  padding: 0.6rem 1.2rem;
+	  background-color: aliceblue;
+    border: 1px solid #0b3d91;
+    color: #0b3d91;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    }
+    button:hover {
+    background-color: #a1c9eb;
+}
+  
+
 /* Títulos */
 .section-title {
   font-size: 1.4rem;
@@ -25,13 +65,14 @@
 }
 
 /* Items */
-.evento-item, .usuario-item {
-  padding: 0.8rem;
-  border-bottom: 1px solid #eee;
-}
-
-.evento-item:last-child, .usuario-item:last-child {
-  border-bottom: none;
+.evento-item {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Evento específico */
@@ -47,17 +88,41 @@
 }
 
 .evento-desc {
-  margin: 0.3rem 0 0.8rem;
-  color: #555;
+  margin-top: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  background-color: #fff;
+  border-left: 4px solid #0b3d91;
+  border-radius: 4px;
+  color: #333;
   font-size: 0.95rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
 }
 
+
 .participantes-list {
-  margin-top: 0.5rem;
-  padding-left: 1.2rem;
-  font-size: 0.9rem;
-  color: #444;
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0 0;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
 }
+
+.participantes-list li {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+.participantes-list li:hover {
+  background-color: #eef3fb;
+}
+
 
 /* Usuario específico */
 .usuario-nombre {
