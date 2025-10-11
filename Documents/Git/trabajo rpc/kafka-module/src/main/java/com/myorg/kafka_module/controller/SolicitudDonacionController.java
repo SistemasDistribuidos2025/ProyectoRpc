@@ -19,4 +19,11 @@ public class SolicitudDonacionController {
         service.enviarSolicitud(solicitud);
         return "Solicitud enviada correctamente";
     }
+
+    @PostMapping("/baja")
+    public String darBajaSolicitud(@RequestBody SolicitudDonacionDTO baja) {
+        service.enviarBajaSolicitud(baja);
+        return "Baja de solicitud enviada a Kafka: " + baja.getIdSolicitud();
+    }
 }
+

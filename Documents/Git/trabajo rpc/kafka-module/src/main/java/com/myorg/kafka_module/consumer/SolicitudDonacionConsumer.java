@@ -26,6 +26,23 @@ public class SolicitudDonacionConsumer {
         System.out.println("💾 Solicitud agregada a la lista interna. Total: " + solicitudesRecibidas.size());
     }
 
+    @KafkaListener(topics = "baja-solicitud-donaciones", groupId = "ongs-group")
+    public void procesarBaja(SolicitudDonacionDTO baja) {
+        System.out.println("Baja recibida, Organización: " + baja.getIdOrganizacion() 
+                + ", idSolicitud: " + baja.getIdSolicitud());
+
+        
+        solicitudesRecibidas.removeIf(s ->
+                s.getIdOrganizacion().equals(baja.getIdOrganizacion()) &&
+                s.getIdSolicitud().equals(baja.getIdSolicitud())
+        );
+
+    System.out.println("Solicitud eliminada, total actual: " + solicitudesRecibidas.size());
+    }
+
+
+
+
     // Método para consultar solicitudes recibidas (simula futura integración con front)
     public List<SolicitudDonacionDTO> getSolicitudesRecibidas() {
         return solicitudesRecibidas;

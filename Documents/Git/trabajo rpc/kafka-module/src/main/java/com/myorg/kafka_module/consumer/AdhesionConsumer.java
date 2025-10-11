@@ -13,7 +13,7 @@ public class AdhesionConsumer {
 
     private final List<AdhesionDTO> adhesionesRecibidas = new ArrayList<>();
 
-    @KafkaListener(topics = "adhesion-evento/ONG001", groupId = "grupo_organizacion")
+    @KafkaListener(topics = "adhesion-evento-ONG001", groupId = "grupo_organizacion")
     public void recibirAdhesion(AdhesionDTO adhesion) {
         adhesionesRecibidas.add(adhesion);
         System.out.println("📥 Adhesión recibida: " + adhesion);
