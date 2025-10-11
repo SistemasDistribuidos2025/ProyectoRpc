@@ -26,6 +26,12 @@ public class EventoConsumer {
         }
     }
 
+    @KafkaListener(topics = "baja-evento-solidario", groupId = "grupo-eventos")
+    public void procesarBajaEvento(EventoDTO evento) {
+        System.out.println("Baja recibida de Kafka, Org: " 
+            + evento.getIdOrganizacion() + ", Evento: " + evento.getIdEvento());
+    }
+
     public List<EventoDTO> getEventosExternos() {
         return eventosExternos;
     }
