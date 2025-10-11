@@ -4,6 +4,7 @@ import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
 import jakarta.transaction.Transactional;
 
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.enums.RolUsuario;
 import org.example.ProyectoGrpc.grpc.UsuarioOuterClass;
@@ -12,6 +13,7 @@ import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 
 import java.util.List;
 
+@GrpcService
 public class UsuarioServicioRpc extends UsuarioServiceGrpc.UsuarioServiceImplBase {
 
     private final UsuarioServicio usuarioServicio;

@@ -1,6 +1,7 @@
 package org.example.ProyectoGrpc.grpc;
 
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
 import org.example.ProyectoGrpc.enums.CategoriaDonacion;
 import org.example.ProyectoGrpc.servicio.InventarioDonacionesServicio;
@@ -10,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
+@GrpcService
 @Component // Spring va a manejar la instancia
 public class InventarioDonacionesServicioRpc extends InventarioDonacionesServiceGrpc.InventarioDonacionesServiceImplBase {
 

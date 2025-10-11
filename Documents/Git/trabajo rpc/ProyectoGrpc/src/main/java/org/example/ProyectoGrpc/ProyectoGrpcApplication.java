@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"org.example.ProyectoGrpc", "com.myorg.kafka_module"})
 public class ProyectoGrpcApplication {
 
 	public static void main(String[] args) {

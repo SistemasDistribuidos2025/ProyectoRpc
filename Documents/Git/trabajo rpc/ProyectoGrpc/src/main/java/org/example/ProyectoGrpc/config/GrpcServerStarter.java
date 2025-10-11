@@ -1,5 +1,5 @@
 package org.example.ProyectoGrpc.config;
-
+/*
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.example.ProyectoGrpc.grpc.EventoSolidarioServicioRpc;
@@ -41,4 +41,4 @@ public class GrpcServerStarter {
         System.out.println("Servidor gRPC iniciado en el puerto 9090...");
         server.awaitTermination();
     }
-}
+}*/

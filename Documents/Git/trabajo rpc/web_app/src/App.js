@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Login from "./components/Login";
 import Menu from "./components/Menu";
 import Inventario from "./components/Inventario";
+import PruebaDonaciones from "./components/PruebaDonaciones";
 
 function App() {
   const [usuarioLogueado, setUsuarioLogueado] = useState(null);
@@ -12,7 +13,7 @@ function App() {
         <Login onLoginSuccess={setUsuarioLogueado} />
       ) : (
         <>
-          {/* Menu recibe usuarioLogueado y onLogout */}
+          { /*Menu recibe usuarioLogueado y onLogout*/ }
           <Menu usuarioLogueado={usuarioLogueado} onLogout={() => setUsuarioLogueado(null)} />
         </>
       )}
@@ -21,3 +22,4 @@ function App() {
 }
 
 export default App;
+

@@ -1,0 +1,99 @@
+import React, { useState, useEffect } from "react";
+import { enviarTransferencia } from "../servicios/donacionesCliente";
+import "./Donaciones.css";
+
+const TransferirDonacion = ({ idOrganizacionDonante }) => {
+  const [idSolicitud, setIdSolicitud] = useState("");
+  const [idOrganizacionReceptora, setIdOrganizacionReceptora] = useState("");
+  const [donaciones, setDonaciones] = useState([]);
+  const [categoria, setCategoria] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [cantidad, setCantidad] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  useEffect(() => {
+    console.log("[TransferirDonacion] componente renderizado");
+  }, []);
+
+  const agregarItem = () => {
+    if (categoria && descripcion && cantidad) {
+      const nuevoItem = { categoria, descripcion, cantidad: parseInt(cantidad) };
+      setDonaciones([...donaciones, nuevoItem]);
+      console.log("[TransferirDonacion] item agregado:", nuevoItem);
+      setCategoria(""); setDescripcion(""); setCantidad("");
+    }
+  };
+
+  const enviar = async () => {
+    if (!donaciones.length || !idSolicitud || !idOrganizacionReceptora) return;
+
+    console.log("[TransferirDonacion] enviando transferencia:", {
+      idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones
+    });
+
+    try {
+      const resp = await enviarTransferencia(idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones);
+      console.log("[TransferirDonacion] respuesta del servidor:", resp);
+      setMensaje(resp);
+      setDonaciones([]);
+      setIdSolicitud("");
+      setIdOrganizacionReceptora("");
+    } catch (err) {
+      console.error("[TransferirDonacion] error al enviar transferencia:", err);
+      setMensaje("Error al enviar transferencia");
+    }
+  };
+
+  return (
+    <div className="donacion-container">
+      <h2>Transferir Donaciones</h2>
+      <input
+        type="text"
+        placeholder="ID Solicitud"
+        value={idSolicitud}
+        onChange={e => setIdSolicitud(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="ID Organización Receptora"
+        value={idOrganizacionReceptora}
+        onChange={e => setIdOrganizacionReceptora(e.target.value)}
+      />
+
+      <div className="input-row">
+        <input
+          type="text"
+          placeholder="Categoría"
+          value={categoria}
+          onChange={e => setCategoria(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Descripción"
+          value={descripcion}
+          onChange={e => setDescripcion(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Cantidad"
+          value={cantidad}
+          onChange={e => setCantidad(e.target.value)}
+        />
+        <button onClick={agregarItem}>Agregar</button>
+      </div>
+
+      <ul>
+        {donaciones.map((d, i) => (
+          <li key={i}>{d.categoria} - {d.descripcion} ({d.cantidad})</li>
+        ))}
+      </ul>
+
+      <button onClick={enviar} disabled={!donaciones.length || !idSolicitud || !idOrganizacionReceptora}>
+        Enviar Transferencia
+      </button>
+      {mensaje && <p className="mensaje">{mensaje}</p>}
+    </div>
+  );
+};
+
+export default TransferirDonacion;

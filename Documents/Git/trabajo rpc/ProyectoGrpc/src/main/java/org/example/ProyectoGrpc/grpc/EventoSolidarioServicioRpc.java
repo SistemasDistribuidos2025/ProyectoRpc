@@ -2,6 +2,7 @@ package org.example.ProyectoGrpc.grpc;
 
 import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.grpc.EventoSolidarioServiceGrpc;
@@ -17,6 +18,7 @@ import com.google.protobuf.Timestamp;
 
 import java.time.LocalDateTime;
 
+@GrpcService
 public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.EventoSolidarioServiceImplBase {
 
     private final EventoSolidarioServicio eventoServicio;

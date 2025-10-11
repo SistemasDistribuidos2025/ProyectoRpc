@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Inventario from "./Inventario";
 import Evento from "./Evento";
 import GestionUsuarios from "./GestionUsuarios";
+import SolicitarDonacion from "./solicitarDonacion";
+import OfrecerDonacion from "./OfrecerDonacion";
+import TransferirDonacion from "./TransferirDonacion";
 import "./Menu.css";
 
 function Menu({ usuarioLogueado, onLogout }) {
@@ -34,21 +37,31 @@ function Menu({ usuarioLogueado, onLogout }) {
           )}
 
           {puedeInventario && (
-            <button onClick={() => setVista("inventario")}>
-              Inventario
-            </button>
+            <>
+              <button onClick={() => setVista("inventario")}>Inventario</button>
+              <button onClick={() => setVista("solicitarDonacion")}>
+                Solicitar Donaciones
+              </button>
+              <button onClick={() => setVista("ofrecerDonacion")}>
+                Ofrecer Donaciones
+              </button>
+              <button onClick={() => setVista("transferirDonacion")}>
+                Transferir Donaciones
+              </button>
+            </>
           )}
 
           {puedeEventos && (
-            <button onClick={() => setVista("evento")}>
-              Eventos
-            </button>
+            <button onClick={() => setVista("evento")}>Eventos</button>
           )}
         </div>
 
         <div className="menu-content">
           {vista === "gestionUsuarios" && puedeGestionUsuarios && <GestionUsuarios />}
           {vista === "inventario" && puedeInventario && <Inventario usuarioLogueado={usuarioLogueado} />}
+          {vista === "solicitarDonacion" && puedeInventario && <SolicitarDonacion idOrganizacion={usuarioLogueado.id} />}
+          {vista === "ofrecerDonacion" && puedeInventario && <OfrecerDonacion idOrganizacion={usuarioLogueado.id} />}
+          {vista === "transferirDonacion" && puedeInventario && <TransferirDonacion idOrganizacionDonante={usuarioLogueado.id} />}
           {vista === "evento" && puedeEventos && <Evento usuarioLogueado={usuarioLogueado} />}
           {vista === "menu" && <div>Seleccione una opción</div>}
         </div>

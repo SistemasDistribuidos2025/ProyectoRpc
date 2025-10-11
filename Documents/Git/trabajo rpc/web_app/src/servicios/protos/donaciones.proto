@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package donaciones;
+
+service DonacionesService {
+  rpc EnviarSolicitud(SolicitudDonacionRequest) returns (Respuesta);
+  rpc ListarSolicitudes(Vacio) returns (ListaSolicitudesResponse);
+  rpc EnviarOferta(OfertaDonacionRequest) returns (Respuesta);
+  rpc ListarOfertas(Vacio) returns (ListaOfertasResponse);
+  rpc EnviarTransferencia(TransferenciaDonacionRequest) returns (Respuesta);
+}
+
+message Vacio {}
+
+message Respuesta {
+  string mensaje = 1;
+}
+
+message ItemDonacion {
+  string categoria = 1;
+  string descripcion = 2;
+  int32 cantidad = 3; // opcional según caso
+}
+
+message SolicitudDonacionRequest {
+  string idOrganizacion = 1;
+  string idSolicitud = 2;
+  repeated ItemDonacion donaciones = 3;
+}
+
+message ListaSolicitudesResponse {
+  repeated SolicitudDonacionRequest solicitudes = 1;
+}
+
+message OfertaDonacionRequest {
+  string idOferta = 1;
+  string idOrganizacionDonante = 2;
+  repeated ItemDonacion donaciones = 3;
+}
+
+message ListaOfertasResponse {
+  repeated OfertaDonacionRequest ofertas = 1;
+}
+
+message TransferenciaDonacionRequest {
+  string idSolicitud = 1;
+  string idOrganizacionDonante = 2;
+  string idOrganizacionReceptora = 3;
+  repeated ItemDonacion donaciones = 4;
+}
+
