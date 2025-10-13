@@ -1,5 +1,6 @@
 package org.example.ProyectoGrpc.grpc;
 
+import com.myorg.kafka_module.dto.ItemDonacionDTO;
 import donaciones.DonacionesServiceGrpc;
 import donaciones.Donaciones.*;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -11,6 +12,8 @@ import com.myorg.kafka_module.dto.TransferenciaDonacionDTO;
 import org.example.ProyectoGrpc.servicio.implementacion.DonacionesService;
 
 import io.grpc.stub.StreamObserver;
+
+import java.util.List;
 import java.util.stream.Collectors;
 
 @GrpcService
@@ -26,13 +29,18 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
     // -------------------- SOLICITUDES --------------------
     @Override
     public void enviarSolicitud(SolicitudDonacionRequest request, StreamObserver<Respuesta> responseObserver) {
-        donacionesService.solicitarDonaciones(new SolicitudDonacionDTO(
-                request.getIdOrganizacion(),
-                request.getIdSolicitud(),
-                request.getDonacionesList().stream()
-                        .map(item -> new com.myorg.kafka_module.dto.ItemDonacionDTO(item.getCategoria(), item.getDescripcion()))
-                        .collect(Collectors.toList())
-        ));
+        System.out.println("📥 Solicitud recibida en gRPC: " + request.getIdOrganizacion() + ", " + request.getIdSolicitud());
+        List<ItemDonacionDTO> items = request.getDonacionesList().stream()
+                .map(item -> new ItemDonacionDTO(item.getCategoria(), item.getDescripcion()))
+                .collect(Collectors.toList());
+
+        // Crear DTO con todos los campos correctamente
+        SolicitudDonacionDTO solicitudDTO = new SolicitudDonacionDTO();
+        solicitudDTO.setIdOrganizacion(request.getIdOrganizacion());
+        solicitudDTO.setIdSolicitud(request.getIdSolicitud());
+        solicitudDTO.setDonaciones(items);
+
+        donacionesService.solicitarDonaciones(solicitudDTO);
 
         Respuesta respuesta = Respuesta.newBuilder()
                 .setMensaje("✅ Solicitud enviada correctamente")

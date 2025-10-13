@@ -40,6 +40,7 @@ public class DonacionesService {
 
     // Solicitar donaciones
     public void solicitarDonaciones(SolicitudDonacionDTO solicitud) {
+        System.out.println("📤 DTO a enviar a Kafka: " + solicitud);
         solicitudService.enviarSolicitud(solicitud);
     }
 

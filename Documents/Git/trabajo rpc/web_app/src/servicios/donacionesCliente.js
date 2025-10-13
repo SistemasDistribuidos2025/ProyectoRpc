@@ -11,8 +11,8 @@ export const enviarSolicitud = async (idOrganizacion, idSolicitud, donaciones) =
   console.log("[enviarSolicitud] Llamado con:", { idOrganizacion, idSolicitud, donaciones });
 
   const request = new messages.SolicitudDonacionRequest();
-  request.setIdorganizacion(idOrganizacion);
-  request.setIdsolicitud(idSolicitud);
+  request.setIdorganizacion(String(idOrganizacion));
+  request.setIdsolicitud(String(idSolicitud));
 
   donaciones.forEach((d) => {
     const item = new messages.ItemDonacion();
@@ -61,8 +61,8 @@ export const enviarOferta = async (idOferta, idOrganizacionDonante, donaciones) 
   console.log("[enviarOferta] Llamado con:", { idOferta, idOrganizacionDonante, donaciones });
 
   const request = new messages.OfertaDonacionRequest();
-  request.setIdoferta(idOferta);
-  request.setIdorganizaciondonante(idOrganizacionDonante);
+  request.setIdoferta(String(StringidOferta));
+  request.setIdorganizaciondonante(String(StringidOrganizacionDonante));
 
   donaciones.forEach((d) => {
     const item = new messages.ItemDonacion();
@@ -116,9 +116,9 @@ export const enviarTransferencia = async (
   console.log("[enviarTransferencia] Llamado con:", { idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones });
 
   const request = new messages.TransferenciaDonacionRequest();
-  request.setIdsolicitud(idSolicitud);
-  request.setIdorganizaciondonante(idOrganizacionDonante);
-  request.setIdorganizacionreceptora(idOrganizacionReceptora);
+  request.setIdsolicitud(idSolicitud.toString());
+  request.setIdorganizaciondonante(idOrganizacionDonante.toString());
+  request.setIdorganizacionreceptora(idOrganizacionReceptora.toString());
 
   donaciones.forEach((d) => {
     const item = new messages.ItemDonacion();
