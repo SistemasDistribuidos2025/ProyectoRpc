@@ -61,8 +61,8 @@ export const enviarOferta = async (idOferta, idOrganizacionDonante, donaciones) 
   console.log("[enviarOferta] Llamado con:", { idOferta, idOrganizacionDonante, donaciones });
 
   const request = new messages.OfertaDonacionRequest();
-  request.setIdoferta(String(StringidOferta));
-  request.setIdorganizaciondonante(String(StringidOrganizacionDonante));
+  request.setIdoferta(String(idOferta));
+request.setIdorganizaciondonante(String(idOrganizacionDonante));
 
   donaciones.forEach((d) => {
     const item = new messages.ItemDonacion();
