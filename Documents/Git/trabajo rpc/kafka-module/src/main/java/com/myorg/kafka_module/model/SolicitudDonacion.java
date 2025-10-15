@@ -14,7 +14,7 @@ public class SolicitudDonacion {
     private Long idSolicitud;
 
 
-    private List<ItemDonacion> donaciones;
+    private List<ItemDonacionK> donaciones;
 
 
     public Long getIdOrganizacion() {
@@ -33,15 +33,15 @@ public class SolicitudDonacion {
         this.idSolicitud = idSolicitud;
     }
 
-    public List<ItemDonacion> getDonaciones() {
+    public List<ItemDonacionK> getDonaciones() {
         return donaciones;
     }
 
-    public void setDonaciones(List<ItemDonacion> donaciones) {
+    public void setDonaciones(List<ItemDonacionK> donaciones) {
         this.donaciones = donaciones;
     }
 
-    public SolicitudDonacion(Long idOrganizacion, Long idSolicitud, List<ItemDonacion> donaciones) {
+    public SolicitudDonacion(Long idOrganizacion, Long idSolicitud, List<ItemDonacionK> donaciones) {
         this.idOrganizacion = idOrganizacion;
         this.idSolicitud = idSolicitud;
         this.donaciones = donaciones;

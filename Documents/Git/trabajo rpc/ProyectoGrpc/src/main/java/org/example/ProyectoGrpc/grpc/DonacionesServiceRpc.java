@@ -1,5 +1,6 @@
 package org.example.ProyectoGrpc.grpc;
 
+import com.myorg.kafka_module.dto.BajaSolicitudDTO;
 import com.myorg.kafka_module.dto.ItemDonacionDTO;
 import donaciones.DonacionesServiceGrpc;
 import donaciones.Donaciones.*;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
 import com.myorg.kafka_module.dto.OfertaDonacionDTO;
 import com.myorg.kafka_module.dto.TransferenciaDonacionDTO;
+import com.myorg.kafka_module.model.ItemDonacionK;
+
 import org.example.ProyectoGrpc.servicio.implementacion.DonacionesService;
 
 import io.grpc.stub.StreamObserver;
@@ -135,4 +138,25 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
         responseObserver.onNext(respuesta);
         responseObserver.onCompleted();
     }
+
+    // -------------------- BAJA DE SOLICITUD --------------------
+        // Dar de baja solicitud
+    @Override
+        public void bajaSolicitud(BajaSolicitudRequest request, StreamObserver<Respuesta> responseObserver) {
+        boolean bajaExitosa = donacionesService.darBajaSolicitud(
+        request.getIdOrganizacion(),
+        request.getIdSolicitud()
+        );
+
+        Respuesta.Builder respuesta = Respuesta.newBuilder();
+        if (bajaExitosa) {
+                respuesta.setMensaje("✅ Solicitud dada de baja correctamente");
+        } else {
+                respuesta.setMensaje("❌ No se encontró la solicitud");
+        }
+
+        responseObserver.onNext(respuesta.build());
+        responseObserver.onCompleted();
+        }
+
 }

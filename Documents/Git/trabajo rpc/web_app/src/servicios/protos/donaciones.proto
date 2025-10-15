@@ -2,12 +2,22 @@ syntax = "proto3";
 
 package donaciones;
 
+
 service DonacionesService {
   rpc EnviarSolicitud(SolicitudDonacionRequest) returns (Respuesta);
   rpc ListarSolicitudes(Vacio) returns (ListaSolicitudesResponse);
   rpc EnviarOferta(OfertaDonacionRequest) returns (Respuesta);
   rpc ListarOfertas(Vacio) returns (ListaOfertasResponse);
   rpc EnviarTransferencia(TransferenciaDonacionRequest) returns (Respuesta);
+  rpc BajaSolicitud(BajaSolicitudRequest) returns (Respuesta);
+}
+
+
+service EventosService {
+  rpc PublicarEvento(EventoRequest) returns (Respuesta);
+  rpc BajaEvento(BajaEventoRequest) returns (Respuesta);
+  rpc NotificarAdhesion(AdhesionRequest) returns (Respuesta);
+  rpc ListarEventosExternos(Vacio) returns (ListaEventosResponse);
 }
 
 message Vacio {}
@@ -19,7 +29,7 @@ message Respuesta {
 message ItemDonacion {
   string categoria = 1;
   string descripcion = 2;
-  int32 cantidad = 3; // opcional según caso
+  int32 cantidad = 3;
 }
 
 message SolicitudDonacionRequest {
@@ -49,3 +59,38 @@ message TransferenciaDonacionRequest {
   repeated ItemDonacion donaciones = 4;
 }
 
+message BajaSolicitudRequest {
+  string idOrganizacion = 1;
+  string idSolicitud = 2;
+}
+
+message EventoRequest {
+  string idOrganizacion = 1;
+  string idEvento = 2;
+  string nombre = 3;
+  string descripcion = 4;
+  string fechaHora = 5; 
+}
+
+message BajaEventoRequest {
+  string idOrganizacion = 1;
+  string idEvento = 2;
+}
+
+message ListaEventosResponse {
+  repeated EventoRequest eventos = 1;
+}
+
+message AdhesionRequest {
+  string idEvento = 1;
+  string idOrganizacion = 2;
+  Voluntario voluntario = 3;
+}
+
+message Voluntario {
+  string idVoluntario = 1;
+  string nombre = 2;
+  string apellido = 3;
+  string telefono = 4;
+  string email = 5;
+}

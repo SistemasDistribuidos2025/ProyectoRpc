@@ -7,6 +7,7 @@ import {
   enviarTransferencia
 } from "../servicios/donacionesCliente";
 
+
 export default function PruebaDonaciones() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [ofertas, setOfertas] = useState([]);

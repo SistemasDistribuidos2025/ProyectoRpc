@@ -1,9 +1,7 @@
 import * as grpcDonaciones from "./donaciones_grpc_web_pb";
 import * as messages from "./donaciones_pb";
 
-const host = "http://localhost:8081"; // o el puerto que use tu proxy de gRPC-Web al envoy
-
-// ✅ El nombre correcto del cliente es DonacionesServiceClient
+const host = "http://localhost:8081"; 
 const client = new grpcDonaciones.DonacionesServiceClient(host);
 
 // -------------------- SOLICITUDES --------------------
@@ -135,6 +133,24 @@ export const enviarTransferencia = async (
         reject(err);
       } else {
         console.log("[enviarTransferencia] Respuesta del servidor:", response.getMensaje());
+        resolve(response.getMensaje());
+      }
+    });
+  });
+};
+
+export const darBajaSolicitud = async (idOrganizacion, idSolicitud) => {
+  const request = new messages.BajaSolicitudRequest(); 
+  request.setIdorganizacion(idOrganizacion);
+  request.setIdsolicitud(idSolicitud);
+
+  return new Promise((resolve, reject) => {
+    client.bajaSolicitud(request, {}, (err, response) => {
+      if (err) {
+        console.error("[bajaSolicitud] Error:", err);
+        reject(err);
+      } else {
+        console.log("[bajaSolicitud] Respuesta del servidor:", response.getMensaje());
         resolve(response.getMensaje());
       }
     });

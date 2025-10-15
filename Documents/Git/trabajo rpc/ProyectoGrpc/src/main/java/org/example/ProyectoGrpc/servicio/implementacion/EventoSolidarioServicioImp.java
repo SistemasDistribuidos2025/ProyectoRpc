@@ -27,10 +27,7 @@ public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
     private final DonacionesEventoDao donacionesEventoDao;
     private final UsuarioDao usuarioDao;
 
-    public EventoSolidarioServicioImp(EventoSolidarioDao eventoDao,
-                                      InventarioDonacionesDao inventarioDao,
-                                      DonacionesEventoDao donacionesEventoDao,
-                                      UsuarioDao usuarioDao) {
+    public EventoSolidarioServicioImp(EventoSolidarioDao eventoDao, InventarioDonacionesDao inventarioDao, DonacionesEventoDao donacionesEventoDao, UsuarioDao usuarioDao) {
         this.eventoDao = eventoDao;
         this.inventarioDao = inventarioDao;
         this.donacionesEventoDao = donacionesEventoDao;
@@ -54,8 +51,7 @@ public class EventoSolidarioServicioImp implements EventoSolidarioServicio {
 
     @Override
     @Transactional
-    public EventoSolidario modificarEvento(Long id, String nombre, String descripcion,
-                                           LocalDateTime fechaHora, Set<Usuario> participantes) {
+    public EventoSolidario modificarEvento(Long id, String nombre, String descripcion, LocalDateTime fechaHora, Set<Usuario> participantes) {
         EventoSolidario evento = eventoDao.buscarPorId(id);
         if (evento == null) return null;
 

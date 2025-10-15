@@ -41,4 +41,6 @@ public class DonacionesEventoDaoImp implements DonacionesEventoDao {
     public void eliminar(DonacionesEvento donacion) {
         em.remove(em.contains(donacion) ? donacion : em.merge(donacion));
     }
+
+    
 }

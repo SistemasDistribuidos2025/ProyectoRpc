@@ -61,7 +61,7 @@ const OfrecerDonacion = ({ idOrganizacion }) => {
           value={cantidad}
           onChange={e => setCantidad(e.target.value)}
         />
-        <button onClick={agregarItem}>Agregar</button>
+        <button className="donacion-btn" onClick={agregarItem}>Agregar</button>
       </div>
 
       <ul>
@@ -70,7 +70,7 @@ const OfrecerDonacion = ({ idOrganizacion }) => {
         ))}
       </ul>
 
-      <button onClick={enviar} disabled={!donaciones.length}>Enviar Oferta</button>
+      <button className="donacion-btn" onClick={enviar} disabled={!donaciones.length}>Enviar Oferta</button>
       {mensaje && <p className="mensaje">{mensaje}</p>}
     </div>
   );

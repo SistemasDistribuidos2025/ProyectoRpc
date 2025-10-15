@@ -79,7 +79,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
           value={cantidad}
           onChange={e => setCantidad(e.target.value)}
         />
-        <button onClick={agregarItem}>Agregar</button>
+        <button className="donacion-btn" onClick={agregarItem}>Agregar</button>
       </div>
 
       <ul>
@@ -88,7 +88,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
         ))}
       </ul>
 
-      <button onClick={enviar} disabled={!donaciones.length || !idSolicitud || !idOrganizacionReceptora}>
+      <button className="donacion-btn" onClick={enviar} disabled={!donaciones.length || !idSolicitud || !idOrganizacionReceptora}>
         Enviar Transferencia
       </button>
       {mensaje && <p className="mensaje">{mensaje}</p>}

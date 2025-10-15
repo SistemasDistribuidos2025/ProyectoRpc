@@ -3,7 +3,7 @@ package com.myorg.kafka_module.model;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ItemDonacion {
+public class ItemDonacionK {
 
 
     private String categoria;
@@ -28,10 +28,10 @@ public class ItemDonacion {
         this.descripcion = descripcion;
     }
 
-    public ItemDonacion(String categoria, String descripcion) {
+    public ItemDonacionK(String categoria, String descripcion) {
         this.categoria = categoria;
         this.descripcion = descripcion;
     }
 
-    public ItemDonacion(){}
+    public ItemDonacionK(){}
 }

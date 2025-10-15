@@ -1,5 +1,6 @@
 package com.myorg.kafka_module.consumer;
 
+import com.myorg.kafka_module.dto.BajaSolicitudDTO;
 import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -27,18 +28,18 @@ public class SolicitudDonacionConsumer {
     }
 
     @KafkaListener(topics = "baja-solicitud-donaciones", groupId = "ongs-group")
-    public void procesarBaja(SolicitudDonacionDTO baja) {
-        System.out.println("Baja recibida, Organización: " + baja.getIdOrganizacion() 
-                + ", idSolicitud: " + baja.getIdSolicitud());
+    public void procesarBaja(BajaSolicitudDTO baja) {
+        System.out.println("Baja recibida, Organización: " + baja.getIdOrganizacionBaja() 
+                + ", idSolicitud: " + baja.getIdSolicitudBaja());
 
-        
         solicitudesRecibidas.removeIf(s ->
-                s.getIdOrganizacion().equals(baja.getIdOrganizacion()) &&
-                s.getIdSolicitud().equals(baja.getIdSolicitud())
+                s.getIdOrganizacion().equals(baja.getIdOrganizacionBaja()) &&
+                s.getIdSolicitud().equals(baja.getIdSolicitudBaja())
         );
 
-    System.out.println("Solicitud eliminada, total actual: " + solicitudesRecibidas.size());
+        System.out.println("Solicitud eliminada, total actual: " + solicitudesRecibidas.size());
     }
+
 
 
 
