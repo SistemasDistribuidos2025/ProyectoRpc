@@ -41,9 +41,6 @@ public class SolicitudDonacionConsumer {
     }
 
 
-
-
-
     // Método para consultar solicitudes recibidas (simula futura integración con front)
     public List<SolicitudDonacionDTO> getSolicitudesRecibidas() {
         return solicitudesRecibidas;

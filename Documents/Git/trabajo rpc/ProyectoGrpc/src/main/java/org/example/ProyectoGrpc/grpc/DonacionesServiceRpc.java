@@ -54,28 +54,28 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
 
     @Override
     public void listarSolicitudes(Vacio request, StreamObserver<ListaSolicitudesResponse> responseObserver) {
-        ListaSolicitudesResponse.Builder builder = ListaSolicitudesResponse.newBuilder();
+    ListaSolicitudesResponse.Builder builder = ListaSolicitudesResponse.newBuilder();
 
-        donacionesService.obtenerSolicitudesRecibidas().forEach(solicitud -> {
-            SolicitudDonacionRequest.Builder solicitudProto = SolicitudDonacionRequest.newBuilder()
-                            .setIdOrganizacion(solicitud.getIdOrganizacion())
-                            .setIdSolicitud(solicitud.getIdSolicitud());
+    donacionesService.obtenerSolicitudesExternas().forEach(solicitud -> {
+        SolicitudDonacionRequest.Builder solicitudProto = SolicitudDonacionRequest.newBuilder()
+                .setIdOrganizacion(solicitud.getIdOrganizacion())
+                .setIdSolicitud(solicitud.getIdSolicitud());
 
-            solicitud.getDonaciones().forEach(item ->
-                    solicitudProto.addDonaciones(
-                            ItemDonacion.newBuilder()
-                                    .setCategoria(item.getCategoria())
-                                    .setDescripcion(item.getDescripcion())
-                                    .build()
-                    )
-            );
+        solicitud.getDonaciones().forEach(item ->
+                solicitudProto.addDonaciones(
+                        ItemDonacion.newBuilder()
+                                .setCategoria(item.getCategoria())
+                                .setDescripcion(item.getDescripcion())
+                                .build()
+                )
+        );
 
-            builder.addSolicitudes(solicitudProto.build());
-        });
+        builder.addSolicitudes(solicitudProto.build());
+    });
 
-        responseObserver.onNext(builder.build());
-        responseObserver.onCompleted();
-    }
+    responseObserver.onNext(builder.build());
+    responseObserver.onCompleted();
+}
 
     // -------------------- OFERTAS --------------------
     @Override
@@ -140,7 +140,7 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
     }
 
     // -------------------- BAJA DE SOLICITUD --------------------
-        // Dar de baja solicitud
+    
     @Override
         public void bajaSolicitud(BajaSolicitudRequest request, StreamObserver<Respuesta> responseObserver) {
         boolean bajaExitosa = donacionesService.darBajaSolicitud(

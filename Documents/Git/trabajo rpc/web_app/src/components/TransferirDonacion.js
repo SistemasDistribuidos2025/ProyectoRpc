@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { enviarTransferencia } from "../servicios/donacionesCliente";
+import { enviarTransferencia, listarSolicitudes } from "../servicios/donacionesCliente";
 import "./Donaciones.css";
 
 const TransferirDonacion = ({ idOrganizacionDonante }) => {
@@ -10,10 +10,27 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
   const [descripcion, setDescripcion] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [solicitudesExternas, setSolicitudesExternas] = useState([]);
 
   useEffect(() => {
     console.log("[TransferirDonacion] componente renderizado");
   }, []);
+
+  useEffect(() => {
+      const fetchSolicitudes = async () => {
+        try {
+          const lista = await listarSolicitudes();
+          setSolicitudesExternas(lista);
+        } catch (err) {
+          console.error("Error al listar solicitudes externas:", err);
+        }
+      };
+  
+      fetchSolicitudes();
+      const interval = setInterval(fetchSolicitudes, 5000);
+      return () => clearInterval(interval);
+    }, []);
+  
 
   const agregarItem = () => {
     if (categoria && descripcion && cantidad) {
@@ -92,6 +109,26 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
         Enviar Transferencia
       </button>
       {mensaje && <p className="mensaje">{mensaje}</p>}
+
+
+      <h3>Solicitudes</h3>
+      {solicitudesExternas.length ? (
+        <ul>
+          {solicitudesExternas.map((sol, i) => (
+            <li className="list-solicitudes" key={i}>
+              <strong>{sol.idSolicitud}</strong> — {sol.donaciones.length} ítems
+              <ul>
+                {sol.donaciones.map((d, j) => (
+                  <li className="list-solicitudes" key={j}>{d.categoria} - {d.descripcion} ({d.cantidad || "sin cantidad"})</li>
+                ))}
+              </ul>
+              <button className="donacion-btn" onClick={() => console.log("Transferir esta solicitud:", sol)}>
+                Realizar transferencia
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : <p>No hay solicitudes externas.</p>}
     </div>
   );
 };

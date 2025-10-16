@@ -67,6 +67,10 @@ public class DonacionesService {
     public List<OfertaDonacionDTO> obtenerOfertasRecibidas() {
         return ofertaConsumer.getOfertasRecibidas();
     }
+    public List<SolicitudDonacionDTO> obtenerSolicitudesExternas() {
+        return solicitudConsumer.getSolicitudesRecibidas();
+    }
+    
 
  
     public boolean darBajaSolicitud(String idOrganizacion, String idSolicitud) {

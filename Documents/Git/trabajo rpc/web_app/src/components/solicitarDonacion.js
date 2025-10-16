@@ -107,14 +107,15 @@ const SolicitarDonacion = ({ idOrganizacion }) => {
           {solicitudesEnviadas.map((sol, i) => (
             <li className="list-solicitudes" key={i}>
               <strong>{sol.idSolicitud}</strong> — {sol.donaciones.length} ítems
-              <button className="donacion-btn" onClick={() => bajaSolicitud(sol)}>
-                Dar de baja
-              </button>
+              
               <ul>
                 {sol.donaciones.map((d, j) => (
                   <li className="list-solicitudes" key={j}>{d.categoria} - {d.descripcion}</li>
                 ))}
               </ul>
+              <button className="donacion-btn" onClick={() => bajaSolicitud(sol)}>
+                Dar de baja
+              </button>
             </li>
           ))}
         </ul>

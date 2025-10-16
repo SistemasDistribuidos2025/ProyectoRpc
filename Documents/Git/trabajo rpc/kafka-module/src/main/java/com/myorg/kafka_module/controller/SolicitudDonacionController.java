@@ -2,6 +2,9 @@ package com.myorg.kafka_module.controller;
 
 import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
 import com.myorg.kafka_module.service.SolicitudDonacionService;
+
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +28,11 @@ public class SolicitudDonacionController {
         service.enviarBajaSolicitud(baja);
         return "Baja de solicitud enviada a Kafka: " + baja.getIdSolicitud();
     }
+
+    @GetMapping("/externas")
+        public List<SolicitudDonacionDTO> listarSolicitudesExternas() {
+        return service.obtenerSolicitudesExternas();
+}
+
 }
 
