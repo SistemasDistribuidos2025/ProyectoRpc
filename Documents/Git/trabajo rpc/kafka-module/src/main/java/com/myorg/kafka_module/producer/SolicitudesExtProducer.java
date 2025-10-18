@@ -29,9 +29,10 @@ public class SolicitudesExtProducer {
         String idOrg = "ORG-" + (random.nextInt(5) + 1);
         String idSolicitud = "SOL-" + System.currentTimeMillis();
 
+        int randomNum = random.nextInt(categorias.size());
         ItemDonacionDTO item = new ItemDonacionDTO(
-                categorias.get(random.nextInt(categorias.size())),
-                descripciones.get(random.nextInt(descripciones.size())),
+                categorias.get(randomNum),
+                descripciones.get(randomNum),
                 random.nextInt(10) + 1
         );
 
