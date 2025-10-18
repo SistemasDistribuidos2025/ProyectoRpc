@@ -105,39 +105,19 @@ export const listarOfertas = async () => {
 };
 
 // -------------------- TRANSFERENCIAS --------------------
-export const enviarTransferencia = async (
-  idSolicitud,
-  idOrganizacionDonante,
-  idOrganizacionReceptora,
-  donaciones
-) => {
-  console.log("[enviarTransferencia] Llamado con:", { idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones });
+export async function enviarTransferencia(idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones) {
+  const payload = { idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones };
+  console.log("Enviando transferencia:", payload);
 
-  const request = new messages.TransferenciaDonacionRequest();
-  request.setIdsolicitud(idSolicitud.toString());
-  request.setIdorganizaciondonante(idOrganizacionDonante.toString());
-  request.setIdorganizacionreceptora(idOrganizacionReceptora.toString());
-
-  donaciones.forEach((d) => {
-    const item = new messages.ItemDonacion();
-    item.setCategoria(d.categoria);
-    item.setDescripcion(d.descripcion);
-    if (d.cantidad !== undefined) item.setCantidad(d.cantidad);
-    request.addDonaciones(item);
+  const response = await fetch("http://localhost:8080/transferencias", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
 
-  return new Promise((resolve, reject) => {
-    client.enviarTransferencia(request, {}, (err, response) => {
-      if (err) {
-        console.error("[enviarTransferencia] Error:", err);
-        reject(err);
-      } else {
-        console.log("[enviarTransferencia] Respuesta del servidor:", response.getMensaje());
-        resolve(response.getMensaje());
-      }
-    });
-  });
-};
+  if (!response.ok) throw new Error("Error al enviar transferencia");
+  return await response.text();
+}
 
 export const darBajaSolicitud = async (idOrganizacion, idSolicitud) => {
   const request = new messages.BajaSolicitudRequest(); 

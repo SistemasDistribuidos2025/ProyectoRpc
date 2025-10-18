@@ -34,7 +34,7 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
     public void enviarSolicitud(SolicitudDonacionRequest request, StreamObserver<Respuesta> responseObserver) {
         System.out.println("📥 Solicitud recibida en gRPC: " + request.getIdOrganizacion() + ", " + request.getIdSolicitud());
         List<ItemDonacionDTO> items = request.getDonacionesList().stream()
-                .map(item -> new ItemDonacionDTO(item.getCategoria(), item.getDescripcion()))
+                .map(item -> new ItemDonacionDTO(item.getCategoria(), item.getDescripcion(), item.getCantidad()))
                 .collect(Collectors.toList());
 
         // Crear DTO con todos los campos correctamente
@@ -66,6 +66,7 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
                         ItemDonacion.newBuilder()
                                 .setCategoria(item.getCategoria())
                                 .setDescripcion(item.getDescripcion())
+                                .setCantidad(item.getCantidad())
                                 .build()
                 )
         );
@@ -84,7 +85,7 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
                 request.getIdOferta(),
                 request.getIdOrganizacionDonante(),
                 request.getDonacionesList().stream()
-                        .map(item -> new com.myorg.kafka_module.dto.ItemDonacionDTO(item.getCategoria(), item.getDescripcion()))
+                        .map(item -> new com.myorg.kafka_module.dto.ItemDonacionDTO(item.getCategoria(), item.getDescripcion(), item.getCantidad()))
                         .collect(Collectors.toList())
         ));
 
@@ -109,6 +110,7 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
                             ItemDonacion.newBuilder()
                                     .setCategoria(item.getCategoria())
                                     .setDescripcion(item.getDescripcion())
+                                    .setCantidad(item.getCantidad())
                                     .build()
                     )
             );
@@ -128,7 +130,7 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
                 request.getIdOrganizacionDonante(),
                 request.getIdOrganizacionReceptora(),
                 request.getDonacionesList().stream()
-                        .map(item -> new com.myorg.kafka_module.dto.ItemDonacionDTO(item.getCategoria(), item.getDescripcion()))
+                        .map(item -> new com.myorg.kafka_module.dto.ItemDonacionDTO(item.getCategoria(), item.getDescripcion(), item.getCantidad()))
                         .collect(Collectors.toList())
         ));
 

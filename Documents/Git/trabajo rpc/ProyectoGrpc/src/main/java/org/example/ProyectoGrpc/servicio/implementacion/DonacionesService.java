@@ -11,8 +11,15 @@ import com.myorg.kafka_module.producer.BajaSolicitudProducer;
 import com.myorg.kafka_module.producer.OfertaDonacionProducer;
 import com.myorg.kafka_module.producer.TransferenciaDonacionProducer;
 import com.myorg.kafka_module.service.SolicitudDonacionService;
+
+import jakarta.transaction.Transactional;
+
+import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
+import org.example.ProyectoGrpc.enums.CategoriaDonacion;
+import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,7 +35,9 @@ public class DonacionesService {
     private final TransferenciaDonacionConsumer transferenciaConsumer;
     private final OfertaDonacionConsumer ofertaConsumer;
 
-    public DonacionesService(SolicitudDonacionService solicitudService, TransferenciaDonacionProducer transferenciaProducer, OfertaDonacionProducer ofertaProducer, SolicitudDonacionConsumer solicitudConsumer, TransferenciaDonacionConsumer transferenciaConsumer, OfertaDonacionConsumer ofertaConsumer, BajaSolicitudProducer bajaSolicitudProducer) {
+    private final InventarioDonacionesDao inventarioDao;
+
+    public DonacionesService(SolicitudDonacionService solicitudService, TransferenciaDonacionProducer transferenciaProducer, OfertaDonacionProducer ofertaProducer, SolicitudDonacionConsumer solicitudConsumer, TransferenciaDonacionConsumer transferenciaConsumer, OfertaDonacionConsumer ofertaConsumer, BajaSolicitudProducer bajaSolicitudProducer, InventarioDonacionesDao inventarioDao) {
         this.solicitudService = solicitudService;
         this.transferenciaProducer = transferenciaProducer;
         this.ofertaProducer = ofertaProducer;
@@ -36,6 +45,7 @@ public class DonacionesService {
         this.solicitudConsumer = solicitudConsumer;
         this.transferenciaConsumer = transferenciaConsumer;
         this.ofertaConsumer = ofertaConsumer;
+        this.inventarioDao = inventarioDao;
     }
 
     // Solicitar donaciones
@@ -46,9 +56,47 @@ public class DonacionesService {
     }
 
     // Transferir donaciones
+    @Transactional
     public void transferirDonaciones(TransferenciaDonacionDTO transferencia) {
-        transferenciaProducer.enviarTransferencia(transferencia);
+
+        transferencia.getDonaciones().forEach(item -> {
+            try {
+                var categoria = CategoriaDonacion.valueOf(item.getCategoria().toUpperCase());
+                var descripcion = item.getDescripcion();
+                var cantidadTransferida = item.getCantidad();
+
+                var existente = inventarioDao.buscarPorCategoriaYDescripcion(categoria, descripcion);
+                System.out.println("Buscando inventario con categoria=" + categoria + " y descripcion=" + descripcion);
+
+
+                if (existente != null) {
+                    int cantidadActual = existente.getCantidad();
+                    int nuevaCantidad = cantidadActual - cantidadTransferida;
+
+                    if (nuevaCantidad < 0) {
+                        System.out.println("No hay stock suficiente de '" + descripcion + "', se transfiere toda la cantidad disponible");
+                        nuevaCantidad = 0;
+                    }
+
+                    existente.setCantidad(nuevaCantidad);
+                    existente.setFechaHoraModificacion(LocalDateTime.now());
+                    inventarioDao.actualizar(existente);
+
+                    System.out.println("Actualizado inventario: " + descripcion +
+                            " (" + cantidadActual + " → " + nuevaCantidad + ")");
+                } else {
+                    
+                    System.out.println("No se encontró el item '" + descripcion +
+                            "' en el inventario. No se actualiza cantidad.");
+                }
+            } catch (Exception e) {
+                System.err.println("Error procesando item de transferencia: " + e.getMessage());
+            }
+        });
+
+        System.out.println("Transferencia procesada correctamente.");
     }
+
 
     // Ofrecer donaciones
     public void ofrecerDonaciones(OfertaDonacionDTO oferta) {

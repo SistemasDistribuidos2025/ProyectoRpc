@@ -7,10 +7,17 @@ public class ItemDonacionDTO {
 
 
     private String categoria;
-
-
     private String descripcion;
+    private int cantidad;
 
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
 
     public String getCategoria() {
         return categoria;
@@ -28,9 +35,10 @@ public class ItemDonacionDTO {
         this.descripcion = descripcion;
     }
 
-    public ItemDonacionDTO(String categoria, String descripcion) {
+    public ItemDonacionDTO(String categoria, String descripcion, int cantidad) {
         this.categoria = categoria;
         this.descripcion = descripcion;
+        this.cantidad = cantidad;
     }
 
     public ItemDonacionDTO(){}

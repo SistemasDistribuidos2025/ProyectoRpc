@@ -1,6 +1,7 @@
 package org.example.ProyectoGrpc.servicio;
 
 import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
+import org.example.ProyectoGrpc.enums.CategoriaDonacion;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface InventarioDonacionesServicio {
     InventarioDonaciones buscarPorId(Long id);
 
     List<InventarioDonaciones> listarTodos();
+
+   
 }

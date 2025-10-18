@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
 import org.example.ProyectoGrpc.entidad.Usuario;
+import org.example.ProyectoGrpc.enums.CategoriaDonacion;
 import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
 import org.springframework.stereotype.Repository;
 
@@ -57,8 +58,27 @@ public class InventarioDonacionesDaoImp implements InventarioDonacionesDao {
         }
 
         em.merge(inventario);
-        em.flush(); // 👈 fuerza que se ejecute el UPDATE en la BD
+        em.flush(); //  fuerza que se ejecute el UPDATE en la BD
     }
+
+    @Override
+    public InventarioDonaciones buscarPorCategoriaYDescripcion(CategoriaDonacion categoria, String descripcion) {
+        List<InventarioDonaciones> resultados = em.createQuery(
+                "SELECT i FROM InventarioDonaciones i " +
+                "WHERE i.categoria = :categoria " +
+                "AND i.descripcion = :descripcion " +
+                "AND i.eliminado = false",
+                InventarioDonaciones.class)
+            .setParameter("categoria", categoria)
+            .setParameter("descripcion", descripcion)
+            .getResultList();
+
+        return resultados.isEmpty() ? null : resultados.get(0);
+    }
+
+
+
+
 
 
 }

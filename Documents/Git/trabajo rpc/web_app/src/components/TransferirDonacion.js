@@ -47,19 +47,35 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
     console.log("[TransferirDonacion] enviando transferencia:", {
       idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones
     });
+  };
 
+  const transferirSolicitud = async (solicitud) => {
     try {
-      const resp = await enviarTransferencia(idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones);
-      console.log("[TransferirDonacion] respuesta del servidor:", resp);
-      setMensaje(resp);
-      setDonaciones([]);
-      setIdSolicitud("");
-      setIdOrganizacionReceptora("");
+
+      const transferencia = {
+        idSolicitud: solicitud.idSolicitud,
+        idOrganizacionDonante: idOrganizacionDonante,
+        idOrganizacionReceptora: solicitud.idOrganizacion,
+        donaciones: solicitud.donaciones
+      };
+
+      const resp = await enviarTransferencia(
+        transferencia.idSolicitud,
+        transferencia.idOrganizacionDonante,
+        transferencia.idOrganizacionReceptora,
+        transferencia.donaciones
+      );
+
+      console.log("[TransferirDonacion] Respuesta del backend:", resp);
+      setMensaje(`Transferencia enviada para la solicitud ${solicitud.idSolicitud}`);
     } catch (err) {
-      console.error("[TransferirDonacion] error al enviar transferencia:", err);
-      setMensaje("Error al enviar transferencia");
+      console.error("[TransferirDonacion] Error al enviar transferencia:", err);
+      setMensaje("Error al realizar transferencia");
     }
   };
+    
+
+  
 
   return (
     <div className="donacion-container">
@@ -122,15 +138,17 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
                   <li className="list-solicitudes" key={j}>{d.categoria} - {d.descripcion} ({d.cantidad || "sin cantidad"})</li>
                 ))}
               </ul>
-              <button className="donacion-btn" onClick={() => console.log("Transferir esta solicitud:", sol)}>
+              <button className="donacion-btn" onClick={() => transferirSolicitud(sol)}>
                 Realizar transferencia
               </button>
+
             </li>
           ))}
         </ul>
       ) : <p>No hay solicitudes externas.</p>}
     </div>
   );
-};
+}
+
 
 export default TransferirDonacion;

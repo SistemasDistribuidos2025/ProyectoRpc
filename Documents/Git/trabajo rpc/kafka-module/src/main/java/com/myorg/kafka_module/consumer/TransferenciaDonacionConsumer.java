@@ -2,6 +2,7 @@ package com.myorg.kafka_module.consumer;
 
 import com.myorg.kafka_module.dto.TransferenciaDonacionDTO;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +12,21 @@ public class TransferenciaDonacionConsumer {
 
     private final List<TransferenciaDonacionDTO> transferenciasRecibidas = new ArrayList<>();
 
-    // Escucha transferencias que tengan el id de nuestra organización como parte del topic
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+
+    public TransferenciaDonacionConsumer(KafkaTemplate<String, Object> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
     @KafkaListener(topicPattern = "transferencia-donaciones-.*", groupId = "ongs-group")
     public void procesarTransferencia(TransferenciaDonacionDTO transferencia) {
-        System.out.println("📥 Transferencia recibida para nuestra organización: "
-                + transferencia.getIdOrganizacionReceptora()
-                + ", solicitud: " + transferencia.getIdSolicitud());
 
-        transferenciasRecibidas.add(transferencia);
-        System.out.println("💾 Transferencias totales almacenadas: " + transferenciasRecibidas.size());
+        System.out.println("Transferencia recibida en módulo Kafka: " + transferencia);
 
-        // 🔧 En el futuro: acá actualizaríamos inventarios (sumar o restar cantidades)
+        //Se envia la informacion al topic que esta en el consumer que conecta ambas partes
+        String topicDestino = "actualizacion-inventario";
+        kafkaTemplate.send(topicDestino, transferencia);
+
     }
 
     public List<TransferenciaDonacionDTO> getTransferenciasRecibidas() {

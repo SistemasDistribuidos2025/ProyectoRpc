@@ -96,4 +96,6 @@ public class InventarioDonacionesServicioImp implements InventarioDonacionesServ
     public List<InventarioDonaciones> listarTodos() {
         return inventarioDao.listarTodos();
     }
+
+    
 }
