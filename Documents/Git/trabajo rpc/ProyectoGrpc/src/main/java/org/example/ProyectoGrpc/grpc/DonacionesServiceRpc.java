@@ -1,21 +1,12 @@
 package org.example.ProyectoGrpc.grpc;
 
-import com.myorg.kafka_module.dto.BajaSolicitudDTO;
-import com.myorg.kafka_module.dto.ItemDonacionDTO;
+import com.myorg.kafka_module.dto.*;
 import donaciones.DonacionesServiceGrpc;
 import donaciones.Donaciones.*;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
-import com.myorg.kafka_module.dto.OfertaDonacionDTO;
-import com.myorg.kafka_module.dto.TransferenciaDonacionDTO;
-import com.myorg.kafka_module.model.ItemDonacionK;
-
 import org.example.ProyectoGrpc.servicio.implementacion.DonacionesService;
-
 import io.grpc.stub.StreamObserver;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +24,9 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
     @Override
     public void enviarSolicitud(SolicitudDonacionRequest request, StreamObserver<Respuesta> responseObserver) {
         System.out.println("📥 Solicitud recibida en gRPC: " + request.getIdOrganizacion() + ", " + request.getIdSolicitud());
-        List<ItemDonacionDTO> items = request.getDonacionesList().stream()
-                .map(item -> new ItemDonacionDTO(item.getCategoria(), item.getDescripcion(), item.getCantidad()))
+
+        List<ItemSolicitudDTO> items = request.getDonacionesList().stream()
+                .map(item -> new ItemSolicitudDTO(item.getCategoria(), item.getDescripcion()))
                 .collect(Collectors.toList());
 
         // Crear DTO con todos los campos correctamente
@@ -63,10 +55,9 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
 
         solicitud.getDonaciones().forEach(item ->
                 solicitudProto.addDonaciones(
-                        ItemDonacion.newBuilder()
+                        ItemSolicitud.newBuilder()
                                 .setCategoria(item.getCategoria())
                                 .setDescripcion(item.getDescripcion())
-                                .setCantidad(item.getCantidad())
                                 .build()
                 )
         );
@@ -123,8 +114,9 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
     }
 
     // -------------------- TRANSFERENCIAS --------------------
-    @Override
+  /*  @Override
     public void enviarTransferencia(TransferenciaDonacionRequest request, StreamObserver<Respuesta> responseObserver) {
+
         donacionesService.transferirDonaciones(new TransferenciaDonacionDTO(
                 request.getIdSolicitud(),
                 request.getIdOrganizacionDonante(),
@@ -133,6 +125,28 @@ public class DonacionesServiceRpc extends DonacionesServiceGrpc.DonacionesServic
                         .map(item -> new com.myorg.kafka_module.dto.ItemDonacionDTO(item.getCategoria(), item.getDescripcion(), item.getCantidad()))
                         .collect(Collectors.toList())
         ));
+
+        Respuesta respuesta = Respuesta.newBuilder()
+                .setMensaje("✅ Transferencia enviada correctamente")
+                .build();
+        responseObserver.onNext(respuesta);
+        responseObserver.onCompleted();
+    }*/
+
+    @Override
+    public void enviarTransferencia(TransferenciaDonacionRequest request, StreamObserver<Respuesta> responseObserver) {
+        List<ItemDonacionDTO> items = request.getDonacionesList().stream()
+                .map(item -> new ItemDonacionDTO(item.getCategoria(), item.getDescripcion(), item.getCantidad()))
+                .collect(Collectors.toList());
+
+        TransferenciaDonacionDTO transferenciaDTO = new TransferenciaDonacionDTO(
+                request.getIdSolicitud(),
+                request.getIdOrganizacionDonante(),
+                request.getIdOrganizacionReceptora(),
+                items
+        );
+
+        donacionesService.transferirDonaciones(transferenciaDTO);
 
         Respuesta respuesta = Respuesta.newBuilder()
                 .setMensaje("✅ Transferencia enviada correctamente")

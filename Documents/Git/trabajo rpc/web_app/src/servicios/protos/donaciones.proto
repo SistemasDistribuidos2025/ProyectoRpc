@@ -26,6 +26,11 @@ message Respuesta {
   string mensaje = 1;
 }
 
+message ItemSolicitud {
+  string categoria = 1;
+  string descripcion = 2;
+}
+
 message ItemDonacion {
   string categoria = 1;
   string descripcion = 2;
@@ -35,7 +40,7 @@ message ItemDonacion {
 message SolicitudDonacionRequest {
   string idOrganizacion = 1;
   string idSolicitud = 2;
-  repeated ItemDonacion donaciones = 3;
+  repeated ItemSolicitud donaciones = 3;
 }
 
 message ListaSolicitudesResponse {

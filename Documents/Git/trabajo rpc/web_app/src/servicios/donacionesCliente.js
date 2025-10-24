@@ -43,10 +43,10 @@ export const listarSolicitudes = async () => {
           response.getSolicitudesList().map((s) => ({
             idOrganizacion: s.getIdorganizacion(),
             idSolicitud: s.getIdsolicitud(),
-            donaciones: s.getDonacionesList().map((d) => ({
-              categoria: d.getCategoria(),
-              descripcion: d.getDescripcion(),
-              cantidad: d.getCantidad(),
+            donaciones: (s.getDonacionesList() || []).map((d) => ({
+              categoria: d.getCategoria ? d.getCategoria() : d.categoria || "",
+              descripcion: d.getDescripcion ? d.getDescripcion() : d.descripcion || "",
+              cantidad: d.getCantidad ? d.getCantidad() : d.cantidad || 0,
             })),
           }))
         );
@@ -60,7 +60,7 @@ export const enviarOferta = async (idOferta, idOrganizacionDonante, donaciones) 
 
   const request = new messages.OfertaDonacionRequest();
   request.setIdoferta(String(idOferta));
-request.setIdorganizaciondonante(String(idOrganizacionDonante));
+  request.setIdorganizaciondonante(String(idOrganizacionDonante));
 
   donaciones.forEach((d) => {
     const item = new messages.ItemDonacion();
@@ -93,10 +93,10 @@ export const listarOfertas = async () => {
           response.getOfertasList().map((o) => ({
             idOferta: o.getIdoferta(),
             idOrganizacionDonante: o.getIdorganizaciondonante(),
-            donaciones: o.getDonacionesList().map((d) => ({
-              categoria: d.getCategoria(),
-              descripcion: d.getDescripcion(),
-              cantidad: d.getCantidad(),
+            donaciones: (o.getDonacionesList() || []).map((d) => ({
+              categoria: d.getCategoria ? d.getCategoria() : d.categoria || "",
+              descripcion: d.getDescripcion ? d.getDescripcion() : d.descripcion || "",
+              cantidad: d.getCantidad ? d.getCantidad() : d.cantidad || 0,
             })),
           }))
         );
@@ -106,7 +106,13 @@ export const listarOfertas = async () => {
 
 // -------------------- TRANSFERENCIAS --------------------
 export async function enviarTransferencia(idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones) {
-  const payload = { idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones };
+  const donacionesConCantidad = (donaciones || []).map(d => ({
+    categoria: d.categoria,
+    descripcion: d.descripcion,
+    cantidad: d.cantidad || 0
+  }));
+
+  const payload = { idSolicitud, idOrganizacionDonante, idOrganizacionReceptora, donaciones: donacionesConCantidad };
   console.log("Enviando transferencia:", payload);
 
   const response = await fetch("http://localhost:8080/transferencias", {
@@ -119,6 +125,7 @@ export async function enviarTransferencia(idSolicitud, idOrganizacionDonante, id
   return await response.text();
 }
 
+// -------------------- BAJA SOLICITUD --------------------
 export const darBajaSolicitud = async (idOrganizacion, idSolicitud) => {
   const request = new messages.BajaSolicitudRequest(); 
   request.setIdorganizacion(idOrganizacion);
@@ -136,5 +143,3 @@ export const darBajaSolicitud = async (idOrganizacion, idSolicitud) => {
     });
   });
 };
-
-

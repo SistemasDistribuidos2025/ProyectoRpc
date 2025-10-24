@@ -1,21 +1,11 @@
 package com.myorg.kafka_module.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
-public class SolicitudDonacionDTO {
-
-
+public class SolicitudDonacionAutomaticoDTO {
     private String idOrganizacion;
-
-
     private String idSolicitud;
-
-
-    private List<ItemSolicitudDTO> donaciones;
-
+    private List<ItemDonacionDTO> donaciones;
 
     public String getIdOrganizacion() {
         return idOrganizacion;
@@ -33,19 +23,19 @@ public class SolicitudDonacionDTO {
         this.idSolicitud = idSolicitud;
     }
 
-    public List<ItemSolicitudDTO> getDonaciones() {
+    public List<ItemDonacionDTO> getDonaciones() {
         return donaciones;
     }
 
-    public void setDonaciones(List<ItemSolicitudDTO> donaciones) {
+    public void setDonaciones(List<ItemDonacionDTO> donaciones) {
         this.donaciones = donaciones;
     }
 
-    public SolicitudDonacionDTO(String idOrganizacion, String idSolicitud, List<ItemSolicitudDTO> donaciones) {
+    public SolicitudDonacionAutomaticoDTO(String idOrganizacion, String idSolicitud, List<ItemDonacionDTO> donaciones) {
         this.idOrganizacion = idOrganizacion;
         this.idSolicitud = idSolicitud;
         this.donaciones = donaciones;
     }
 
-    public SolicitudDonacionDTO(){}
+    public SolicitudDonacionAutomaticoDTO(){}
 }

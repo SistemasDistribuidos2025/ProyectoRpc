@@ -2,13 +2,12 @@ package com.myorg.kafka_module.producer;
 
 import java.util.List;
 import java.util.Random;
-
+import com.myorg.kafka_module.dto.ItemDonacionDTO;
+import com.myorg.kafka_module.dto.SolicitudDonacionAutomaticoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import com.myorg.kafka_module.dto.ItemDonacionDTO;
 import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
 
 @Component
@@ -29,14 +28,15 @@ public class SolicitudesExtProducer {
         String idOrg = "ORG-" + (random.nextInt(5) + 1);
         String idSolicitud = "SOL-" + System.currentTimeMillis();
 
+        int cantidadRandom = random.nextInt(10) + 1; // 1 a 10 unidades
         int randomNum = random.nextInt(categorias.size());
         ItemDonacionDTO item = new ItemDonacionDTO(
                 categorias.get(randomNum),
                 descripciones.get(randomNum),
-                random.nextInt(10) + 1
+                cantidadRandom
         );
 
-        SolicitudDonacionDTO dto = new SolicitudDonacionDTO();
+        SolicitudDonacionAutomaticoDTO dto = new SolicitudDonacionAutomaticoDTO();
         dto.setIdOrganizacion(idOrg);
         dto.setIdSolicitud(idSolicitud);
         dto.setDonaciones(List.of(item));

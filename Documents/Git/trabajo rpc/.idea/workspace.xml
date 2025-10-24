@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aa26ee80-19a3-40a7-bdf8-6cf64b2c9c24" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/ProyectoGrpcApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/ProyectoGrpcApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/GrpcServerStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/GrpcServerStarter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/PasswordUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/PasswordUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/PrimerUsuarioLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/config/PrimerUsuarioLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/DonacionesEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/DonacionesEvento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/EventoSolidario.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/EventoSolidario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/InventarioDonaciones.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/InventarioDonaciones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/entidad/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/enums/CategoriaDonacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/enums/CategoriaDonacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/enums/RolUsuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/enums/RolUsuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/DonacionesServiceRpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/DonacionesServiceRpc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/EventoSolidarioServicioRpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/EventoSolidarioServicioRpc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/InventarioDonacionesServicioRpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/InventarioDonacionesServicioRpc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/UsuarioServicioRpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/grpc/UsuarioServicioRpc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/DonacionesEventoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/DonacionesEventoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/EventoSolidarioDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/EventoSolidarioDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/InventarioDonacionesDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/InventarioDonacionesDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/UsuarioDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/UsuarioDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/DonacionesEventoDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/DonacionesEventoDaoImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/EventoSolidarioDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/EventoSolidarioDaoImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/InventarioDonacionesDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/InventarioDonacionesDaoImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/UsuarioDaoImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/repositorioDao/implementacionDao/UsuarioDaoImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/EventoSolidarioServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/EventoSolidarioServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/InventarioDonacionesServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/InventarioDonacionesServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/UsuarioServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/UsuarioServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/DonacionesConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/DonacionesConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/DonacionesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/DonacionesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/EventoSolidarioServicioImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/EventoSolidarioServicioImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/InventarioDonacionesServicioImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/InventarioDonacionesServicioImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/UsuarioServicioImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/java/org/example/ProyectoGrpc/servicio/implementacion/UsuarioServicioImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/proto/donaciones.proto" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/proto/donaciones.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/proto/usuario.proto" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/proto/usuario.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProyectoGrpc/src/test/java/org/example/ProyectoGrpc/ProyectoGrpcApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ProyectoGrpc/src/test/java/org/example/ProyectoGrpc/ProyectoGrpcApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/KafkaModuleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/KafkaModuleApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/config/KafkaConsumerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/config/KafkaConsumerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/config/KafkaProducerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/config/KafkaProducerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/AdhesionConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/AdhesionConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/EventoConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/EventoConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/OfertaDonacionConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/OfertaDonacionConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/SolicitudDonacionConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/SolicitudDonacionConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/TransferenciaDonacionConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/consumer/TransferenciaDonacionConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/AdhesionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/AdhesionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/EventoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/EventoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/OfertaDonacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/OfertaDonacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/SolicitudDonacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/SolicitudDonacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/TransferenciaDonacionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/controller/TransferenciaDonacionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/AdhesionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/AdhesionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/BajaSolicitudDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/BajaSolicitudDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/EventoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/EventoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/ItemDonacionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/ItemDonacionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/OfertaDonacionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/OfertaDonacionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/SolicitudDonacionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/SolicitudDonacionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/TransferenciaDonacionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/TransferenciaDonacionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/VoluntarioDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/dto/VoluntarioDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/model/ItemDonacionK.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/model/ItemDonacionK.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/model/SolicitudDonacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/model/SolicitudDonacion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/AdhesionProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/AdhesionProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/BajaSolicitudProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/BajaSolicitudProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/EventoProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/EventoProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/OfertaDonacionProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/OfertaDonacionProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/SolicitudesExtProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/SolicitudesExtProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/TransferenciaDonacionProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/producer/TransferenciaDonacionProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/service/AdhesionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/service/AdhesionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/service/EventoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/service/EventoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/service/SolicitudDonacionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/java/com/myorg/kafka_module/service/SolicitudDonacionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/main/resources/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/main/resources/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-module/src/test/java/com/myorg/kafka_module/KafkaModuleApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/kafka-module/src/test/java/com/myorg/kafka_module/KafkaModuleApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/App.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/App.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Donaciones.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Donaciones.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Evento.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Evento.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Evento.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Evento.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/GestionUsuarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/GestionUsuarios.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/GestionUsuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/GestionUsuarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Inventario.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Inventario.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Inventario.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Inventario.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Login.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Menu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/OfrecerDonacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/OfrecerDonacion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/PruebaDonaciones.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/PruebaDonaciones.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/TransferirDonacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/TransferirDonacion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Usuarios.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Usuarios.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/Usuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/Usuarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/components/solicitarDonacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/components/solicitarDonacion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/reportWebVitals.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/reportWebVitals.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/donacionesCliente.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/donacionesCliente.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/donaciones_grpc_web_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/donaciones_grpc_web_pb.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/donaciones_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/donaciones_pb.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/grpcCliente.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/grpcCliente.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/protos/donaciones.proto" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/protos/donaciones.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/protos/usuario.proto" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/protos/usuario.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/usuario_grpc_web_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/usuario_grpc_web_pb.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/servicios/usuario_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/servicios/usuario_pb.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_app/src/setupTests.js" beforeDir="false" afterPath="$PROJECT_DIR$/web_app/src/setupTests.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="34VK6obXmyVIAnGpP0q3btoqrOp" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aa26ee80-19a3-40a7-bdf8-6cf64b2c9c24" name="Changes" comment="" />
+      <created>1761293126444</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761293126444</updated>
+    </task>
+    <servers />
+  </component>
+</project>
