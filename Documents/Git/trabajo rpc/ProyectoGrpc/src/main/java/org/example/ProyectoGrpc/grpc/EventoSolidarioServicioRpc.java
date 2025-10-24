@@ -1,22 +1,24 @@
 package org.example.ProyectoGrpc.grpc;
 
-import com.google.protobuf.Empty;
-import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.entidad.Usuario;
-import org.example.ProyectoGrpc.grpc.EventoSolidarioServiceGrpc;
-import org.example.ProyectoGrpc.grpc.UsuarioOuterClass;
 import org.example.ProyectoGrpc.servicio.EventoSolidarioServicio;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.google.protobuf.Empty;
 import com.google.protobuf.Timestamp;
 
-import java.time.LocalDateTime;
+import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.EventoSolidarioServiceImplBase {
