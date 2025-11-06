@@ -8,7 +8,7 @@ import com.myorg.kafka_module.dto.EventoDTO;
 
 @Service
 public class EventoProducer {
-  
+
     private static final String TOPIC = "eventos-solidarios";
 
     @Autowired
@@ -16,6 +16,6 @@ public class EventoProducer {
 
     public void enviarEvento(EventoDTO evento) {
         kafkaTemplate.send(TOPIC, evento);
-        System.out.println("✅ Evento publicado: " +evento.getNombreEvento());
+        System.out.println("Evento publicado: " + evento.getNombreEvento());
     }
 }

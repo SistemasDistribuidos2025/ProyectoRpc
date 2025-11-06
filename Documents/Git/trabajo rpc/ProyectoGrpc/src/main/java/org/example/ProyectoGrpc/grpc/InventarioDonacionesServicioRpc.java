@@ -10,10 +10,10 @@ import com.google.protobuf.Empty;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
 @GrpcService
 @Component // Spring va a manejar la instancia
-public class InventarioDonacionesServicioRpc extends InventarioDonacionesServiceGrpc.InventarioDonacionesServiceImplBase {
+public class InventarioDonacionesServicioRpc
+        extends InventarioDonacionesServiceGrpc.InventarioDonacionesServiceImplBase {
 
     private final InventarioDonacionesServicio inventarioServicio;
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -24,7 +24,7 @@ public class InventarioDonacionesServicioRpc extends InventarioDonacionesService
 
     @Override
     public void altaInventario(UsuarioOuterClass.InventarioDonaciones request,
-                               StreamObserver<UsuarioOuterClass.InventarioDonaciones> responseObserver) {
+            StreamObserver<UsuarioOuterClass.InventarioDonaciones> responseObserver) {
 
         try {
             InventarioDonaciones inventario = new InventarioDonaciones();
@@ -57,15 +57,14 @@ public class InventarioDonacionesServicioRpc extends InventarioDonacionesService
 
     @Override
     public void modificarInventario(UsuarioOuterClass.InventarioDonaciones request,
-                                    StreamObserver<UsuarioOuterClass.InventarioDonaciones> responseObserver) {
+            StreamObserver<UsuarioOuterClass.InventarioDonaciones> responseObserver) {
 
         try {
             InventarioDonaciones modificado = inventarioServicio.modificarInventario(
                     request.getId(),
                     request.getDescripcion(),
                     request.getCantidad(),
-                    request.getUsuarioModificadoId()
-            );
+                    request.getUsuarioModificadoId());
 
             UsuarioOuterClass.InventarioDonaciones grpcInventario = UsuarioOuterClass.InventarioDonaciones.newBuilder()
                     .setId(modificado.getId())
@@ -74,9 +73,12 @@ public class InventarioDonacionesServicioRpc extends InventarioDonacionesService
                     .setCantidad(modificado.getCantidad())
                     .setEliminado(modificado.isEliminado())
                     .setUsuarioAltaId(modificado.getUsuarioAlta().getId())
-                    .setUsuarioModificadoId(modificado.getUsuarioModificado() != null ? modificado.getUsuarioModificado().getId() : 0)
+                    .setUsuarioModificadoId(
+                            modificado.getUsuarioModificado() != null ? modificado.getUsuarioModificado().getId() : 0)
                     .setFechaHoraAlta(modificado.getFechaHoraAlta().format(formatter))
-                    .setFechaHoraModificacion(modificado.getFechaHoraModificacion() != null ? modificado.getFechaHoraModificacion().format(formatter) : "")
+                    .setFechaHoraModificacion(modificado.getFechaHoraModificacion() != null
+                            ? modificado.getFechaHoraModificacion().format(formatter)
+                            : "")
                     .build();
 
             responseObserver.onNext(grpcInventario);
@@ -92,7 +94,7 @@ public class InventarioDonacionesServicioRpc extends InventarioDonacionesService
 
     @Override
     public void bajaInventario(UsuarioOuterClass.InventarioIdRequest request,
-                               StreamObserver<Empty> responseObserver) {
+            StreamObserver<Empty> responseObserver) {
         try {
             Long usuarioModificacionId = request.getUsuarioModificadoId();
             inventarioServicio.bajaInventario(request.getId(), usuarioModificacionId);
@@ -108,21 +110,26 @@ public class InventarioDonacionesServicioRpc extends InventarioDonacionesService
 
     @Override
     public void buscarPorId(UsuarioOuterClass.InventarioIdRequest request,
-                            StreamObserver<UsuarioOuterClass.InventarioDonaciones> responseObserver) {
+            StreamObserver<UsuarioOuterClass.InventarioDonaciones> responseObserver) {
 
         try {
             InventarioDonaciones inventario = inventarioServicio.buscarPorId(request.getId());
             if (inventario != null) {
-                UsuarioOuterClass.InventarioDonaciones grpcInventario = UsuarioOuterClass.InventarioDonaciones.newBuilder()
+                UsuarioOuterClass.InventarioDonaciones grpcInventario = UsuarioOuterClass.InventarioDonaciones
+                        .newBuilder()
                         .setId(inventario.getId())
                         .setCategoria(UsuarioOuterClass.CategoriaDonacion.valueOf(inventario.getCategoria().name()))
                         .setDescripcion(inventario.getDescripcion())
                         .setCantidad(inventario.getCantidad())
                         .setEliminado(inventario.isEliminado())
                         .setUsuarioAltaId(inventario.getUsuarioAlta().getId())
-                        .setUsuarioModificadoId(inventario.getUsuarioModificado() != null ? inventario.getUsuarioModificado().getId() : 0)
+                        .setUsuarioModificadoId(
+                                inventario.getUsuarioModificado() != null ? inventario.getUsuarioModificado().getId()
+                                        : 0)
                         .setFechaHoraAlta(inventario.getFechaHoraAlta().format(formatter))
-                        .setFechaHoraModificacion(inventario.getFechaHoraModificacion() != null ? inventario.getFechaHoraModificacion().format(formatter) : "")
+                        .setFechaHoraModificacion(inventario.getFechaHoraModificacion() != null
+                                ? inventario.getFechaHoraModificacion().format(formatter)
+                                : "")
                         .build();
                 responseObserver.onNext(grpcInventario);
             }
@@ -137,23 +144,29 @@ public class InventarioDonacionesServicioRpc extends InventarioDonacionesService
 
     @Override
     public void listarTodos(Empty request,
-                            StreamObserver<UsuarioOuterClass.InventarioListResponse> responseObserver) {
+            StreamObserver<UsuarioOuterClass.InventarioListResponse> responseObserver) {
 
         try {
             List<InventarioDonaciones> inventarios = inventarioServicio.listarTodos();
-            UsuarioOuterClass.InventarioListResponse.Builder responseBuilder = UsuarioOuterClass.InventarioListResponse.newBuilder();
+            UsuarioOuterClass.InventarioListResponse.Builder responseBuilder = UsuarioOuterClass.InventarioListResponse
+                    .newBuilder();
 
             for (InventarioDonaciones inventario : inventarios) {
-                UsuarioOuterClass.InventarioDonaciones grpcInventario = UsuarioOuterClass.InventarioDonaciones.newBuilder()
+                UsuarioOuterClass.InventarioDonaciones grpcInventario = UsuarioOuterClass.InventarioDonaciones
+                        .newBuilder()
                         .setId(inventario.getId())
                         .setCategoria(UsuarioOuterClass.CategoriaDonacion.valueOf(inventario.getCategoria().name()))
                         .setDescripcion(inventario.getDescripcion())
                         .setCantidad(inventario.getCantidad())
                         .setEliminado(inventario.isEliminado())
                         .setUsuarioAltaId(inventario.getUsuarioAlta().getId())
-                        .setUsuarioModificadoId(inventario.getUsuarioModificado() != null ? inventario.getUsuarioModificado().getId() : 0)
+                        .setUsuarioModificadoId(
+                                inventario.getUsuarioModificado() != null ? inventario.getUsuarioModificado().getId()
+                                        : 0)
                         .setFechaHoraAlta(inventario.getFechaHoraAlta().format(formatter))
-                        .setFechaHoraModificacion(inventario.getFechaHoraModificacion() != null ? inventario.getFechaHoraModificacion().format(formatter) : "")
+                        .setFechaHoraModificacion(inventario.getFechaHoraModificacion() != null
+                                ? inventario.getFechaHoraModificacion().format(formatter)
+                                : "")
                         .build();
                 responseBuilder.addInventarios(grpcInventario);
             }

@@ -2,7 +2,6 @@ package org.example.ProyectoGrpc.servicio.implementacion;
 
 import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
 import org.example.ProyectoGrpc.entidad.Usuario;
-import org.example.ProyectoGrpc.enums.CategoriaDonacion;
 import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
 import org.example.ProyectoGrpc.repositorioDao.UsuarioDao;
 import org.example.ProyectoGrpc.servicio.InventarioDonacionesServicio;

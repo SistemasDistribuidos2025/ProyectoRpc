@@ -2,9 +2,11 @@ package org.example.ProyectoGrpc.servicio.implementacion;
 
 import com.myorg.kafka_module.consumer.OfertaDonacionConsumer;
 import com.myorg.kafka_module.consumer.SolicitudDonacionConsumer;
+import com.myorg.kafka_module.consumer.SolicitudExtConsumer;
 import com.myorg.kafka_module.consumer.TransferenciaDonacionConsumer;
 import com.myorg.kafka_module.dto.BajaSolicitudDTO;
 import com.myorg.kafka_module.dto.OfertaDonacionDTO;
+import com.myorg.kafka_module.dto.SolicitudDonacionAutomaticoDTO;
 import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
 import com.myorg.kafka_module.dto.TransferenciaDonacionDTO;
 import com.myorg.kafka_module.producer.BajaSolicitudProducer;
@@ -14,7 +16,6 @@ import com.myorg.kafka_module.service.SolicitudDonacionService;
 
 import jakarta.transaction.Transactional;
 
-import org.example.ProyectoGrpc.entidad.InventarioDonaciones;
 import org.example.ProyectoGrpc.enums.CategoriaDonacion;
 import org.example.ProyectoGrpc.repositorioDao.InventarioDonacionesDao;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,11 @@ public class DonacionesService {
     private final TransferenciaDonacionConsumer transferenciaConsumer;
     private final OfertaDonacionConsumer ofertaConsumer;
 
+    private final SolicitudExtConsumer solicitudAutomaticaConsumer;
+
     private final InventarioDonacionesDao inventarioDao;
 
-    public DonacionesService(SolicitudDonacionService solicitudService, TransferenciaDonacionProducer transferenciaProducer, OfertaDonacionProducer ofertaProducer, SolicitudDonacionConsumer solicitudConsumer, TransferenciaDonacionConsumer transferenciaConsumer, OfertaDonacionConsumer ofertaConsumer, BajaSolicitudProducer bajaSolicitudProducer, InventarioDonacionesDao inventarioDao) {
+    public DonacionesService(SolicitudDonacionService solicitudService, TransferenciaDonacionProducer transferenciaProducer, OfertaDonacionProducer ofertaProducer, SolicitudDonacionConsumer solicitudConsumer, TransferenciaDonacionConsumer transferenciaConsumer, OfertaDonacionConsumer ofertaConsumer, BajaSolicitudProducer bajaSolicitudProducer, InventarioDonacionesDao inventarioDao, SolicitudExtConsumer solicitudExtConsumer ) {
         this.solicitudService = solicitudService;
         this.transferenciaProducer = transferenciaProducer;
         this.ofertaProducer = ofertaProducer;
@@ -45,6 +48,7 @@ public class DonacionesService {
         this.solicitudConsumer = solicitudConsumer;
         this.transferenciaConsumer = transferenciaConsumer;
         this.ofertaConsumer = ofertaConsumer;
+        this.solicitudAutomaticaConsumer = solicitudExtConsumer;
         this.inventarioDao = inventarioDao;
     }
 
@@ -119,8 +123,11 @@ public class DonacionesService {
         return solicitudConsumer.getSolicitudesRecibidas();
     }
     
+    public List<SolicitudDonacionAutomaticoDTO> obtenerSolicitudesAutomaticas() {
+        return solicitudAutomaticaConsumer.getSolicitudesAutomaticas();
+    }
 
- 
+
     public boolean darBajaSolicitud(String idOrganizacion, String idSolicitud) {
     
     solicitudConsumer.getSolicitudesRecibidas().forEach(s ->

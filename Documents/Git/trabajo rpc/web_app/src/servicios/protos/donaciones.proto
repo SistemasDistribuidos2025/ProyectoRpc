@@ -18,6 +18,7 @@ service EventosService {
   rpc BajaEvento(BajaEventoRequest) returns (Respuesta);
   rpc NotificarAdhesion(AdhesionRequest) returns (Respuesta);
   rpc ListarEventosExternos(Vacio) returns (ListaEventosResponse);
+  rpc ListarEventosPropios(Vacio) returns (ListaEventosResponse);
 }
 
 message Vacio {}
@@ -88,14 +89,15 @@ message ListaEventosResponse {
 
 message AdhesionRequest {
   string idEvento = 1;
-  string idOrganizacion = 2;
+  string idOrganizador = 2;
   Voluntario voluntario = 3;
 }
 
 message Voluntario {
-  string idVoluntario = 1;
-  string nombre = 2;
-  string apellido = 3;
-  string telefono = 4;
-  string email = 5;
+  string idOrganizacion = 1;
+  string idVoluntario = 2;
+  string nombre = 3;
+  string apellido = 4;
+  string telefono = 5;
+  string email = 6;
 }

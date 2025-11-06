@@ -2705,7 +2705,7 @@ proto.donaciones.AdhesionRequest.prototype.toObject = function(opt_includeInstan
 proto.donaciones.AdhesionRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
 idevento: jspb.Message.getFieldWithDefault(msg, 1, ""),
-idorganizacion: jspb.Message.getFieldWithDefault(msg, 2, ""),
+idorganizador: jspb.Message.getFieldWithDefault(msg, 2, ""),
 voluntario: (f = msg.getVoluntario()) && proto.donaciones.Voluntario.toObject(includeInstance, f)
   };
 
@@ -2749,7 +2749,7 @@ proto.donaciones.AdhesionRequest.deserializeBinaryFromReader = function(msg, rea
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setIdorganizacion(value);
+      msg.setIdorganizador(value);
       break;
     case 3:
       var value = new proto.donaciones.Voluntario;
@@ -2792,7 +2792,7 @@ proto.donaciones.AdhesionRequest.serializeBinaryToWriter = function(message, wri
       f
     );
   }
-  f = message.getIdorganizacion();
+  f = message.getIdorganizador();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -2829,10 +2829,10 @@ proto.donaciones.AdhesionRequest.prototype.setIdevento = function(value) {
 
 
 /**
- * optional string idOrganizacion = 2;
+ * optional string idOrganizador = 2;
  * @return {string}
  */
-proto.donaciones.AdhesionRequest.prototype.getIdorganizacion = function() {
+proto.donaciones.AdhesionRequest.prototype.getIdorganizador = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -2841,7 +2841,7 @@ proto.donaciones.AdhesionRequest.prototype.getIdorganizacion = function() {
  * @param {string} value
  * @return {!proto.donaciones.AdhesionRequest} returns this
  */
-proto.donaciones.AdhesionRequest.prototype.setIdorganizacion = function(value) {
+proto.donaciones.AdhesionRequest.prototype.setIdorganizador = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -2915,11 +2915,12 @@ proto.donaciones.Voluntario.prototype.toObject = function(opt_includeInstance) {
  */
 proto.donaciones.Voluntario.toObject = function(includeInstance, msg) {
   var f, obj = {
-idvoluntario: jspb.Message.getFieldWithDefault(msg, 1, ""),
-nombre: jspb.Message.getFieldWithDefault(msg, 2, ""),
-apellido: jspb.Message.getFieldWithDefault(msg, 3, ""),
-telefono: jspb.Message.getFieldWithDefault(msg, 4, ""),
-email: jspb.Message.getFieldWithDefault(msg, 5, "")
+idorganizacion: jspb.Message.getFieldWithDefault(msg, 1, ""),
+idvoluntario: jspb.Message.getFieldWithDefault(msg, 2, ""),
+nombre: jspb.Message.getFieldWithDefault(msg, 3, ""),
+apellido: jspb.Message.getFieldWithDefault(msg, 4, ""),
+telefono: jspb.Message.getFieldWithDefault(msg, 5, ""),
+email: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -2958,21 +2959,25 @@ proto.donaciones.Voluntario.deserializeBinaryFromReader = function(msg, reader) 
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setIdvoluntario(value);
+      msg.setIdorganizacion(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setNombre(value);
+      msg.setIdvoluntario(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setApellido(value);
+      msg.setNombre(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTelefono(value);
+      msg.setApellido(value);
       break;
     case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTelefono(value);
+      break;
+    case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setEmail(value);
       break;
@@ -3005,38 +3010,45 @@ proto.donaciones.Voluntario.prototype.serializeBinary = function() {
  */
 proto.donaciones.Voluntario.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getIdvoluntario();
+  f = message.getIdorganizacion();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getNombre();
+  f = message.getIdvoluntario();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getApellido();
+  f = message.getNombre();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getTelefono();
+  f = message.getApellido();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getEmail();
+  f = message.getTelefono();
   if (f.length > 0) {
     writer.writeString(
       5,
+      f
+    );
+  }
+  f = message.getEmail();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -3044,10 +3056,10 @@ proto.donaciones.Voluntario.serializeBinaryToWriter = function(message, writer) 
 
 
 /**
- * optional string idVoluntario = 1;
+ * optional string idOrganizacion = 1;
  * @return {string}
  */
-proto.donaciones.Voluntario.prototype.getIdvoluntario = function() {
+proto.donaciones.Voluntario.prototype.getIdorganizacion = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -3056,16 +3068,16 @@ proto.donaciones.Voluntario.prototype.getIdvoluntario = function() {
  * @param {string} value
  * @return {!proto.donaciones.Voluntario} returns this
  */
-proto.donaciones.Voluntario.prototype.setIdvoluntario = function(value) {
+proto.donaciones.Voluntario.prototype.setIdorganizacion = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string nombre = 2;
+ * optional string idVoluntario = 2;
  * @return {string}
  */
-proto.donaciones.Voluntario.prototype.getNombre = function() {
+proto.donaciones.Voluntario.prototype.getIdvoluntario = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -3074,16 +3086,16 @@ proto.donaciones.Voluntario.prototype.getNombre = function() {
  * @param {string} value
  * @return {!proto.donaciones.Voluntario} returns this
  */
-proto.donaciones.Voluntario.prototype.setNombre = function(value) {
+proto.donaciones.Voluntario.prototype.setIdvoluntario = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string apellido = 3;
+ * optional string nombre = 3;
  * @return {string}
  */
-proto.donaciones.Voluntario.prototype.getApellido = function() {
+proto.donaciones.Voluntario.prototype.getNombre = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -3092,16 +3104,16 @@ proto.donaciones.Voluntario.prototype.getApellido = function() {
  * @param {string} value
  * @return {!proto.donaciones.Voluntario} returns this
  */
-proto.donaciones.Voluntario.prototype.setApellido = function(value) {
+proto.donaciones.Voluntario.prototype.setNombre = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string telefono = 4;
+ * optional string apellido = 4;
  * @return {string}
  */
-proto.donaciones.Voluntario.prototype.getTelefono = function() {
+proto.donaciones.Voluntario.prototype.getApellido = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -3110,16 +3122,16 @@ proto.donaciones.Voluntario.prototype.getTelefono = function() {
  * @param {string} value
  * @return {!proto.donaciones.Voluntario} returns this
  */
-proto.donaciones.Voluntario.prototype.setTelefono = function(value) {
+proto.donaciones.Voluntario.prototype.setApellido = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string email = 5;
+ * optional string telefono = 5;
  * @return {string}
  */
-proto.donaciones.Voluntario.prototype.getEmail = function() {
+proto.donaciones.Voluntario.prototype.getTelefono = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -3128,8 +3140,26 @@ proto.donaciones.Voluntario.prototype.getEmail = function() {
  * @param {string} value
  * @return {!proto.donaciones.Voluntario} returns this
  */
-proto.donaciones.Voluntario.prototype.setEmail = function(value) {
+proto.donaciones.Voluntario.prototype.setTelefono = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional string email = 6;
+ * @return {string}
+ */
+proto.donaciones.Voluntario.prototype.getEmail = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.donaciones.Voluntario} returns this
+ */
+proto.donaciones.Voluntario.prototype.setEmail = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 

@@ -7,8 +7,6 @@ import jakarta.transaction.Transactional;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.enums.RolUsuario;
-import org.example.ProyectoGrpc.grpc.UsuarioOuterClass;
-import org.example.ProyectoGrpc.grpc.UsuarioServiceGrpc;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 
 import java.util.List;

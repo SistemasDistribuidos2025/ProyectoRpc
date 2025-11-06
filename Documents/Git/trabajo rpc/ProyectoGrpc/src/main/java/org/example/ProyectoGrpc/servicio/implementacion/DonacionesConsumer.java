@@ -7,9 +7,9 @@ import com.myorg.kafka_module.dto.TransferenciaDonacionDTO;
 
 @Service
 public class DonacionesConsumer {
-    
-    //MODULO KAFKA PARA CONECTAR AMBAS PARTES Y QUE SE PUEDA MODIFICAR LA BD
-   private final DonacionesService donacionesService;
+
+    // MODULO KAFKA PARA CONECTAR AMBAS PARTES Y QUE SE PUEDA MODIFICAR LA BD
+    private final DonacionesService donacionesService;
 
     public DonacionesConsumer(DonacionesService donacionesService) {
         this.donacionesService = donacionesService;

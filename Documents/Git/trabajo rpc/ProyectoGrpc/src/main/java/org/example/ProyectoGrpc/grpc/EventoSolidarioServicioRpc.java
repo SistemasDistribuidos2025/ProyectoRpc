@@ -5,13 +5,10 @@ import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.example.ProyectoGrpc.entidad.EventoSolidario;
 import org.example.ProyectoGrpc.entidad.Usuario;
-import org.example.ProyectoGrpc.grpc.EventoSolidarioServiceGrpc;
-import org.example.ProyectoGrpc.grpc.UsuarioOuterClass;
 import org.example.ProyectoGrpc.servicio.EventoSolidarioServicio;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import com.google.protobuf.Timestamp;
@@ -25,7 +22,6 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     private final UsuarioServicio usuarioServicio;
 
-
     public EventoSolidarioServicioRpc(EventoSolidarioServicio eventoServicio, UsuarioServicio usuarioServicio) {
         this.eventoServicio = eventoServicio;
         this.usuarioServicio = usuarioServicio;
@@ -33,7 +29,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     @Override
     public void altaEvento(UsuarioOuterClass.EventoSolidario request,
-                           StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
+            StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         EventoSolidario evento = new EventoSolidario();
         evento.setNombreEvento(request.getNombreEvento());
@@ -55,14 +51,15 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     @Override
     public void modificarEvento(UsuarioOuterClass.EventoSolidario request,
-                                StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
+            StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         LocalDateTime fecha = timestampToLocalDateTime(request.getFechaHoraEvento());
 
         Set<Usuario> participantes = new HashSet<>();
         for (UsuarioOuterClass.Usuario u : request.getParticipantesEventoList()) {
             Usuario usuario = usuarioServicio.buscarPorId(u.getId());
-            if (usuario != null) participantes.add(usuario);
+            if (usuario != null)
+                participantes.add(usuario);
         }
 
         EventoSolidario evento = new EventoSolidario();
@@ -86,7 +83,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     @Override
     public void bajaEvento(UsuarioOuterClass.EventoIdRequest request,
-                           StreamObserver<com.google.protobuf.Empty> responseObserver) {
+            StreamObserver<com.google.protobuf.Empty> responseObserver) {
 
         eventoServicio.bajaEvento(request.getId());
         responseObserver.onNext(com.google.protobuf.Empty.newBuilder().build());
@@ -95,7 +92,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     @Override
     public void buscarEventoPorId(UsuarioOuterClass.EventoIdRequest request,
-                                  StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
+            StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         EventoSolidario evento = eventoServicio.buscarPorId(request.getId());
         if (evento != null) {
@@ -110,13 +107,13 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         responseObserver.onCompleted();
     }
 
-
     @Override
     public void listarEventos(Empty request,
-                              StreamObserver<UsuarioOuterClass.EventoListResponse> responseObserver) {
+            StreamObserver<UsuarioOuterClass.EventoListResponse> responseObserver) {
 
         List<EventoSolidario> eventos = eventoServicio.listarTodos();
-        UsuarioOuterClass.EventoListResponse.Builder responseBuilder = UsuarioOuterClass.EventoListResponse.newBuilder();
+        UsuarioOuterClass.EventoListResponse.Builder responseBuilder = UsuarioOuterClass.EventoListResponse
+                .newBuilder();
 
         for (EventoSolidario evento : eventos) {
             UsuarioOuterClass.EventoSolidario grpcEvento = UsuarioOuterClass.EventoSolidario.newBuilder()
@@ -127,8 +124,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
                     .addAllParticipantesEvento(
                             evento.getParticipantesEvento().stream()
                                     .map(this::mapUsuarioAGrpc)
-                                    .collect(Collectors.toList())
-                    )
+                                    .collect(Collectors.toList()))
                     .build();
             responseBuilder.addEventos(grpcEvento);
         }
@@ -153,7 +149,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     @Override
     public void asignarParticipantes(UsuarioOuterClass.EventoParticipantesRequest request,
-                                     StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
+            StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         String rolSolicitante = request.getRolSolicitante();
 
@@ -181,8 +177,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         grpcEventoBuilder.addAllParticipantesEvento(
                 actualizado.getParticipantesEvento().stream()
                         .map(this::mapUsuarioAGrpc)
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList()));
 
         responseObserver.onNext(grpcEventoBuilder.build());
         responseObserver.onCompleted();
@@ -190,7 +185,7 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
 
     @Override
     public void quitarParticipantes(UsuarioOuterClass.EventoParticipantesRequest request,
-                                    StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
+            StreamObserver<UsuarioOuterClass.EventoSolidario> responseObserver) {
 
         String rolSolicitante = request.getRolSolicitante();
 
@@ -218,25 +213,21 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
         grpcEventoBuilder.addAllParticipantesEvento(
                 actualizado.getParticipantesEvento().stream()
                         .map(this::mapUsuarioAGrpc)
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList()));
 
         responseObserver.onNext(grpcEventoBuilder.build());
         responseObserver.onCompleted();
     }
 
-
-
     @Override
     public void registrarDonacionEvento(UsuarioOuterClass.DonacionEventoRequest request,
-                                        StreamObserver<com.google.protobuf.Empty> responseObserver) {
+            StreamObserver<com.google.protobuf.Empty> responseObserver) {
         try {
             eventoServicio.registrarDonacionEvento(
                     request.getEventoId(),
                     request.getInventarioId(),
                     request.getCantidad(),
-                    request.getUsuarioId()
-            );
+                    request.getUsuarioId());
             responseObserver.onNext(com.google.protobuf.Empty.newBuilder().build());
             responseObserver.onCompleted();
         } catch (Exception e) {
@@ -246,8 +237,6 @@ public class EventoSolidarioServicioRpc extends EventoSolidarioServiceGrpc.Event
                     .asRuntimeException());
         }
     }
-
-
 
     // --- Helpers para convertir Timestamp <-> LocalDateTime ---
     private LocalDateTime timestampToLocalDateTime(Timestamp ts) {

@@ -12,8 +12,9 @@ public class AdhesionProducer {
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     public void enviarAdhesion(AdhesionDTO adhesion) {
-        String topic = "adhesion-evento" + adhesion.getIdOrganizador();
+        String topic = "adhesion-evento-" + adhesion.getIdOrganizador();
+
         kafkaTemplate.send(topic, adhesion);
-        System.out.println("✅ Adhesión enviada a " + topic + ": " +adhesion.getIdEvento() );
+        System.out.println("Adhesión enviada a " + topic + ": "  );
     }
 }

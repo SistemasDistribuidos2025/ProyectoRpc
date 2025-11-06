@@ -127,7 +127,7 @@ export async function enviarTransferencia(idSolicitud, idOrganizacionDonante, id
 
 // -------------------- BAJA SOLICITUD --------------------
 export const darBajaSolicitud = async (idOrganizacion, idSolicitud) => {
-  const request = new messages.BajaSolicitudRequest(); 
+  const request = new messages.BajaSolicitudRequest();
   request.setIdorganizacion(idOrganizacion);
   request.setIdsolicitud(idSolicitud);
 

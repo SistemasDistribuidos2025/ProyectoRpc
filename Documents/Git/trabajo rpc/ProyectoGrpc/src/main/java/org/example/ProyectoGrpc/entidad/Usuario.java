@@ -3,9 +3,7 @@ package org.example.ProyectoGrpc.entidad;
 import jakarta.persistence.*;
 import org.example.ProyectoGrpc.enums.RolUsuario;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")

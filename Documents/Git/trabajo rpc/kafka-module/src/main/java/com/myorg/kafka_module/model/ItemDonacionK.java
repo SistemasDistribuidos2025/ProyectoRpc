@@ -1,8 +1,5 @@
 package com.myorg.kafka_module.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class ItemDonacionK {
 
 

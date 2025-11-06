@@ -5,6 +5,7 @@ import GestionUsuarios from "./GestionUsuarios";
 import SolicitarDonacion from "./solicitarDonacion";
 import OfrecerDonacion from "./OfrecerDonacion";
 import TransferirDonacion from "./TransferirDonacion";
+import EventosExternos from "./EventosParaExternos";
 import "./Menu.css";
 
 function Menu({ usuarioLogueado, onLogout }) {
@@ -52,7 +53,10 @@ function Menu({ usuarioLogueado, onLogout }) {
           )}
 
           {puedeEventos && (
+            <>
             <button onClick={() => setVista("evento")}>Eventos</button>
+            <button onClick={() => setVista("EventosExternos")}>Eventos Externos</button>
+            </>
           )}
         </div>
 
@@ -63,6 +67,7 @@ function Menu({ usuarioLogueado, onLogout }) {
           {vista === "ofrecerDonacion" && puedeInventario && <OfrecerDonacion idOrganizacion={usuarioLogueado.id} />}
           {vista === "transferirDonacion" && puedeInventario && <TransferirDonacion idOrganizacionDonante={usuarioLogueado.id} />}
           {vista === "evento" && puedeEventos && <Evento usuarioLogueado={usuarioLogueado} />}
+          {vista === "EventosExternos" && puedeEventos && <EventosExternos usuarioLogueado={usuarioLogueado} />}
           {vista === "menu" && <div>Seleccione una opción</div>}
         </div>
       </div>

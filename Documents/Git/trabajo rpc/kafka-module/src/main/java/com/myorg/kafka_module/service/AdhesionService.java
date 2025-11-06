@@ -19,6 +19,9 @@ public class AdhesionService {
     }
 
     public void notificarAdhesion(AdhesionDTO adhesion) {
+        if (adhesion.getIdOrganizador() == null || adhesion.getIdOrganizador().isEmpty()) {
+            adhesion.setIdOrganizador("ONG001"); 
+        }
         producer.enviarAdhesion(adhesion);
     }
 

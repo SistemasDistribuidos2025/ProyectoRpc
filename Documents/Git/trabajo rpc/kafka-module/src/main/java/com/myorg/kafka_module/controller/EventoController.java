@@ -24,9 +24,4 @@ public class EventoController {
         return service.obtenerEventosExternos();
     }
 
-    @PostMapping("/baja")
-    public String darBajaEvento(@RequestBody EventoDTO evento) {
-        service.enviarBajaEvento(evento);
-        return "Baja de evento enviada: " + evento.getIdEvento();
-    }
 }

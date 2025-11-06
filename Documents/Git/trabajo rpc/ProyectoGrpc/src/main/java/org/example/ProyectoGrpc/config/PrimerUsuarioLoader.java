@@ -4,8 +4,6 @@ import org.example.ProyectoGrpc.entidad.Usuario;
 import org.example.ProyectoGrpc.enums.RolUsuario;
 import org.example.ProyectoGrpc.servicio.UsuarioServicio;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -16,10 +16,11 @@ public class SolicitudDonacionService {
     private static final String TOPIC_BAJA = "baja-solicitud-donaciones";
     private final SolicitudDonacionConsumer consumer;
 
-    public SolicitudDonacionService(KafkaTemplate<String, Object> kafkaTemplate,  SolicitudDonacionConsumer consumer) {
+    public SolicitudDonacionService(KafkaTemplate<String, Object> kafkaTemplate, SolicitudDonacionConsumer consumer) {
         this.kafkaTemplate = kafkaTemplate;
-        this.consumer = new SolicitudDonacionConsumer();
-    }
+        this.consumer = consumer;
+}
+
 
     public void enviarSolicitud(SolicitudDonacionDTO solicitud) {
         kafkaTemplate.send(TOPIC, solicitud);

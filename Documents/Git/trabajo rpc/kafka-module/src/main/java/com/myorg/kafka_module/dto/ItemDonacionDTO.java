@@ -1,8 +1,5 @@
 package com.myorg.kafka_module.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class ItemDonacionDTO {
 
 

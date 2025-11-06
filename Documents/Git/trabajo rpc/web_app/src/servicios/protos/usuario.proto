@@ -113,7 +113,6 @@ message EventoParticipantesRequest {
 
 
 
-// Servicio RPC (como tu UsuarioServicio en Java)
 service UsuarioService {
   rpc AltaUsuario (Usuario) returns (UsuarioResponse);
   rpc ModificarUsuario (Usuario) returns (UsuarioResponse);

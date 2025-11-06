@@ -254,7 +254,7 @@ export const bajaInventario = (id, usuarioModificadoId) => {
 
     inventarioClient.bajaInventario(request, {}, (err, response) => {
       if (err) return reject(err);
-      resolve(response); // Empty
+      resolve(response); 
     });
   });
 };

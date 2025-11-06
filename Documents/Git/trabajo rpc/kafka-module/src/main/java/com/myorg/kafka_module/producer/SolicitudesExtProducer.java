@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import com.myorg.kafka_module.dto.SolicitudDonacionDTO;
 
 @Component
 public class SolicitudesExtProducer {
 
-    private static final String TOPIC = "solicitud-donaciones";
+    private static final String TOPIC = "solicitud-donaciones-automaticas";
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
