@@ -3,7 +3,7 @@ import {
   enviarTransferencia,
   listarSolicitudes,
 } from "../servicios/donacionesCliente";
-import "./Donaciones.css";
+import "./DonacionesYeventosKf.css";
 
 const TransferirDonacion = ({ idOrganizacionDonante }) => {
   const [donaciones, setDonaciones] = useState([]);
@@ -93,7 +93,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
   };
 
   return (
-    <div className="donacion-container">
+    <div className="main-container">
       <h2>Transferir Donaciones</h2>
 
       <div className="input-row">
@@ -115,7 +115,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
           value={cantidad}
           onChange={(e) => setCantidad(e.target.value)}
         />
-        <button className="donacion-btn" onClick={agregarItem}>
+        <button className="style-btn" onClick={agregarItem}>
           Agregar
         </button>
       </div>
@@ -135,7 +135,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
       )}
 
       <button
-        className="donacion-btn"
+        className="style-btn"
         onClick={enviarTransferenciaClick}
         disabled={
           !donaciones.length ||
@@ -157,13 +157,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
                   esPropia ? "propia" : "externa"
                 }`}
                 key={i}
-                style={{
-                  backgroundColor: esPropia ? "#d0f0c0" : "white",
-                  border: esPropia ? "2px solid green" : "1px solid #ccc",
-                  padding: "8px",
-                  marginBottom: "8px",
-                }}
-              >
+                >
                 <strong>
                   {sol.idSolicitud}
                   {esPropia && " (Propia)"}
@@ -180,7 +174,7 @@ const TransferirDonacion = ({ idOrganizacionDonante }) => {
                 </ul>
                 {!esPropia && (
                   <button
-                    className="donacion-btn"
+                    className="style-btn"
                     onClick={() => seleccionarSolicitud(sol)}
                   >
                     Seleccionar para transferir

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { enviarOferta } from "../servicios/donacionesCliente";
-import "./Donaciones.css";
+import "./DonacionesYeventosKf.css";
 
 const OfrecerDonacion = ({ idOrganizacion }) => {
   const [donaciones, setDonaciones] = useState([]);
@@ -40,7 +40,7 @@ const OfrecerDonacion = ({ idOrganizacion }) => {
   };
 
   return (
-    <div className="donacion-container">
+    <div className="main-container">
       <h2>Ofrecer Donaciones</h2>
       <div className="input-row">
         <input
@@ -61,7 +61,7 @@ const OfrecerDonacion = ({ idOrganizacion }) => {
           value={cantidad}
           onChange={e => setCantidad(e.target.value)}
         />
-        <button className="donacion-btn" onClick={agregarItem}>Agregar</button>
+        <button className="style-btn" onClick={agregarItem}>Agregar</button>
       </div>
 
       <ul>
@@ -70,7 +70,7 @@ const OfrecerDonacion = ({ idOrganizacion }) => {
         ))}
       </ul>
 
-      <button className="donacion-btn" onClick={enviar} disabled={!donaciones.length}>Enviar Oferta</button>
+      <button className="style-btn" onClick={enviar} disabled={!donaciones.length}>Enviar Oferta</button>
       {mensaje && <p className="mensaje">{mensaje}</p>}
     </div>
   );

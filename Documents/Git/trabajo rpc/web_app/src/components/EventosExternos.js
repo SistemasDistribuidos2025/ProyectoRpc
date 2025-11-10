@@ -6,6 +6,7 @@ import {
     darBajaEvento,
     notificarAdhesion,
 } from "../servicios/eventosCliente";
+import "./DonacionesYeventosKf.css";
 
 export default function EventosExternos({ usuarioLogueado }) {
 
@@ -37,7 +38,7 @@ export default function EventosExternos({ usuarioLogueado }) {
         return () => clearInterval(interval);
     }, []);
 
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setNuevoEvento((prev) => ({ ...prev, [name]: value }));
@@ -125,11 +126,10 @@ export default function EventosExternos({ usuarioLogueado }) {
     };
 
     return (
-        <div style={{ padding: "1rem" }}>
+        <div className="main-container">
             <h2>Eventos Externos</h2>
 
-
-            <div style={{ marginBottom: "1rem" }}>
+            <div className="input-row">
                 <input
                     type="text"
                     name="nombre"
@@ -137,54 +137,65 @@ export default function EventosExternos({ usuarioLogueado }) {
                     value={nuevoEvento.nombre}
                     onChange={handleChange}
                 />
-                <br />
-                <textarea
+                <input
+                    type="text"
                     name="descripcion"
                     placeholder="Descripción"
                     value={nuevoEvento.descripcion}
                     onChange={handleChange}
                 />
-                <br />
                 <input
                     type="datetime-local"
                     name="fechaHora"
                     value={nuevoEvento.fechaHora}
                     onChange={handleChange}
                 />
-                <br />
-                <button onClick={handlePublicar}>Publicar evento</button>
+                <button className="style-btn" onClick={handlePublicar}>Publicar evento</button>
             </div>
             <h3>Mis eventos</h3>
             <ul>
                 {misEventos.map((e) => (
-                    <li key={e.idevento}>
-                        <b>{e.nombre}</b>
-                        <button onClick={() => handleBaja(e.idevento)}>Dar de baja</button>
-                    </li>
-                ))}
-            </ul>
-
-
-            <ul>
-                {eventos.map((e) => (
-                    <li
-                        key={`${e.idevento}-${e.idorganizacion}`}
-                        style={{
-                            border: "1px solid #ccc",
-                            borderRadius: "8px",
-                            padding: "0.5rem",
-                            marginBottom: "0.5rem",
-                        }}
-                    >
+                    <li className="list-solicitudes" key={e.idevento}>
                         <b>{e.nombre}</b> — {e.descripcion}
                         <br />
                         Fecha:{" "}
                         {e.fechahora
-                            ? new Date(e.fechahora).toLocaleString()
+                            ? new Date(e.fechahora).toLocaleString("es-AR", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            })
+                            : "Sin fecha"}
+                        <br />
+                        <button className="style-btn" onClick={() => handleBaja(e.idevento)}>Dar de baja</button>
+                    </li>
+                ))}
+            </ul>
+
+            <h3>Eventos de otras ONG's</h3>
+            <ul>
+                {eventos.map((e) => (
+                    <li className="list-solicitudes"
+                        key={`${e.idevento}-${e.idorganizacion}`}
+                    >
+                        <b>({e.idorganizacion}) {e.nombre}</b> — {e.descripcion}
+                        <br />
+                        Fecha:{" "}
+                        {e.fechahora
+                            ? new Date(e.fechahora).toLocaleString("es-AR", {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            })
+
                             : "Sin fecha"}
                         <br />
                         <button
-                            style={{ marginTop: "0.5rem" }}
+                            className="style-btn"
                             onClick={() => handleAdherirse(e)}
                             disabled={eventosAdheridos.includes(e.idevento)}
                         >

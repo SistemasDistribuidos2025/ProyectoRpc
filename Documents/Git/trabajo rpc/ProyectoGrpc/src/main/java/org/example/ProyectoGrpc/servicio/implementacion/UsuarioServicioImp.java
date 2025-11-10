@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.util.List;
 
 @Service
@@ -17,7 +16,6 @@ public class UsuarioServicioImp implements UsuarioServicio {
     @Autowired
     private EmailService emailService;
 
-    
     public UsuarioServicioImp(UsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
     }
@@ -49,11 +47,11 @@ public class UsuarioServicioImp implements UsuarioServicio {
 
         return usuario;
     }
-    
+
     @Override
     @Transactional
     public Usuario modificarUsuario(Long id, Usuario usuarioActualizado) {
-    	
+
         Usuario existente = usuarioDao.buscarPorId(id);
         if (existente == null) {
             throw new IllegalArgumentException("Usuario no encontrado");
@@ -73,19 +71,17 @@ public class UsuarioServicioImp implements UsuarioServicio {
     @Override
     @Transactional
     public Usuario bajaUsuario(Long id) {
-    	
+
         Usuario existente = usuarioDao.buscarPorId(id);
         if (existente == null) {
             throw new IllegalArgumentException("Usuario no encontrado");
         }
-        
+
         existente.setActivo(false);
 
-        usuarioDao.actualizar(existente); 
-        return existente; 
+        usuarioDao.actualizar(existente);
+        return existente;
     }
-
-
 
     @Override
     public Usuario buscarPorId(Long id) {
@@ -106,7 +102,6 @@ public class UsuarioServicioImp implements UsuarioServicio {
     public List<Usuario> listarTodos() {
         return usuarioDao.listarTodos();
     }
-
 
     @Transactional
     @Override
@@ -140,7 +135,5 @@ public class UsuarioServicioImp implements UsuarioServicio {
 
         return usuario;
     }
-
-
 
 }

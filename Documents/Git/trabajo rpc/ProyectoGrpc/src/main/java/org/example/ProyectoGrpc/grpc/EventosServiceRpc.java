@@ -1,6 +1,9 @@
 package org.example.ProyectoGrpc.grpc;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.hibernate.mapping.List;
@@ -35,15 +38,23 @@ public class EventosServiceRpc extends EventosServiceGrpc.EventosServiceImplBase
     }
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+    ZoneId zonaArg = ZoneId.of("America/Argentina/Buenos_Aires");
 
     @Override
     public void publicarEvento(EventoRequest request, StreamObserver<Respuesta> responseObserver) {
+
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(request.getFechaHora(), formatter);
+        ZonedDateTime fechaHora = offsetDateTime.atZoneSameInstant(zonaArg);
+
+        
         EventoDTO dto = new EventoDTO();
         dto.setIdOrganizacion(request.getIdOrganizacion());
         dto.setIdEvento(request.getIdEvento());
         dto.setNombreEvento(request.getNombre());
         dto.setDescripcion(request.getDescripcion());
-        dto.setFechaHora(LocalDateTime.parse(request.getFechaHora(), formatter));
+        dto.setFechaHora(fechaHora.toLocalDateTime());
 
         eventoService.publicarEvento(dto);
 
@@ -57,8 +68,6 @@ public class EventosServiceRpc extends EventosServiceGrpc.EventosServiceImplBase
             var eventos = eventoService.obtenerEventosExternos();
             ListaEventosResponse.Builder response = ListaEventosResponse.newBuilder();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
             for (EventoDTO e : eventos) {
                 response.addEventos(
                         EventoRequest.newBuilder()
@@ -66,7 +75,10 @@ public class EventosServiceRpc extends EventosServiceGrpc.EventosServiceImplBase
                                 .setIdEvento(e.getIdEvento())
                                 .setNombre(e.getNombreEvento())
                                 .setDescripcion(e.getDescripcion())
-                                .setFechaHora(e.getFechaHora() != null ? e.getFechaHora().format(formatter) : "")
+                                .setFechaHora(
+                                        e.getFechaHora() != null
+                                                ? e.getFechaHora().atZone(zonaArg).format(formatter2)
+                                                : "")
                                 .build());
             }
 
@@ -88,8 +100,6 @@ public class EventosServiceRpc extends EventosServiceGrpc.EventosServiceImplBase
             var eventos = eventoService.obtenerEventosPropios();
             ListaEventosResponse.Builder response = ListaEventosResponse.newBuilder();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
             for (EventoDTO e : eventos) {
                 response.addEventos(
                         EventoRequest.newBuilder()
@@ -97,7 +107,10 @@ public class EventosServiceRpc extends EventosServiceGrpc.EventosServiceImplBase
                                 .setIdEvento(e.getIdEvento())
                                 .setNombre(e.getNombreEvento())
                                 .setDescripcion(e.getDescripcion())
-                                .setFechaHora(e.getFechaHora() != null ? e.getFechaHora().format(formatter) : "")
+                                .setFechaHora(
+                                        e.getFechaHora() != null
+                                                ? e.getFechaHora().atZone(zonaArg).format(formatter2)
+                                                : "")
                                 .build());
             }
 

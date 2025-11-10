@@ -1,4 +1,4 @@
-.donacion-container {
+.main-container {
   border: 1px solid #ccc;
   padding: 16px;
   margin-top: 16px;
@@ -18,7 +18,8 @@ input {
   outline: none;
   transition: 0.2s;
 }
-.donacion-btn{
+
+.style-btn {
   background-color: #0b3d91;
   color: white;
   border: none;
@@ -28,8 +29,9 @@ input {
   font-weight: bold;
   transition: background-color 0.2s;
 }
-  button:hover {
-    background-color: #092b6b;
+
+button:hover {
+  background-color: #092b6b;
 }
 
 button {
@@ -44,8 +46,8 @@ ul {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
 
-  .list-solicitudes{
-    
+  .list-solicitudes {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,16 +60,27 @@ ul {
 
     transition: background-color 0.2s ease;
 
+    &.externas {
+      background-color: white;
+      border: 1px solid #ccc;
+    }
+
+    &.propia {
+      background-color: #d0f0c0;
+      border: 2px solid green;
+    }
+
     &:hover {
       background-color: #eef3fb;
     }
 
-    li{
+    li {
       list-style: none;
+      padding: 4px 8px;
 
       &:hover {
-      background-color: #eef3fb;
-    }
+        background-color: #eef3fb;
+      }
     }
   }
 }

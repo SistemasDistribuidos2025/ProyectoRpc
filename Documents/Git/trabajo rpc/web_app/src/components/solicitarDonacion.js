@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { enviarSolicitud, darBajaSolicitud } from "../servicios/donacionesCliente";
-import "./Donaciones.css";
+import "./DonacionesYeventosKf.css";
 
 const SolicitarDonacion = ({ idOrganizacion }) => {
   const [donaciones, setDonaciones] = useState([]);
@@ -65,7 +65,7 @@ const SolicitarDonacion = ({ idOrganizacion }) => {
 
 
   return (
-    <div className="donacion-container">
+    <div className="main-container">
       <h2>Solicitar Donaciones</h2>
 
       <div className="input-row">
@@ -81,7 +81,7 @@ const SolicitarDonacion = ({ idOrganizacion }) => {
           value={descripcion}
           onChange={e => setDescripcion(e.target.value)}
         />
-        <button className="donacion-btn" onClick={agregarItem}>Agregar</button>
+        <button className="style-btn" onClick={agregarItem}>Agregar</button>
       </div>
 
       <h3>Solicitudes pendientes</h3>
@@ -95,7 +95,7 @@ const SolicitarDonacion = ({ idOrganizacion }) => {
         <p>No hay solicitudes cargadas.</p>
       )}
 
-      <button className="donacion-btn" onClick={enviar} disabled={!donaciones.length}>
+      <button className="style-btn" onClick={enviar} disabled={!donaciones.length}>
         Enviar Solicitud
       </button>
 
@@ -113,7 +113,7 @@ const SolicitarDonacion = ({ idOrganizacion }) => {
                   <li className="list-solicitudes" key={j}>{d.categoria} - {d.descripcion}</li>
                 ))}
               </ul>
-              <button className="donacion-btn" onClick={() => bajaSolicitud(sol)}>
+              <button className="style-btn" onClick={() => bajaSolicitud(sol)}>
                 Dar de baja
               </button>
             </li>

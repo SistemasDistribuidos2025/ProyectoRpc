@@ -1,21 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Menu from "./components/Menu";
-import Inventario from "./components/Inventario";
-import PruebaDonaciones from "./components/PruebaDonaciones";
 
 function App() {
   const [usuarioLogueado, setUsuarioLogueado] = useState(null);
 
+  useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuarioLogueado");
+    if (usuarioGuardado) {
+      setUsuarioLogueado(JSON.parse(usuarioGuardado));
+    }
+  }, []);
+
+  const handleLoginSuccess = (usuario) => {
+    setUsuarioLogueado(usuario);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("usuarioLogueado");
+    setUsuarioLogueado(null);
+  };
+
   return (
     <div>
-      {!usuarioLogueado ? (
-        <Login onLoginSuccess={setUsuarioLogueado} />
+      {usuarioLogueado ? (
+        <Menu usuarioLogueado={usuarioLogueado} onLogout={handleLogout} />
       ) : (
-        <>
-          { /*Menu recibe usuarioLogueado y onLogout*/ }
-          <Menu usuarioLogueado={usuarioLogueado} onLogout={() => setUsuarioLogueado(null)} />
-        </>
+        <Login onLoginSuccess={handleLoginSuccess} />
       )}
     </div>
   );

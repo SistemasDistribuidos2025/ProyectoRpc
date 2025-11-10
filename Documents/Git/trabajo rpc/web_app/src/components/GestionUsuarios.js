@@ -40,7 +40,8 @@ const GestionUsuarios = () => {
   };
 
   const handleChange = (e) => {
-    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setForm({ ...form, [e.target.name]: value });
   };
 
@@ -52,7 +53,6 @@ const GestionUsuarios = () => {
       delete data.clave;
 
       if (form.id) {
-      
         await modificarUsuario(data);
       } else {
         await altaUsuario(data);
@@ -95,9 +95,9 @@ const GestionUsuarios = () => {
   // =============================
   // MÉTODOS DE BÚSQUEDA
   // =============================
-  const [busquedaId, setBusquedaId] = useState("");  
+  const [busquedaId, setBusquedaId] = useState("");
   const buscarPorId = async (id) => {
-  try {
+    try {
       const u = await buscarUsuarioPorId(id);
       setResultadoBusqueda(u);
     } catch (err) {
@@ -106,7 +106,7 @@ const GestionUsuarios = () => {
     }
   };
 
-  const [busquedaEmail, setBusquedaEmail] = useState("");  
+  const [busquedaEmail, setBusquedaEmail] = useState("");
   const buscarPorEmail = async (email) => {
     try {
       const u = await buscarUsuarioPorEmail(email);
@@ -116,7 +116,7 @@ const GestionUsuarios = () => {
     }
   };
 
-  const [busquedaUsuario, setBusquedaUsuario] = useState(""); 
+  const [busquedaUsuario, setBusquedaUsuario] = useState("");
   const buscarPorNombreUsuario = async (nombreUsuario) => {
     try {
       const u = await buscarUsuarioPorNombreUsuario(nombreUsuario);
@@ -133,11 +133,45 @@ const GestionUsuarios = () => {
 
       {/* Formulario Alta/Modificar */}
       <form className="gestion-form" onSubmit={handleSubmit}>
-        <input type="text" name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} required />
-        <input type="text" name="apellido" placeholder="Apellido" value={form.apellido} onChange={handleChange} required />
-        <input type="text" name="nombreusuario" placeholder="Nombre de usuario" value={form.nombreusuario} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-        <input type="text" name="telefono" placeholder="Teléfono" value={form.telefono} onChange={handleChange} />
+        <input
+          type="text"
+          name="nombre"
+          placeholder="Nombre"
+          value={form.nombre}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="apellido"
+          placeholder="Apellido"
+          value={form.apellido}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="nombreusuario"
+          placeholder="Nombre de usuario"
+          value={form.nombreusuario}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="telefono"
+          placeholder="Teléfono"
+          value={form.telefono}
+          onChange={handleChange}
+        />
         <select name="rol" value={form.rol} onChange={handleChange}>
           <option value="PRESIDENTE">PRESIDENTE</option>
           <option value="VOCAL">VOCAL</option>
@@ -146,17 +180,27 @@ const GestionUsuarios = () => {
         </select>
         <label>
           Activo:
-          <input type="checkbox" name="activo" checked={form.activo} onChange={handleChange} />
+          <input
+            type="checkbox"
+            name="activo"
+            checked={form.activo}
+            onChange={handleChange}
+          />
         </label>
-        <button type="submit" onClick={()=>console.log(form)}>{form.id ? "Modificar Usuario" : "Agregar Usuario"}</button>
-        {form.id && <button type="button" onClick={resetForm}>Cancelar</button>}
+        <button type="submit" onClick={() => console.log(form)}>
+          {form.id ? "Modificar Usuario" : "Agregar Usuario"}
+        </button>
+        {form.id && (
+          <button type="button" onClick={resetForm}>
+            Cancelar
+          </button>
+        )}
       </form>
 
       {/* Sección Búsquedas */}
       <div className="busquedas">
         <h3>🔍 Buscar Usuario</h3>
 
-     
         <div className="input-busquedas">
           <input
             type="text"
@@ -167,7 +211,6 @@ const GestionUsuarios = () => {
           <button onClick={() => buscarPorId(busquedaId)}>Buscar por ID</button>
         </div>
 
-       
         <div className="input-busquedas">
           <input
             type="email"
@@ -175,10 +218,11 @@ const GestionUsuarios = () => {
             value={busquedaEmail}
             onChange={(e) => setBusquedaEmail(e.target.value)}
           />
-          <button onClick={() => buscarPorEmail(busquedaEmail)}>Buscar por Email</button>
+          <button onClick={() => buscarPorEmail(busquedaEmail)}>
+            Buscar por Email
+          </button>
         </div>
 
-        
         <div className="input-busquedas">
           <input
             type="text"
@@ -186,15 +230,17 @@ const GestionUsuarios = () => {
             value={busquedaUsuario}
             onChange={(e) => setBusquedaUsuario(e.target.value)}
           />
-          <button onClick={() => buscarPorNombreUsuario(busquedaUsuario)}>Buscar por Nombre de Usuario</button>
+          <button onClick={() => buscarPorNombreUsuario(busquedaUsuario)}>
+            Buscar por Nombre de Usuario
+          </button>
         </div>
 
-        
         {resultadoBusqueda && (
           <div className="resultado">
             <h4>Resultado:</h4>
             <p>
-              <b>Nombre:</b>{resultadoBusqueda.nombre} {resultadoBusqueda.apellido}  
+              <b>Nombre:</b>
+              {resultadoBusqueda.nombre} {resultadoBusqueda.apellido}
               <br />
               <b>Email:</b> {resultadoBusqueda.email}
               <br />
@@ -202,11 +248,8 @@ const GestionUsuarios = () => {
             </p>
           </div>
         )}
-
-        {/* Error */}
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
-
 
       {/* Tabla Usuarios */}
       <table className="usuarios-table">
@@ -236,12 +279,11 @@ const GestionUsuarios = () => {
                 <button onClick={() => handleEditar(u)}>✏️ Editar</button>
                 <button
                   onClick={() => handleDarDeBaja(u.id)}
-                  className={u.activo ? "btn-inactivar" : "btn-inactivo"} 
+                  className={u.activo ? "btn-inactivar" : "btn-inactivo"}
                 >
                   ⏸️ Inactivar
                 </button>
               </td>
-
             </tr>
           ))}
         </tbody>

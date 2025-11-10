@@ -14,6 +14,7 @@ const Login = ({ onLoginSuccess }) => {
     try {
       const usuario = await loginGrpcWeb(identificador, password);
       console.log("Usuario logueado:", usuario);
+      localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
       onLoginSuccess(usuario);
     } catch (err) {
       setError(err.message || "Error al iniciar sesión");

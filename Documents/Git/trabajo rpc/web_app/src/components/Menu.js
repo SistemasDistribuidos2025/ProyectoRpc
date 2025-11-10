@@ -5,7 +5,7 @@ import GestionUsuarios from "./GestionUsuarios";
 import SolicitarDonacion from "./solicitarDonacion";
 import OfrecerDonacion from "./OfrecerDonacion";
 import TransferirDonacion from "./TransferirDonacion";
-import EventosExternos from "./EventosParaExternos";
+import EventosExternos from "./EventosExternos";
 import "./Menu.css";
 
 function Menu({ usuarioLogueado, onLogout }) {
